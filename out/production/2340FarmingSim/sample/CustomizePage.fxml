@@ -19,8 +19,8 @@
          </image>
       </ImageView>
       <TextField fx:id="NAME" layoutX="200.0" layoutY="130.0" opacity="0.85" promptText="Enter Farmer Name" />
-      <ComboBox fx:id="SEASON" editable="true" layoutX="200.0" layoutY="200.0" opacity="0.75" prefWidth="150.0" promptText="Choose Season" />
-      <ComboBox fx:id="DIFFICULTY" editable="true" layoutX="200.0" layoutY="165.0" opacity="0.75" prefWidth="150.0" promptText="Choose Difficulty" />
+      <ComboBox fx:id="SEASON" layoutX="200.0" layoutY="200.0" opacity="0.75" prefWidth="150.0" promptText="Choose Season" />
+      <ComboBox fx:id="DIFFICULTY" layoutX="200.0" layoutY="165.0" opacity="0.75" prefWidth="150.0" promptText="Choose Difficulty" />
       <ImageView fitHeight="29.0" fitWidth="80.0" layoutX="120.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Resources/Name.png" />
