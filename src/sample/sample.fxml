@@ -1,8 +1,39 @@
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
+<?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<GridPane fx:controller="sample.Controller"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
-</GridPane>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="604.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="630.0" fitWidth="1014.0" layoutX="-10.0" layoutY="-27.0">
+         <image>
+            <Image url="@Resources/MainPage.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="58.0" fitWidth="628.0" layoutX="237.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Resources/EditPageHeader.png" />
+         </image>
+      </ImageView>
+      <TextField fx:id="NAME" layoutX="200.0" layoutY="130.0" opacity="0.85" promptText="Enter Farmer Name" />
+      <ComboBox fx:id="SEASON" layoutX="200.0" layoutY="200.0" opacity="0.75" prefWidth="150.0" promptText="Choose Season" />
+      <ComboBox fx:id="DIFFICULTY" layoutX="200.0" layoutY="165.0" opacity="0.75" prefWidth="150.0" promptText="Choose Difficulty" />
+      <ImageView fitHeight="29.0" fitWidth="80.0" layoutX="120.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Resources/Name.png" />
+         </image></ImageView>
+      <ImageView fitHeight="33.0" fitWidth="128.0" layoutX="72.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Resources/Difficulty.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="24.0" fitWidth="91.0" layoutX="112.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Resources/Season.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
