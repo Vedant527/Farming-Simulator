@@ -1,4 +1,4 @@
-package sample;
+package FarmingSim;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -14,10 +14,7 @@ public class Main extends Application {
 //
 //    @FXML ComboBox<String> DIFFICULTY;
 //    @FXML ComboBox<String> SEASON;
-//    ObservableList<String> difficulties = FXCollections
-//            .observableArrayList("Easy", "Medium", "Hard");
-//    ObservableList<String> seasons = FXCollections
-//            .observableArrayList("Spring", "Summer", "Fall", "Winter");
+
 
     @Override
     public void start(Stage primaryStage) throws Exception{
