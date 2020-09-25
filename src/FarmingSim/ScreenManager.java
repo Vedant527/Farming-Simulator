@@ -1,4 +1,4 @@
-package sample;
+package FarmingSim;
 
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;

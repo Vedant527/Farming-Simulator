@@ -1,4 +1,4 @@
-package sample;
+package FarmingSim;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;

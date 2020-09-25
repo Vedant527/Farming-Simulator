@@ -1,4 +1,4 @@
-package sample;
+package FarmingSim;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,9 +12,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("start.fxml"));
         ScreenManager.setStage(primaryStage);
-
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setTitle("FarmingSim");
+        primaryStage.setScene(new Scene(root, 1000, 600));
         primaryStage.show();
     }
 
