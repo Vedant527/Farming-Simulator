@@ -8,20 +8,13 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-//    @FXML
-//    TextField NAME;
-//    String name = NAME.getText();
-//
-//    @FXML ComboBox<String> DIFFICULTY;
-//    @FXML ComboBox<String> SEASON;
-
-
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("CustomizePage.fxml"));
         primaryStage.setTitle("Farm Simulator");
         primaryStage.setScene(new Scene(root, 1000, 600));
         primaryStage.show();
+
 
     }
 
