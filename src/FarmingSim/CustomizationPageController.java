@@ -2,7 +2,9 @@ package FarmingSim;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
@@ -12,12 +14,13 @@ import javafx.scene.image.ImageView;
 import javax.swing.*;
 
 public class CustomizationPageController {
-    ObservableList<String> difficulties = FXCollections
-            .observableArrayList("Easy", "Medium", "Hard");
-    ObservableList<String> seasons = FXCollections
-            .observableArrayList("Spring", "Summer", "Fall", "Winter");
-    ObservableList<String> seeds = FXCollections
-            .observableArrayList("Corn", "Wheat", "Tobacco", "Hemp");
+
+    ObservableList<Difficulty> difficulties = FXCollections
+            .observableArrayList(Difficulty.values());
+    ObservableList<Season> seasons = FXCollections
+            .observableArrayList(Season.values());
+    ObservableList<Seed> seeds = FXCollections
+            .observableArrayList(Seed.values());
 
     @FXML private ChoiceBox DIF;
     @FXML private ChoiceBox SEASON;
@@ -25,7 +28,11 @@ public class CustomizationPageController {
     @FXML private TextField NAME;
     @FXML private Button START;
 
-    String name, difficulty, season;
+
+    static String name;
+    static Difficulty difficulty;
+    static Season season;
+    static Seed seed;
 
     @FXML
     private void initialize(){
@@ -47,12 +54,27 @@ public class CustomizationPageController {
 
     private void setFields(){
         name = NAME.getText();
+        season = (Season) SEASON.getValue();
+        difficulty = (Difficulty) DIF.getValue();
+        seed = (Seed) SEEDTYPE.getValue();
 
     }
 
 
 
 
+    public void move_on(ActionEvent e) throws Exception {
+        setFields();
+        //if name is bad don't let them pass
+        if (name == null) {
+            return;
+        }
+        ScreenManager.addScreen(
+                "Player",
+                FXMLLoader.load(getClass().getResource("FarmUI.fxml"))
+        );
+        ScreenManager.setScreen("Player");
+    }
 
 
 }

@@ -19,6 +19,29 @@ public class FarmUIController {
     private Integer dayNum = 0;
 
     @FXML
+
+    private Text farmName;
+    @FXML
+    private Text season;
+
+    @FXML
+    private void initialize() {
+        if (CustomizationPageController.difficulty==Difficulty.EASY) {
+            money = 500;
+            moneyDisplay.setText("Money: " + money.toString());
+        } else if (CustomizationPageController.difficulty==Difficulty.MEDIUM) {
+            money = 300;
+            moneyDisplay.setText("Money: " + money.toString());
+        } else if (CustomizationPageController.difficulty == Difficulty.HARD) {
+            money = 10;
+            moneyDisplay.setText("Money: " + money.toString());
+        }
+        farmName.setText(CustomizationPageController.name + "'s Farm");
+        season.setText("Season: " + CustomizationPageController.season.toString());
+
+    }
+
+    @FXML
     public void incDay(){
         dayNum++;
         dayDisplay.setText("Day: " + dayNum.toString());
