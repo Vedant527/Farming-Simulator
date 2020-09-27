@@ -86,7 +86,7 @@ public class CustomizationPageController {
             return;
         }
         ScreenManager.setScreen(
-                "Player",
+                "FarmUI",
                 FXMLLoader.load(getClass().getResource("FarmUI.fxml"))
         );
         //ScreenManager.getCurrentScene();

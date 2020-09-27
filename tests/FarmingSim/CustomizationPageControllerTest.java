@@ -3,7 +3,10 @@ package FarmingSim;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
@@ -14,9 +17,13 @@ import org.testfx.api.FxAssert;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 
+import static FarmingSim.CustomizationPageController.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
+import static org.testfx.matcher.control.TextMatchers.hasText;
+
 import org.testfx.framework.junit.ApplicationTest;
+import org.testfx.matcher.control.ComboBoxMatchers;
 import org.testfx.matcher.control.ListViewMatchers;
 
 public class CustomizationPageControllerTest extends ApplicationTest{
@@ -35,25 +42,58 @@ public class CustomizationPageControllerTest extends ApplicationTest{
     @Test
     public void testDiff() {
         clickOn("#DIF");
-        FxAssert.verifyThat("#DIF", (ChoiceBox l) -> l.getItems().size() == 3);
+        FxAssert.verifyThat("#DIF", (ChoiceBox l) -> l.getItems().size() == 3 && l.isVisible());
     }
 
     @Test
     public void testSeason() {
         clickOn("#SEASON");
-        FxAssert.verifyThat("#SEASON", (ChoiceBox l) -> l.getItems().size() == 4);
+        FxAssert.verifyThat("#SEASON", (ChoiceBox l) -> l.getItems().size() == 4 && l.isVisible());
     }
 
     @Test
     public void testSeedType() {
         clickOn("#SEEDTYPE");
-        FxAssert.verifyThat("#SEEDTYPE", (ChoiceBox l) -> l.getItems().size() == 4);
+        FxAssert.verifyThat("#SEEDTYPE", (ChoiceBox l) -> l.getItems().size() == 4 && l.isVisible());
     }
 
     @Test
-    public void move_on() {
+    public void testStoresCorrectDiff() {
+        clickOn("#DIF");
+        type(KeyCode.DOWN);
+        type(KeyCode.ENTER);
+        FxAssert.verifyThat("#DIF", node -> difficulty.equals(((ChoiceBox) node).getValue()));
+        assertEquals(FarmingSim.Difficulty.MEDIUM,difficulty);
     }
-
+    @Test
+    public void testStoresCorrectSeed() {
+        clickOn("#SEEDTYPE");
+        type(KeyCode.DOWN);
+        type(KeyCode.DOWN);
+        type(KeyCode.DOWN);
+        type(KeyCode.ENTER);
+        FxAssert.verifyThat("#SEEDTYPE", node -> seed.equals(((ChoiceBox) node).getValue()));
+        assertEquals(FarmingSim.Seed.HEMP,seed);
+    }
+    @Test
+    public void testStoresCorrectSeason() {
+        clickOn("#SEASON");
+        type(KeyCode.ENTER);
+        FxAssert.verifyThat("#SEASON", node -> season.equals(((ChoiceBox) node).getValue()));
+        assertEquals(FarmingSim.Season.SPRING, season);
+    }
+    @Test
+    public void testName() {
+        clickOn("#NAME");
+        write("testname");
+        type(KeyCode.ENTER);
+        sleep(500);
+        FxAssert.verifyThat("#NAME", node -> name.equals(((TextField) node).getText()));
+    }
+    @Test
+    public void testStartButton() {
+        FxAssert.verifyThat("#START", (Button b) -> b.isVisible());
+    }
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("CustomizationPage.fxml"));
