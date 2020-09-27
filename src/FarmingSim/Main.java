@@ -9,8 +9,8 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("start.fxml"));
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("FXML/start.fxml"));
         ScreenManager.setStage(primaryStage);
         primaryStage.setTitle("FarmingSim");
 
