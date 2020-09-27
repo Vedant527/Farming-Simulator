@@ -25,7 +25,7 @@ public class FarmUIController {
     private Text season;
 
     @FXML
-    private void initialize() {
+    public void initialize() {
         if (CustomizationPageController.difficulty==Difficulty.EASY) {
             money = 500;
             moneyDisplay.setText("Money: " + money.toString());
