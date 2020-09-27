@@ -11,7 +11,8 @@ import javafx.scene.image.ImageView;
 
 public class StartController {
 
-    @FXML Button BeginButton;
+    @FXML
+    Button BeginButton;
 
     @FXML
     private void initialize() {

@@ -30,7 +30,7 @@ public class StartControllerTest extends ApplicationTest {
     }
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("start.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Start.fxml"));
         ScreenManager.setStage(primaryStage);
         primaryStage.setTitle("FarmingSim");
         primaryStage.setScene(new Scene(root, 1000, 600));
