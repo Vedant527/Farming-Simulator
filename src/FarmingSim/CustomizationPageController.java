@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javax.swing.*;
 
 public class CustomizationPageController {
+
     ObservableList<Difficulty> difficulties = FXCollections
             .observableArrayList(Difficulty.values());
     ObservableList<Season> seasons = FXCollections
@@ -26,6 +27,7 @@ public class CustomizationPageController {
     @FXML private ChoiceBox SEEDTYPE;
     @FXML private TextField NAME;
     @FXML private Button START;
+
 
     static String name;
     static Difficulty difficulty;
@@ -57,6 +59,7 @@ public class CustomizationPageController {
         seed = (Seed) SEEDTYPE.getValue();
 
     }
+
 
 
 

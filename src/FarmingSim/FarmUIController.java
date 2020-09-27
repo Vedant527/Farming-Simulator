@@ -19,6 +19,7 @@ public class FarmUIController {
     private Integer dayNum = 0;
 
     @FXML
+
     private Text farmName;
     @FXML
     private Text season;
