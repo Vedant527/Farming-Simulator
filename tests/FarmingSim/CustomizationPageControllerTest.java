@@ -3,16 +3,21 @@ package FarmingSim;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.testfx.api.FxAssert;
+import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import org.testfx.framework.junit.ApplicationTest;
+import org.testfx.matcher.control.ListViewMatchers;
 
 public class CustomizationPageControllerTest extends ApplicationTest{
 
@@ -28,12 +33,21 @@ public class CustomizationPageControllerTest extends ApplicationTest{
     }
 
     @Test
-    public void testName() {
-        clickOn("#NAME");
-        write("test name");
-        clickOn("#move_on");
-        assertEquals(CustomizationPageController.name, "test name");
+    public void testDiff() {
+        clickOn("#DIF");
+        FxAssert.verifyThat("#DIF", (ChoiceBox l) -> l.getItems().size() == 3);
+    }
 
+    @Test
+    public void testSeason() {
+        clickOn("#SEASON");
+        FxAssert.verifyThat("#SEASON", (ChoiceBox l) -> l.getItems().size() == 4);
+    }
+
+    @Test
+    public void testSeedType() {
+        clickOn("#SEEDTYPE");
+        FxAssert.verifyThat("#SEEDTYPE", (ChoiceBox l) -> l.getItems().size() == 4);
     }
 
     @Test

@@ -40,10 +40,12 @@ public class ScreenManager {
         }
            
         stage.setScene(new Scene(screens.get(screen)));
+        stage.show();
         curr = screen;
     }
 
     public static String getCurrentScreen() {
         return curr;
     }
+    public static Pane getCurrentScene() { return screens.get(curr); }
 }

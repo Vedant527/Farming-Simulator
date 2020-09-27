@@ -60,7 +60,23 @@ public class CustomizationPageController {
 
     }
 
+    public void updatesName(ActionEvent e) {
+        System.out.println("UPDATES NAME");
+        name = NAME.getText();
+    }
 
+    public void updatesDifficulty(ActionEvent e) {
+        System.out.println("UPDATES Diff");
+        difficulty = (Difficulty) DIF.getValue();
+    }
+
+    public void updatesSeed(ActionEvent e) {
+        seed = (Seed) SEEDTYPE.getValue();
+    }
+
+    public void updatesSeason(ActionEvent e) {
+        season = (Season) SEASON.getValue();
+    }
 
 
     public void move_on(ActionEvent e) throws Exception {
@@ -69,11 +85,12 @@ public class CustomizationPageController {
         if (name == null) {
             return;
         }
-        ScreenManager.addScreen(
+        ScreenManager.setScreen(
                 "Player",
                 FXMLLoader.load(getClass().getResource("FarmUI.fxml"))
         );
-        ScreenManager.setScreen("Player");
+        //ScreenManager.getCurrentScene();
+        //ScreenManager.setScreen("Player");
     }
 
 

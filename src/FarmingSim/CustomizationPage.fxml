@@ -39,26 +39,26 @@
                   <Image url="@Resources/Name.png" />
                </image>
             </ImageView>
-            <TextField fx:id="NAME" promptText="Enter Name" GridPane.columnIndex="1" />
+            <TextField fx:id="NAME" promptText="Enter Name" GridPane.columnIndex="1" onAction="#updatesName" />
             <ImageView fitHeight="29.0" fitWidth="129.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                <image>
                   <Image url="@Resources/Difficulty.png" />
                </image>
             </ImageView>
-            <ChoiceBox fx:id="DIF" accessibleRole="CHECK_BOX" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ChoiceBox fx:id="DIF" accessibleRole="CHECK_BOX" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" onAction="#updatesDifficulty"/>
             <ImageView fitHeight="25.0" fitWidth="97.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
                <image>
                   <Image url="@Resources/Season.png" />
                </image>
             </ImageView>
              
-                  <ChoiceBox fx:id="SEASON" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <ChoiceBox fx:id="SEASON" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" onAction="#updatesSeason"/>
             <ImageView fitHeight="25.0" fitWidth="126.0" GridPane.rowIndex="3">
                <image>
                   <Image url="@Resources/SeedType.png" />
                </image>
             </ImageView>
-            <ChoiceBox fx:id="SEEDTYPE" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ChoiceBox fx:id="SEEDTYPE" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" onAction="#updatesSeed"/>
          </children>
       </GridPane>
       <Button fx:id="START" layoutX="792.0" layoutY="493.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="126.0" text="Button" onAction="#move_on"/>
