@@ -5,27 +5,25 @@ import FarmingSim.Settings;
 
 
 public class Inventory {
-    public static Integer cornSeedNum;
-    public static Integer hempSeedNum;
-    public static Integer wheatSeedNum;
-    public static Integer tobaccoSeedNum;
+    /* ORDER of indexs
+    0 = Corn
+    1 = Hemp
+    2 = Wheat
+    3 = Tobacco
+    */
+    public static int[] seedNum = new int[Settings.Seed.size()];
+    public static int[] cropNum = new int[Settings.Seed.size()];
 
-    public static Integer cornCropNum;
-    public static Integer hempCropNum;
-    public static Integer wheatCropNum;
-    public static Integer tobaccoCropNum;
+    public static int day;
 
-    public static Integer day;
-
-    public static Integer money;
-
-    public static Integer dayNum;
+    public static int money;
 
     //at a later date we can make these changeable with adding inventory space or something
-    public static final Integer MAX_SEED_INVENTORY = 100;
-    public static final Integer MAX_CROP_INVENTORY = 100;
+    public static int MAX_SEED_INVENTORY = 100;
+    public static int MAX_CROP_INVENTORY = 100;
 
     public static void setDefault() {
+        /*
         switch (CustomizationPageController.seed) {
             //I am hoping that this meets their request of "just the starter seeds selected on original config page"
             //but we should definitely ask someone about that
@@ -69,6 +67,13 @@ public class Inventory {
                 money = 100;
                 break;
         }
+        */
+        for (int i = 0; i < Settings.Seed.size(); i++) {
+            seedNum[i] = 0;
+            cropNum[i] = 0;
+        }
+        seedNum[CustomizationPageController.seed.ordinal()] = 10;
+        money = (new int[]{500, 300, 100})[CustomizationPageController.seed.ordinal()];
     }
 }
 

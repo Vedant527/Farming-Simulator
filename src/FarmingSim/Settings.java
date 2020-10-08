@@ -19,5 +19,9 @@ public class Settings {
         WHEAT,
         TOBACCO,
         HEMP;
+
+        public static int size() {
+            return Seed.values().length;
+        }
     }
 }

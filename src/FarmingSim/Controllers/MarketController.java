@@ -28,85 +28,68 @@ public int cornSeedPrice;
 public int wheatSeedPrice;
 public int tobaccoSeedPrice;
 public int hempSeedPrice;
-
-
+public int[] prices = new int[]{2,3,10,100}; // Base prices will be overwritten at init
 
 
     public void initialize() {
-        cornSeedPrice = calculatePriceFromDifficulty(2);
-        wheatSeedPrice = calculatePriceFromDifficulty(3);
-        tobaccoSeedPrice = calculatePriceFromDifficulty(10);
-        hempSeedPrice = calculatePriceFromDifficulty(100);
-        buyCornButton.setText("$" + cornSeedPrice);
-        buyWheatButton.setText("S" + wheatSeedPrice);
-        buyTobaccoButton.setText("$" + tobaccoSeedPrice);
-        buyHempButton.setText("$" + hempSeedPrice);
+        for (int i = 0; i < prices.length; i++) {
+            prices[i] = calculatePriceFromDifficulty(prices[i]);
+        }
+        buyCornButton.setText("$" + prices[Settings.Seed.CORN.ordinal()]);
+        buyWheatButton.setText("S" + prices[Settings.Seed.WHEAT.ordinal()]);
+        buyTobaccoButton.setText("$" + prices[Settings.Seed.TOBACCO.ordinal()]);
+        buyHempButton.setText("$" + prices[Settings.Seed.HEMP.ordinal()]);
         moneyMarketDisplay.setText("Money: $" + Inventory.money);
         dayMarketDisplay.setText("Day: 0");
         seasonMarketDisplay.setText("Season: " + CustomizationPageController.season.toString());
     }
 
-    public Integer calculatePriceFromDifficulty(int basePrice) {
+    public int calculatePriceFromDifficulty(int basePrice) {
         //we get a difficulty multiplier and then if it's spring, we add on an extra $5 bc high demand
-        switch (CustomizationPageController.difficulty) {
-            case EASY:
-                if (CustomizationPageController.season == Settings.Season.SPRING) {
-                    return basePrice + 5;
-                }
-                return basePrice;
-            case MEDIUM:
-                if (CustomizationPageController.season == Settings.Season.SPRING) {
-                    return basePrice * 2 + 5;
-                }
-                return basePrice * 2;
-            case HARD:
-                if (CustomizationPageController.season == Settings.Season.SPRING) {
-                return basePrice * 5 + 5;
-            }
-                return basePrice * 5;
-        }
+        basePrice *= (new int[]{1, 2, 5})[CustomizationPageController.difficulty.ordinal()];
+        basePrice += (CustomizationPageController.season.ordinal() == 0) ? 5 : 0;
         return basePrice;
     }
 
-    public void buyCorn() {
-        if (atMaxInventory() || zeroMoney(Settings.Seed.CORN)) {
+    private void buyImpl(Settings.Seed seed) {
+        if (atMaxInventory() || zeroMoney(seed)) {
             return;
         }
-        Inventory.cornSeedNum++;
-        Inventory.money -= cornSeedPrice;
+        Inventory.seedNum[seed.ordinal()]++;
+        Inventory.money -= prices[seed.ordinal()];
         moneyMarketDisplay.setText("Money: $" + Inventory.money);
+    }
+
+    public void buyCorn() {
+        buyImpl(Settings.Seed.CORN);
     }
     public void buyWheat() {
-        if (atMaxInventory() || zeroMoney(Settings.Seed.WHEAT)) {
-            return;
-        }
-        Inventory.wheatSeedNum++;
-        Inventory.money -= wheatSeedPrice;
-        moneyMarketDisplay.setText("Money: $" + Inventory.money);
+        buyImpl(Settings.Seed.WHEAT);
     }
     public void buyTobacco() {
-        if (atMaxInventory() || zeroMoney(Settings.Seed.TOBACCO)) {
-            return;
-        }
-        Inventory.tobaccoSeedNum++;
-        Inventory.money -= tobaccoSeedPrice;
-        moneyMarketDisplay.setText("Money: $" + Inventory.money);
+        buyImpl(Settings.Seed.WHEAT);
     }
     public void buyHemp() {
-        if(atMaxInventory() || zeroMoney(Settings.Seed.HEMP)) {
-            return;
-        }
-        Inventory.hempSeedNum++;
-        Inventory.money -= hempSeedPrice;
-        moneyMarketDisplay.setText("Money: $" + Inventory.money);
+        buyImpl(Settings.Seed.HEMP);
     }
 
 
     public boolean atMaxInventory() {
-        if (Inventory.cornSeedNum + Inventory.wheatSeedNum + Inventory.tobaccoSeedNum + Inventory.hempSeedNum
-                >= Inventory.MAX_SEED_INVENTORY) {
+        int seed_sum = 0;
+        int crop_sum = 0;
+        for (int i = 0; i < Settings.Seed.size(); i++) {
+            seed_sum += Inventory.seedNum[i];
+            crop_sum += Inventory.cropNum[i];
+        }
+        if (seed_sum >= Inventory.MAX_SEED_INVENTORY) {
             a.setAlertType(Alert.AlertType.WARNING);
-            a.setContentText("Max Inventory Reached!");
+            a.setContentText("Max Seed Inventory Reached!");
+            a.show();
+            return true;
+        }
+        if (crop_sum >= Inventory.MAX_CROP_INVENTORY) {
+            a.setAlertType(Alert.AlertType.WARNING);
+            a.setContentText("Max Crop Inventory Reached!");
             a.show();
             return true;
         }
@@ -114,39 +97,11 @@ public int hempSeedPrice;
     }
 
     public boolean zeroMoney(Settings.Seed seed) {
-        switch (seed) {
-            case CORN:
-                if (Inventory.money - cornSeedPrice <= 0) {
-                    a.setAlertType(Alert.AlertType.WARNING);
-                    a.setContentText("You cannot afford this corn!");
-                    a.show();
-                    return true;
-                }
-            break;
-            case WHEAT:
-                if (Inventory.money - wheatSeedPrice <= 0) {
-                    a.setAlertType(Alert.AlertType.WARNING);
-                    a.setContentText("You cannot afford this wheat!");
-                    a.show();
-                    return true;
-                }
-            break;
-            case TOBACCO:
-                if (Inventory.money - tobaccoSeedPrice <= 0) {
-                    a.setAlertType(Alert.AlertType.WARNING);
-                    a.setContentText("You cannot afford this tobacco!");
-                    a.show();
-                    return true;
-                }
-            break;
-            case HEMP:
-                if (Inventory.money - hempSeedPrice <= 0) {
-                    a.setAlertType(Alert.AlertType.WARNING);
-                    a.setContentText("You cannot afford this hemp!");
-                    a.show();
-                    return true;
-                }
-                break;
+        if (Inventory.money - prices[seed.ordinal()] <= 0) {
+            a.setAlertType(Alert.AlertType.WARNING);
+            a.setContentText("You cannot afford this " + seed.name().toLowerCase() + "!");
+            a.show();
+            return true;
         }
         return false;
     }

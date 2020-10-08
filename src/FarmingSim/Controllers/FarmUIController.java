@@ -18,7 +18,6 @@ public class FarmUIController {
     private Integer dayNum = 0;
 
     @FXML
-
     private Text farmName;
     @FXML
     private Text season;
@@ -35,16 +34,14 @@ public class FarmUIController {
 
     @FXML
     public void initialize() {
-        moneyDisplay.setText("Money: " + Inventory.money.toString());
-        maxSeedInventoryText.setText("Max Inventory: " + Inventory.MAX_SEED_INVENTORY.toString());
-        cornSeedText.setText("Corn: " + Inventory.cornSeedNum.toString());
-        wheatSeedText.setText("Wheat: " + Inventory.wheatSeedNum.toString());
-        tobaccoSeedText.setText("Tobacco: " + Inventory.tobaccoSeedNum.toString());
-        hempSeedText.setText("Hemp: " + Inventory.hempSeedNum.toString());
+        moneyDisplay.setText("Money: " + Inventory.money);
+        maxSeedInventoryText.setText("Max Inventory: " + Inventory.MAX_SEED_INVENTORY);
+        cornSeedText.setText("Wheat: " + Inventory.seedNum[Settings.Seed.CORN.ordinal()]);
+        wheatSeedText.setText("Wheat: " + Inventory.seedNum[Settings.Seed.WHEAT.ordinal()]);
+        tobaccoSeedText.setText("Tobacco: " + Inventory.seedNum[Settings.Seed.TOBACCO.ordinal()]);
+        hempSeedText.setText("Hemp: " + Inventory.seedNum[Settings.Seed.HEMP.ordinal()]);
         farmName.setText(CustomizationPageController.name + "'s Farm");
-        season.setText("Season: " + CustomizationPageController.season.toString());
-
-
+        season.setText("Season: " + CustomizationPageController.season);
     }
 
     @FXML
