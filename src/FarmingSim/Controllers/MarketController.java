@@ -13,7 +13,6 @@ import javafx.scene.text.Text;
 public class MarketController {
 //will access Inventory when you buy and sell
     //rn, you can only buy 1 seed at a time
-    //also right now your money can go negative, don't feel like fixing tonight
 Alert a = new Alert(Alert.AlertType.NONE);
 
 @FXML Button buyCornButton;
@@ -70,38 +69,34 @@ public int hempSeedPrice;
     }
 
     public void buyCorn() {
-        if (atMaxInventory() || zeroMoney()) {
+        if (atMaxInventory() || zeroMoney(Settings.Seed.CORN)) {
             return;
         }
         Inventory.cornSeedNum++;
-        Inventory.day++;
         Inventory.money -= cornSeedPrice;
         moneyMarketDisplay.setText("Money: $" + Inventory.money);
     }
     public void buyWheat() {
-        if (atMaxInventory() || zeroMoney()) {
+        if (atMaxInventory() || zeroMoney(Settings.Seed.WHEAT)) {
             return;
         }
         Inventory.wheatSeedNum++;
-        Inventory.day++;
         Inventory.money -= wheatSeedPrice;
         moneyMarketDisplay.setText("Money: $" + Inventory.money);
     }
     public void buyTobacco() {
-        if (atMaxInventory() || zeroMoney()) {
+        if (atMaxInventory() || zeroMoney(Settings.Seed.TOBACCO)) {
             return;
         }
         Inventory.tobaccoSeedNum++;
-        Inventory.day++;
         Inventory.money -= tobaccoSeedPrice;
         moneyMarketDisplay.setText("Money: $" + Inventory.money);
     }
     public void buyHemp() {
-        if(atMaxInventory() || zeroMoney()) {
+        if(atMaxInventory() || zeroMoney(Settings.Seed.HEMP)) {
             return;
         }
         Inventory.hempSeedNum++;
-        Inventory.day++;
         Inventory.money -= hempSeedPrice;
         moneyMarketDisplay.setText("Money: $" + Inventory.money);
     }
@@ -118,17 +113,46 @@ public int hempSeedPrice;
         return false;
     }
 
-    public boolean zeroMoney() {
-        if (Inventory.money <= 0) {
-            a.setAlertType(Alert.AlertType.WARNING);
-            a.setContentText("You are out of money!");
-            a.show();
-            return true;
+    public boolean zeroMoney(Settings.Seed seed) {
+        switch (seed) {
+            case CORN:
+                if (Inventory.money - cornSeedPrice <= 0) {
+                    a.setAlertType(Alert.AlertType.WARNING);
+                    a.setContentText("You cannot afford this corn!");
+                    a.show();
+                    return true;
+                }
+            break;
+            case WHEAT:
+                if (Inventory.money - wheatSeedPrice <= 0) {
+                    a.setAlertType(Alert.AlertType.WARNING);
+                    a.setContentText("You cannot afford this wheat!");
+                    a.show();
+                    return true;
+                }
+            break;
+            case TOBACCO:
+                if (Inventory.money - tobaccoSeedPrice <= 0) {
+                    a.setAlertType(Alert.AlertType.WARNING);
+                    a.setContentText("You cannot afford this tobacco!");
+                    a.show();
+                    return true;
+                }
+            break;
+            case HEMP:
+                if (Inventory.money - hempSeedPrice <= 0) {
+                    a.setAlertType(Alert.AlertType.WARNING);
+                    a.setContentText("You cannot afford this hemp!");
+                    a.show();
+                    return true;
+                }
+                break;
         }
         return false;
     }
 
     public void move_back(ActionEvent e) throws Exception {
+        Inventory.day++;
         ScreenManager.addScreen(
                 "Player",
                 FXMLLoader.load(getClass().getResource("../FXML/FarmUI.fxml"))
