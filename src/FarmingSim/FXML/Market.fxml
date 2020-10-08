@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<VBox maxHeight="600.0" maxWidth="1000.0" minHeight="600.0" minWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="600.0" maxWidth="1000.0" minHeight="600.0" minWidth="1000.0" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox minHeight="80.0" minWidth="1000.0" prefHeight="80.0" prefWidth="1000.0">
          <children>
@@ -50,31 +50,56 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
                      </VBox.margin>
                   </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Example Text 1">
-                     <font>
-                        <Font name="Constantia" size="30.0" />
-                     </font>
-                  </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Example Text 2">
-                     <font>
-                        <Font name="Constantia" size="30.0" />
-                     </font>
-                  </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Example Text 3">
-                     <font>
-                        <Font name="Constantia" size="30.0" />
-                     </font>
-                  </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Example Text 4">
-                     <font>
-                        <Font name="Constantia" size="30.0" />
-                     </font>
-                  </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Example Text 5">
-                     <font>
-                        <Font name="Constantia" size="30.0" />
-                     </font>
-                  </Text>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Example Text 1">
+                           <font>
+                              <Font name="Constantia" size="30.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" text="Button" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Example Text 2">
+                           <font>
+                              <Font name="Constantia" size="30.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" text="Button" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Example Text 3">
+                           <font>
+                              <Font name="Constantia" size="30.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" text="Button" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Example Text 4">
+                           <font>
+                              <Font name="Constantia" size="30.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" text="Button" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Example Text 5">
+                           <font>
+                              <Font name="Constantia" size="30.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" text="Button" />
+                     </children>
+                  </HBox>
                </children>
             </VBox>
             <VBox alignment="TOP_CENTER" prefHeight="2000.0" prefWidth="2000.0">
@@ -87,26 +112,50 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
                      </VBox.margin>
                   </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Example Text 1">
-                     <font>
-                        <Font name="Constantia" size="30.0" />
-                     </font>
-                  </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Example Text 2">
-                     <font>
-                        <Font name="Constantia" size="30.0" />
-                     </font>
-                  </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Example Text 3">
-                     <font>
-                        <Font name="Constantia" size="30.0" />
-                     </font>
-                  </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Example Text 4">
-                     <font>
-                        <Font name="Constantia" size="30.0" />
-                     </font>
-                  </Text>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <HBox>
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Example Text 1">
+                                 <font>
+                                    <Font name="Constantia" size="30.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </HBox>
+                        <Button mnemonicParsing="false" text="Button" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Example Text 2">
+                           <font>
+                              <Font name="Constantia" size="30.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" text="Button" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Example Text 3">
+                           <font>
+                              <Font name="Constantia" size="30.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" text="Button" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Example Text 4">
+                           <font>
+                              <Font name="Constantia" size="30.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" text="Button" />
+                     </children>
+                  </HBox>
                </children>
             </VBox>
          </children>
