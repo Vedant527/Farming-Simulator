@@ -11,7 +11,7 @@ public class ScreenManager {
     private static Stage stage;
     private static String curr;
 
-    public static void setStage(Stage base){
+    public static void setStage(Stage base) {
         stage = base;
     }
 
@@ -22,7 +22,7 @@ public class ScreenManager {
         screens.put(str, pane);
     }
 
-    public static void removeScreen(String screen){
+    public static void removeScreen(String screen) {
         if (stage == null) {
             throw new IllegalStateException("No Stage Set");
         }
@@ -38,12 +38,17 @@ public class ScreenManager {
         if (stage == null) {
             throw new IllegalStateException("No Stage Set");
         }
-           
+
         stage.setScene(new Scene(screens.get(screen)));
+        stage.show();
         curr = screen;
     }
 
     public static String getCurrentScreen() {
         return curr;
+    }
+
+    public static Pane getCurrentScene() {
+        return screens.get(curr);
     }
 }

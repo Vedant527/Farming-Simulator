@@ -9,15 +9,13 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("start.fxml"));
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("FXML/Start.fxml"));
         ScreenManager.setStage(primaryStage);
         primaryStage.setTitle("FarmingSim");
 
         primaryStage.setScene(new Scene(root, 1000, 600));
         primaryStage.show();
-
-
     }
 
     public static void main(String[] args) {
