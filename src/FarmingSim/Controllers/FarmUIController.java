@@ -14,9 +14,7 @@ public class FarmUIController {
     private Text moneyDisplay;
 
     @FXML
-    private Text dayDisplay;
-    private Integer dayNum = 0;
-
+    private static Text dayDisplay;
     @FXML
     private Text farmName;
     @FXML
@@ -44,30 +42,14 @@ public class FarmUIController {
         season.setText("Season: " + CustomizationPageController.season);
     }
 
-    @FXML
-    public void incDay() {
-        dayNum++;
-        dayDisplay.setText("Day: " + dayNum.toString());
+    public static void updateDay(){
+        dayDisplay.setText("Day: " + Inventory.day);
     }
-
-//    @FXML
-    /*public void alterMoney(int amt) {
-        money += amt;
-        moneyDisplay.setText("Money: " + money.toString());
-    }
-
-    @FXML
-    public void increaseMoney(ActionEvent actionEvent) {
-        alterMoney(1);
-        incDay();
-    }
-     */
 
     public void move_on(ActionEvent e) throws Exception {
-        ScreenManager.addScreen(
-                "Player",
+        ScreenManager.setScreen(
+                "Market",
                 FXMLLoader.load(getClass().getResource("../FXML/Market.fxml"))
         );
-        ScreenManager.setScreen("Player");
     }
 }

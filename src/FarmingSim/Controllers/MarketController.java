@@ -20,14 +20,13 @@ Alert a = new Alert(Alert.AlertType.NONE);
 @FXML Button buyTobaccoButton;
 @FXML Button buyHempButton;
 
-@FXML private Text moneyMarketDisplay;
-@FXML private Text dayMarketDisplay;
-@FXML private Text seasonMarketDisplay;
+@FXML
+private Text dayMarketDisplay;
+@FXML
+private Text moneyMarketDisplay;
+@FXML
+private Text seasonMarketDisplay;
 
-public int cornSeedPrice;
-public int wheatSeedPrice;
-public int tobaccoSeedPrice;
-public int hempSeedPrice;
 public int[] prices = new int[]{2,3,10,100}; // Base prices will be overwritten at init
 
 
@@ -108,10 +107,12 @@ public int[] prices = new int[]{2,3,10,100}; // Base prices will be overwritten 
 
     public void move_back(ActionEvent e) throws Exception {
         Inventory.day++;
-        ScreenManager.addScreen(
-                "Player",
+        /*
+        ScreenManager.setScreen(
+                "FarmUI",
                 FXMLLoader.load(getClass().getResource("../FXML/FarmUI.fxml"))
         );
-        ScreenManager.setScreen("Player");
+        */
+        ScreenManager.setScreen("FarmUI");
     }
 }

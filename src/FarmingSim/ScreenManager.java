@@ -19,6 +19,9 @@ public class ScreenManager {
         if (stage == null) {
             throw new IllegalStateException("No Stage Set");
         }
+        if (screens.containsKey(str)) {
+            throw new IllegalArgumentException("Screen already added");
+        }
         screens.put(str, pane);
     }
 
@@ -30,7 +33,9 @@ public class ScreenManager {
     }
 
     public static void setScreen(String screen, Pane pane) {
-        addScreen(screen, pane);
+        if (!screens.containsKey(screen)) {
+            addScreen(screen, pane);
+        }
         setScreen(screen);
     }
 
@@ -38,8 +43,8 @@ public class ScreenManager {
         if (stage == null) {
             throw new IllegalStateException("No Stage Set");
         }
-
-        stage.setScene(new Scene(screens.get(screen)));
+        
+        stage.getScene().setRoot(screens.get(screen));
         stage.show();
         curr = screen;
     }

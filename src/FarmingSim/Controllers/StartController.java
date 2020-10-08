@@ -25,10 +25,9 @@ public class StartController {
     }
 
     public void move_on(ActionEvent e) throws Exception {
-        ScreenManager.addScreen(
-                "Player",
+        ScreenManager.setScreen(
+                "Customization",
                 FXMLLoader.load(getClass().getResource("../FXML/CustomizationPage.fxml"))
         );
-        ScreenManager.setScreen("Player");
     }
 }
