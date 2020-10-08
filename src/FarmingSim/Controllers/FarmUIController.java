@@ -1,15 +1,17 @@
 package FarmingSim.Controllers;
 
+import FarmingSim.Inventory;
+import FarmingSim.ScreenManager;
 import FarmingSim.Settings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.text.Text;
 
 public class FarmUIController {
 
     @FXML
     private Text moneyDisplay;
-    private Integer money = 0;
 
     @FXML
     private Text dayDisplay;
@@ -20,21 +22,28 @@ public class FarmUIController {
     private Text farmName;
     @FXML
     private Text season;
+    @FXML
+    private Text cornSeedText;
+    @FXML
+    private Text wheatSeedText;
+    @FXML
+    private Text tobaccoSeedText;
+    @FXML
+    private Text hempSeedText;
+    @FXML
+    private Text maxSeedInventoryText;
 
     @FXML
     public void initialize() {
-        if (CustomizationPageController.difficulty == Settings.Difficulty.EASY) {
-            money = 500;
-            moneyDisplay.setText("Money: " + money.toString());
-        } else if (CustomizationPageController.difficulty == Settings.Difficulty.MEDIUM) {
-            money = 300;
-            moneyDisplay.setText("Money: " + money.toString());
-        } else if (CustomizationPageController.difficulty == Settings.Difficulty.HARD) {
-            money = 10;
-            moneyDisplay.setText("Money: " + money.toString());
-        }
+        moneyDisplay.setText("Money: " + Inventory.money.toString());
+        maxSeedInventoryText.setText("Max Inventory: " + Inventory.MAX_SEED_INVENTORY.toString());
+        cornSeedText.setText("Corn: " + Inventory.cornSeedNum.toString());
+        wheatSeedText.setText("Wheat: " + Inventory.wheatSeedNum.toString());
+        tobaccoSeedText.setText("Tobacco: " + Inventory.tobaccoSeedNum.toString());
+        hempSeedText.setText("Hemp: " + Inventory.hempSeedNum.toString());
         farmName.setText(CustomizationPageController.name + "'s Farm");
         season.setText("Season: " + CustomizationPageController.season.toString());
+
 
     }
 
@@ -44,8 +53,8 @@ public class FarmUIController {
         dayDisplay.setText("Day: " + dayNum.toString());
     }
 
-    @FXML
-    public void alterMoney(int amt) {
+//    @FXML
+    /*public void alterMoney(int amt) {
         money += amt;
         moneyDisplay.setText("Money: " + money.toString());
     }
@@ -54,5 +63,14 @@ public class FarmUIController {
     public void increaseMoney(ActionEvent actionEvent) {
         alterMoney(1);
         incDay();
+    }
+     */
+
+    public void move_on(ActionEvent e) throws Exception {
+        ScreenManager.addScreen(
+                "Player",
+                FXMLLoader.load(getClass().getResource("../FXML/Market.fxml"))
+        );
+        ScreenManager.setScreen("Player");
     }
 }

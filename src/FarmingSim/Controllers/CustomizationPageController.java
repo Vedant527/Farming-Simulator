@@ -36,10 +36,11 @@ public class CustomizationPageController {
     private Button START;
 
 
-    static String name;
-    static Settings.Difficulty difficulty;
-    static Settings.Season season;
-    static Settings.Seed seed;
+    //i made these guys public so that inventory can see them, they are in a sub-package (?) so can't access thru default visibility
+    public static String name;
+    public static Settings.Difficulty difficulty;
+    public static Settings.Season season;
+    public static Settings.Seed seed;
 
     Alert a = new Alert(Alert.AlertType.NONE);
 
@@ -100,6 +101,7 @@ public class CustomizationPageController {
             a.show();
             return;
         }
+        Inventory.setDefault();
         ScreenManager.setScreen(
                 "FarmUI",
                 FXMLLoader.load(getClass().getResource("../FXML/FarmUI.fxml"))
