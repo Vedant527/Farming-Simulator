@@ -105,44 +105,44 @@
                      <children>
                         <HBox>
                            <children>
-                              <Text fx:id="sellCornButton" strokeType="OUTSIDE" strokeWidth="0.0" text="Corn">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Corn">
                                  <font>
                                     <Font name="Constantia" size="30.0" />
                                  </font>
                               </Text>
+                              <Button fx:id="sellCornButton" mnemonicParsing="false" onAction="#sellCorn" />
                            </children>
                         </HBox>
-                        <Button mnemonicParsing="false" onAction="#sellCorn" text="Button" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER">
                      <children>
-                        <Text fx:id="sellWheatButton" strokeType="OUTSIDE" strokeWidth="0.0" text="Wheat">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Wheat">
                            <font>
                               <Font name="Constantia" size="30.0" />
                            </font>
                         </Text>
-                        <Button mnemonicParsing="false" onAction="#sellWheat" text="Button" />
+                        <Button fx:id="sellWheatButton" mnemonicParsing="false" onAction="#sellWheat" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER">
                      <children>
-                        <Text fx:id="sellTobaccoButton" strokeType="OUTSIDE" strokeWidth="0.0" text="Tobacco">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tobacco">
                            <font>
                               <Font name="Constantia" size="30.0" />
                            </font>
                         </Text>
-                        <Button mnemonicParsing="false" onAction="#sellTobacco" text="Button" />
+                        <Button fx:id="sellTobaccoButton" mnemonicParsing="false" onAction="#sellTobacco" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER">
                      <children>
-                        <Text fx:id="sellHempButton" strokeType="OUTSIDE" strokeWidth="0.0" text="Hemp">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hemp">
                            <font>
                               <Font name="Constantia" size="30.0" />
                            </font>
                         </Text>
-                        <Button mnemonicParsing="false" onAction="#sellHemp" text="Button" />
+                        <Button fx:id="sellHempButton" mnemonicParsing="false" onAction="#sellHemp" />
                      </children>
                   </HBox>
                </children>

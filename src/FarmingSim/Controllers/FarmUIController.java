@@ -6,6 +6,8 @@ import FarmingSim.Settings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
 public class FarmUIController {
@@ -29,17 +31,26 @@ public class FarmUIController {
     private Text hempSeedText;
     @FXML
     private Text maxSeedInventoryText;
+    @FXML
+    private GridPane farmGrid;
 
     @FXML
     public void initialize() {
         moneyDisplay.setText("Money: " + Inventory.money);
         maxSeedInventoryText.setText("Max Inventory: " + Inventory.MAX_SEED_INVENTORY);
-        cornSeedText.setText("Wheat: " + Inventory.seedNum[Settings.Seed.CORN.ordinal()]);
-        wheatSeedText.setText("Wheat: " + Inventory.seedNum[Settings.Seed.WHEAT.ordinal()]);
-        tobaccoSeedText.setText("Tobacco: " + Inventory.seedNum[Settings.Seed.TOBACCO.ordinal()]);
-        hempSeedText.setText("Hemp: " + Inventory.seedNum[Settings.Seed.HEMP.ordinal()]);
+        cornSeedText.setText("Corn: " + Inventory.seedNum[Settings.CropType.CORN.ordinal()]);
+        wheatSeedText.setText("Wheat: " + Inventory.seedNum[Settings.CropType.WHEAT.ordinal()]);
+        tobaccoSeedText.setText("Tobacco: " + Inventory.seedNum[Settings.CropType.TOBACCO.ordinal()]);
+        hempSeedText.setText("Hemp: " + Inventory.seedNum[Settings.CropType.HEMP.ordinal()]);
         farmName.setText(CustomizationPageController.name + "'s Farm");
         season.setText("Season: " + CustomizationPageController.season);
+        Button[] gridChildren = farmGrid.getChildren().toArray(new Button[0]);
+        for (int i = 0; i < gridChildren.length; i++) {
+            Button n = gridChildren[i];
+            n.setId("Button" + i / farmGrid.getColumnCount() + "_" + i % farmGrid.getColumnCount());
+            n.setText(Integer.toString(i));
+        }
+
     }
 
     public static void updateDay(){

@@ -21,8 +21,8 @@ public class CustomizationPageController {
             .observableArrayList(Settings.Difficulty.values());
     ObservableList<Settings.Season> seasons = FXCollections
             .observableArrayList(Settings.Season.values());
-    ObservableList<Settings.Seed> seeds = FXCollections
-            .observableArrayList(Settings.Seed.values());
+    ObservableList<Settings.CropType> cropTypes = FXCollections
+            .observableArrayList(Settings.CropType.values());
 
     @FXML
     private ChoiceBox DIF;
@@ -40,7 +40,7 @@ public class CustomizationPageController {
     public static String name;
     public static Settings.Difficulty difficulty;
     public static Settings.Season season;
-    public static Settings.Seed seed;
+    public static Settings.CropType cropType;
 
     Alert a = new Alert(Alert.AlertType.NONE);
 
@@ -51,11 +51,11 @@ public class CustomizationPageController {
         // Initializes dropdowns
         SEASON.setItems(seasons);
         DIF.setItems(difficulties);
-        SEEDTYPE.setItems(seeds);
+        SEEDTYPE.setItems(cropTypes);
         // Default values for dropdowns
         SEASON.setValue(Settings.Season.values()[0]);
         DIF.setValue(difficulty.values()[0]);
-        SEEDTYPE.setValue(seed.values()[0]);
+        SEEDTYPE.setValue(cropType.values()[0]);
 
         Image img = new Image("FarmingSim/Resources/StartButton.png");
         ImageView startButton = new ImageView(img);
@@ -71,7 +71,7 @@ public class CustomizationPageController {
         name = NAME.getText();
         season = (Settings.Season) SEASON.getValue();
         difficulty = (Settings.Difficulty) DIF.getValue();
-        seed = (Settings.Seed) SEEDTYPE.getValue();
+        cropType = (Settings.CropType) SEEDTYPE.getValue();
 
     }
 
@@ -84,7 +84,7 @@ public class CustomizationPageController {
     }
 
     public void updatesSeed(ActionEvent e) {
-        seed = (Settings.Seed) SEEDTYPE.getValue();
+        cropType = (Settings.CropType) SEEDTYPE.getValue();
     }
 
     public void updatesSeason(ActionEvent e) {

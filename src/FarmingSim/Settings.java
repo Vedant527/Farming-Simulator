@@ -14,14 +14,14 @@ public class Settings {
         WINTER;
     }
 
-    public enum Seed {
+    public enum CropType {
         CORN,
         WHEAT,
         TOBACCO,
         HEMP;
 
         public static int size() {
-            return Seed.values().length;
+            return CropType.values().length;
         }
     }
 }

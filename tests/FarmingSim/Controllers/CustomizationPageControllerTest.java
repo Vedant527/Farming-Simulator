@@ -70,8 +70,8 @@ public class CustomizationPageControllerTest extends ApplicationTest{
         type(KeyCode.DOWN);
         type(KeyCode.DOWN);
         type(KeyCode.ENTER);
-        FxAssert.verifyThat("#SEEDTYPE", node -> seed.equals(((ChoiceBox) node).getValue()));
-        assertEquals(Settings.Seed.HEMP,seed);
+        FxAssert.verifyThat("#SEEDTYPE", node -> cropType.equals(((ChoiceBox) node).getValue()));
+        assertEquals(Settings.CropType.HEMP, cropType);
     }
     @Test
     public void testStoresCorrectSeason() {
