@@ -7,9 +7,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<VBox maxHeight="600.0" maxWidth="1000.0" minHeight="600.0" minWidth="1000.0" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-fx:controller="FarmingSim.Controllers.MarketController">
+<VBox maxHeight="600.0" maxWidth="1000.0" minHeight="600.0" minWidth="1000.0" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FarmingSim.Controllers.MarketController">
    <children>
       <HBox minHeight="80.0" minWidth="1000.0" prefHeight="80.0" prefWidth="1000.0">
          <children>
@@ -27,7 +25,7 @@ fx:controller="FarmingSim.Controllers.MarketController">
             </HBox>
             <HBox alignment="CENTER_RIGHT" prefHeight="80.0" prefWidth="2000.0">
                <children>
-                  <Button mnemonicParsing="false" text="Go Farm!" onAction="#move_back">
+                  <Button mnemonicParsing="false" onAction="#move_back" text="Go Farm!">
                      <font>
                         <Font name="Constantia" size="30.0" />
                      </font>
@@ -58,7 +56,7 @@ fx:controller="FarmingSim.Controllers.MarketController">
                               <Font name="Constantia" size="30.0" />
                            </font>
                         </Text>
-                        <Button fx:id="buyCornButton" mnemonicParsing="false" onAction="#buyCorn"/>
+                        <Button fx:id="buyCornButton" mnemonicParsing="false" onAction="#buyCorn" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER">
@@ -68,7 +66,7 @@ fx:controller="FarmingSim.Controllers.MarketController">
                               <Font name="Constantia" size="30.0" />
                            </font>
                         </Text>
-                        <Button fx:id="buyWheatButton" mnemonicParsing="false" onAction="#buyWheat"/>
+                        <Button fx:id="buyWheatButton" mnemonicParsing="false" onAction="#buyWheat" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER">
@@ -78,7 +76,7 @@ fx:controller="FarmingSim.Controllers.MarketController">
                               <Font name="Constantia" size="30.0" />
                            </font>
                         </Text>
-                        <Button fx:id="buyTobaccoButton" mnemonicParsing="false" onAction="#buyTobacco"/>
+                        <Button fx:id="buyTobaccoButton" mnemonicParsing="false" onAction="#buyTobacco" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER">
@@ -88,7 +86,7 @@ fx:controller="FarmingSim.Controllers.MarketController">
                               <Font name="Constantia" size="30.0" />
                            </font>
                         </Text>
-                        <Button fx:id="buyHempButton" mnemonicParsing="false" onAction="#buyHemp"/>
+                        <Button fx:id="buyHempButton" mnemonicParsing="false" onAction="#buyHemp" />
                      </children>
                   </HBox>
                </children>
@@ -107,44 +105,44 @@ fx:controller="FarmingSim.Controllers.MarketController">
                      <children>
                         <HBox>
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Example Text 1">
+                              <Text fx:id="sellCornButton" strokeType="OUTSIDE" strokeWidth="0.0" text="Corn">
                                  <font>
                                     <Font name="Constantia" size="30.0" />
                                  </font>
                               </Text>
                            </children>
                         </HBox>
-                        <Button mnemonicParsing="false" text="Button" />
+                        <Button mnemonicParsing="false" onAction="#sellCorn" text="Button" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Example Text 2">
+                        <Text fx:id="sellWheatButton" strokeType="OUTSIDE" strokeWidth="0.0" text="Wheat">
                            <font>
                               <Font name="Constantia" size="30.0" />
                            </font>
                         </Text>
-                        <Button mnemonicParsing="false" text="Button" />
+                        <Button mnemonicParsing="false" onAction="#sellWheat" text="Button" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Example Text 3">
+                        <Text fx:id="sellTobaccoButton" strokeType="OUTSIDE" strokeWidth="0.0" text="Tobacco">
                            <font>
                               <Font name="Constantia" size="30.0" />
                            </font>
                         </Text>
-                        <Button mnemonicParsing="false" text="Button" />
+                        <Button mnemonicParsing="false" onAction="#sellTobacco" text="Button" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Example Text 4">
+                        <Text fx:id="sellHempButton" strokeType="OUTSIDE" strokeWidth="0.0" text="Hemp">
                            <font>
                               <Font name="Constantia" size="30.0" />
                            </font>
                         </Text>
-                        <Button mnemonicParsing="false" text="Button" />
+                        <Button mnemonicParsing="false" onAction="#sellHemp" text="Button" />
                      </children>
                   </HBox>
                </children>
@@ -176,7 +174,7 @@ fx:controller="FarmingSim.Controllers.MarketController">
                         <Insets bottom="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </Text>
-                  <Text fx:id="maxSeedInventoryText" strokeType="OUTSIDE" strokeWidth="0.0" >
+                  <Text fx:id="maxSeedInventoryText" strokeType="OUTSIDE" strokeWidth="0.0">
                   <font>
                      <Font name="Constantia" size="12.0" />
                   </font>

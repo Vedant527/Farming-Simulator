@@ -19,13 +19,14 @@ Alert a = new Alert(Alert.AlertType.NONE);
 @FXML Button buyWheatButton;
 @FXML Button buyTobaccoButton;
 @FXML Button buyHempButton;
+@FXML Button sellCornButton;
+@FXML Button sellWheatButton;
+@FXML Button sellTobaccoButton;
+@FXML Button sellHempButton;
 
-@FXML
-private Text dayMarketDisplay;
-@FXML
-private Text moneyMarketDisplay;
-@FXML
-private Text seasonMarketDisplay;
+@FXML private Text dayMarketDisplay;
+@FXML private Text moneyMarketDisplay;
+@FXML private Text seasonMarketDisplay;
 
 public int[] prices = new int[]{2,3,10,100}; // Base prices will be overwritten at init
 
@@ -59,6 +60,12 @@ public int[] prices = new int[]{2,3,10,100}; // Base prices will be overwritten 
         moneyMarketDisplay.setText("Money: $" + Inventory.money);
     }
 
+    private void sellImpl(Settings.Seed seed) {
+        Inventory.seedNum[seed.ordinal()]--;
+        Inventory.money += prices[seed.ordinal()];
+        moneyMarketDisplay.setText("Money: $" + Inventory.money);
+    }
+
     public void buyCorn() {
         buyImpl(Settings.Seed.CORN);
     }
@@ -66,11 +73,15 @@ public int[] prices = new int[]{2,3,10,100}; // Base prices will be overwritten 
         buyImpl(Settings.Seed.WHEAT);
     }
     public void buyTobacco() {
-        buyImpl(Settings.Seed.WHEAT);
+        buyImpl(Settings.Seed.TOBACCO);
     }
     public void buyHemp() {
         buyImpl(Settings.Seed.HEMP);
     }
+    public void sellCorn() { sellImpl(Settings.Seed.CORN); }
+    public void sellWheat() { sellImpl(Settings.Seed.WHEAT); }
+    public void sellTobacco() { sellImpl(Settings.Seed.TOBACCO); }
+    public void sellHemp() { sellImpl(Settings.Seed.HEMP); }
 
 
     public boolean atMaxInventory() {
