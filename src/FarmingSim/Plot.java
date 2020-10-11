@@ -7,7 +7,7 @@ import java.util.Random;
 public class Plot {
 
     public CropState state;
-    public Settings.CropType cropType;
+    public GameState.CropType cropType;
 
     public enum CropState {
         EMPTY,//no crop currently planted, thsi means available to plant
@@ -16,13 +16,14 @@ public class Plot {
         MATURE;
     }
 
-    public void Plot() {
+    public Plot() {
         Random rand = new Random();//instructions say we have to have random assortment of maturity for this milestone
-        state = CropState.values()[rand.nextInt(3)];
+        int var = rand.nextInt(4);
+        this.state = CropState.values()[var];
         this.cropType = CustomizationPageController.cropType;
     }
 
-    public void plant(Settings.CropType cropType) {
+    public void plant(GameState.CropType cropType) {
         state = CropState.SEED;
         this.cropType = cropType;
     }

@@ -1,23 +1,22 @@
 package FarmingSim.Controllers;
 
-import FarmingSim.Farm;
-import FarmingSim.Inventory;
-import FarmingSim.ScreenManager;
-import FarmingSim.Settings;
+import FarmingSim.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
-public class FarmUIController {
+public class FarmUIController extends UIUpdateable {
 
     @FXML
-    private Text moneyDisplay;
+    public Text moneyDisplay;
 
     @FXML
-    private static Text dayDisplay;
+    private Text dayDisplay;
     @FXML
     private Text farmName;
     @FXML
@@ -32,45 +31,106 @@ public class FarmUIController {
     private Text hempSeedText;
     @FXML
     private Text maxSeedInventoryText;
+
     @FXML
     private GridPane farmGrid;
 
     @FXML
-    public void initialize() {
+    private Text cornCropText;
+    @FXML
+    private Text wheatCropText;
+    @FXML
+    private Text tobaccoCropText;
+    @FXML
+    private Text hempCropText;
+    @FXML
+    private Text maxCropInventoryText;
+
+
+    public FarmUIController() {
+        super(2);
+    }
+
+    @FXML
+    public void firstInit() {
         moneyDisplay.setText("Money: " + Inventory.money);
         maxSeedInventoryText.setText("Max Inventory: " + Inventory.MAX_SEED_INVENTORY);
-        cornSeedText.setText("Corn: " + Inventory.seedNum[Settings.CropType.CORN.ordinal()]);
-        wheatSeedText.setText("Wheat: " + Inventory.seedNum[Settings.CropType.WHEAT.ordinal()]);
-        tobaccoSeedText.setText("Tobacco: " + Inventory.seedNum[Settings.CropType.TOBACCO.ordinal()]);
-        hempSeedText.setText("Hemp: " + Inventory.seedNum[Settings.CropType.HEMP.ordinal()]);
+        cornSeedText.setText("Corn: " + Inventory.seedNum[GameState.CropType.CORN.ordinal()]);
+        wheatSeedText.setText("Wheat: " + Inventory.seedNum[GameState.CropType.WHEAT.ordinal()]);
+        tobaccoSeedText.setText("Tobacco: " + Inventory.seedNum[GameState.CropType.TOBACCO.ordinal()]);
+        hempSeedText.setText("Hemp: " + Inventory.seedNum[GameState.CropType.HEMP.ordinal()]);
         farmName.setText(CustomizationPageController.name + "'s Farm");
 
+        maxCropInventoryText.setText("Max Inventory: " + Inventory.MAX_CROP_INVENTORY);
+        cornCropText.setText("Corn: " + Inventory.cropNum[GameState.CropType.CORN.ordinal()]);
+        wheatCropText.setText("Wheat: " + Inventory.cropNum[GameState.CropType.WHEAT.ordinal()]);
+        tobaccoCropText.setText("Tobacco: " + Inventory.cropNum[GameState.CropType.TOBACCO.ordinal()]);
+        hempCropText.setText("Hemp: " + Inventory.cropNum[GameState.CropType.HEMP.ordinal()]);
+
         season.setText("Season: " + CustomizationPageController.season);
+        dayDisplay.setText("Day :" + Inventory.day);
 
         Button[] gridChildren = farmGrid.getChildren().toArray(new Button[0]);
-        Farm farm = new Farm();
+        GameState.plots = new Plot[gridChildren.length];
         for (int i = 0; i < gridChildren.length; i++) {
             Button n = gridChildren[i];
-            n.setId("Button" + i / farmGrid.getColumnCount() + "_" + i % farmGrid.getColumnCount());
-            n.setText(farm.plots[i].cropType.toString().toLowerCase() + "\n"
-                + farm.plots[i].state.toString().toLowerCase());
+            n.setId(Integer.toString(i));
+            GameState.plots[i] = new Plot();
+            n.setText(GameState.plots[i].cropType.name().toLowerCase() + "\n"
+                + GameState.plots[i].state.name().toLowerCase());
+            n.setOnMouseClicked((MouseEvent e) -> harvest(e));
             //this is unsafe we should make sure there is exactly as many plots as gridChildren
             //the idea is we make one onAction that somehow knows the buttonID of hte button that called it
             //then we use that index to get into farm and do stuff to the appropriate plot
             //i think we can make the button useless unless state is mature and there's enough space in inventory
             //at least that's how it works now
         }
-
     }
 
-    public static void updateDay(){
-        dayDisplay.setText("Day: " + Inventory.day);
+    public void harvest(MouseEvent e) {
+        Node ivm = (Node) e.getSource();
+        int id = Integer.parseInt(ivm.getId());
+        GameState.plots[id].harvest();
+        updateUI();
+    }
+
+    @FXML
+    public void updateUI() {
+        if (moneyDisplay == null) {
+            return;
+        }
+        moneyDisplay.setText("Money: " + Inventory.money);
+        maxSeedInventoryText.setText("Max Inventory: " + Inventory.MAX_SEED_INVENTORY);
+        cornSeedText.setText("Corn: " + Inventory.seedNum[GameState.CropType.CORN.ordinal()]);
+        wheatSeedText.setText("Wheat: " + Inventory.seedNum[GameState.CropType.WHEAT.ordinal()]);
+        tobaccoSeedText.setText("Tobacco: " + Inventory.seedNum[GameState.CropType.TOBACCO.ordinal()]);
+        hempSeedText.setText("Hemp: " + Inventory.seedNum[GameState.CropType.HEMP.ordinal()]);
+        farmName.setText(CustomizationPageController.name + "'s Farm");
+
+        maxCropInventoryText.setText("Max Inventory: " + Inventory.MAX_CROP_INVENTORY);
+        cornCropText.setText("Corn: " + Inventory.cropNum[GameState.CropType.CORN.ordinal()]);
+        wheatCropText.setText("Wheat: " + Inventory.cropNum[GameState.CropType.WHEAT.ordinal()]);
+        tobaccoCropText.setText("Tobacco: " + Inventory.cropNum[GameState.CropType.TOBACCO.ordinal()]);
+        hempCropText.setText("Hemp: " + Inventory.cropNum[GameState.CropType.HEMP.ordinal()]);
+
+
+        season.setText("Season: " + CustomizationPageController.season);
+        dayDisplay.setText("Day :" + Inventory.day);
+
+        Button[] gridChildren = farmGrid.getChildren().toArray(new Button[0]);
+        for (int i = 0; i < gridChildren.length; i++) {
+            Button n = gridChildren[i];
+            n.setId(Integer.toString(i));
+            n.setText(GameState.plots[i].cropType.name().toLowerCase() + "\n"
+                    + GameState.plots[i].state.name().toLowerCase());
+            n.setOnMouseClicked((MouseEvent e) -> harvest(e));
+        }
     }
 
     public void move_on(ActionEvent e) throws Exception {
-        ScreenManager.setScreen(
+        GameState.screenManager.setScreen(
                 "Market",
-                FXMLLoader.load(getClass().getResource("../FXML/Market.fxml"))
+                "FXML/Market.fxml"
         );
     }
 }

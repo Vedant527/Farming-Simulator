@@ -1,21 +1,25 @@
 package FarmingSim.Controllers;
 
-import FarmingSim.ScreenManager;
+import FarmingSim.GameState;
+import FarmingSim.UIUpdateable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 
-public class StartController {
+public class StartController extends UIUpdateable {
 
     @FXML
     Button BeginButton;
 
+    public StartController() {
+        super(0);
+    }
+
     @FXML
-    private void initialize() {
+    public void firstInit() {
         Image img = new Image("FarmingSim/Resources/BeginButton.png");
         ImageView startButton = new ImageView(img);
         startButton.setFitWidth(120);
@@ -25,9 +29,13 @@ public class StartController {
     }
 
     public void move_on(ActionEvent e) throws Exception {
-        ScreenManager.setScreen(
+        GameState.screenManager.setScreen(
                 "Customization",
-                FXMLLoader.load(getClass().getResource("../FXML/CustomizationPage.fxml"))
+                "FXML/CustomizationPage.fxml"
         );
+    }
+
+    public void updateUI() {
+        return;
     }
 }

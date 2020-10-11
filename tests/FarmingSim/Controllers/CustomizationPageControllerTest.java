@@ -1,7 +1,7 @@
 package FarmingSim.Controllers;
 
 import FarmingSim.ScreenManager;
-import FarmingSim.Settings;
+import FarmingSim.GameState;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -61,7 +61,7 @@ public class CustomizationPageControllerTest extends ApplicationTest{
         type(KeyCode.DOWN);
         type(KeyCode.ENTER);
         FxAssert.verifyThat("#DIF", node -> difficulty.equals(((ChoiceBox) node).getValue()));
-        assertEquals(Settings.Difficulty.MEDIUM,difficulty);
+        assertEquals(GameState.Difficulty.MEDIUM,difficulty);
     }
     @Test
     public void testStoresCorrectSeed() {
@@ -71,14 +71,14 @@ public class CustomizationPageControllerTest extends ApplicationTest{
         type(KeyCode.DOWN);
         type(KeyCode.ENTER);
         FxAssert.verifyThat("#SEEDTYPE", node -> cropType.equals(((ChoiceBox) node).getValue()));
-        assertEquals(Settings.CropType.HEMP, cropType);
+        assertEquals(GameState.CropType.HEMP, cropType);
     }
     @Test
     public void testStoresCorrectSeason() {
         clickOn("#SEASON");
         type(KeyCode.ENTER);
         FxAssert.verifyThat("#SEASON", node -> season.equals(((ChoiceBox) node).getValue()));
-        assertEquals(Settings.Season.SPRING, season);
+        assertEquals(GameState.Season.SPRING, season);
     }
     @Test
     public void testName() {
@@ -95,7 +95,7 @@ public class CustomizationPageControllerTest extends ApplicationTest{
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("CustomizationPage.fxml"));
-        ScreenManager.setStage(primaryStage);
+        GameState.screenManager.stage = primaryStage;
         primaryStage.setTitle("FarmingSim");
 
         primaryStage.setScene(new Scene(root, 1000, 600));

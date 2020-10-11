@@ -1,14 +1,14 @@
 package FarmingSim.Controllers;
 
 import FarmingSim.Inventory;
-import FarmingSim.ScreenManager;
-import FarmingSim.Settings;
+import FarmingSim.GameState;
+import FarmingSim.UIUpdateable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 
-public class MarketController {
+public class MarketController extends UIUpdateable {
 //will access Inventory when you buy and sell
     //rn, you can only buy 1 seed at a time
 
@@ -22,24 +22,26 @@ public class MarketController {
 @FXML Button sellHempButton;
 
 @FXML private Text dayMarketDisplay;
-@FXML private Text moneyMarketDisplay;
+@FXML private Text moneyDisplay;
 @FXML private Text seasonMarketDisplay;
 
+    public MarketController() {
+        super(3);
+    }
 
-
-    public void initialize() {
+    public void firstInit() {
         for (int i = 0; i < Inventory.seedPrices.length; i++) {
             Inventory.seedPrices[i] = Inventory.calculatePriceFromDifficulty(Inventory.seedPrices[i]);
         }
-        buyCornButton.setText("$" + Inventory.seedPrices[Settings.CropType.CORN.ordinal()]);
-        sellCornButton.setText("$" + Inventory.cropPrices[Settings.CropType.CORN.ordinal()]);
-        buyWheatButton.setText("$" + Inventory.seedPrices[Settings.CropType.WHEAT.ordinal()]);
-        sellWheatButton.setText("$" + Inventory.cropPrices[Settings.CropType.WHEAT.ordinal()]);
-        buyTobaccoButton.setText("$" + Inventory.seedPrices[Settings.CropType.TOBACCO.ordinal()]);
-        sellTobaccoButton.setText("$" + Inventory.cropPrices[Settings.CropType.TOBACCO.ordinal()]);
-        buyHempButton.setText("$" + Inventory.seedPrices[Settings.CropType.HEMP.ordinal()]);
-        sellHempButton.setText("$" + Inventory.cropPrices[Settings.CropType.HEMP.ordinal()]);
-        moneyMarketDisplay.setText("Money: $" + Inventory.money);
+        buyCornButton.setText("$" + Inventory.seedPrices[GameState.CropType.CORN.ordinal()]);
+        sellCornButton.setText("$" + Inventory.cropPrices[GameState.CropType.CORN.ordinal()]);
+        buyWheatButton.setText("$" + Inventory.seedPrices[GameState.CropType.WHEAT.ordinal()]);
+        sellWheatButton.setText("$" + Inventory.cropPrices[GameState.CropType.WHEAT.ordinal()]);
+        buyTobaccoButton.setText("$" + Inventory.seedPrices[GameState.CropType.TOBACCO.ordinal()]);
+        sellTobaccoButton.setText("$" + Inventory.cropPrices[GameState.CropType.TOBACCO.ordinal()]);
+        buyHempButton.setText("$" + Inventory.seedPrices[GameState.CropType.HEMP.ordinal()]);
+        sellHempButton.setText("$" + Inventory.cropPrices[GameState.CropType.HEMP.ordinal()]);
+        moneyDisplay.setText("Money: $" + Inventory.money);
         dayMarketDisplay.setText("Day: 0");
         seasonMarketDisplay.setText("Season: " + CustomizationPageController.season.toString());
     }
@@ -47,49 +49,60 @@ public class MarketController {
 
 
     public void buyCorn() {
-        Inventory.buyImpl(Settings.CropType.CORN);
+        Inventory.buyImpl(GameState.CropType.CORN);
         updateMoney();
     }
     public void buyWheat() {
-        Inventory.buyImpl(Settings.CropType.WHEAT);
+        Inventory.buyImpl(GameState.CropType.WHEAT);
         updateMoney();
     }
     public void buyTobacco() {
-        Inventory.buyImpl(Settings.CropType.TOBACCO);
+        Inventory.buyImpl(GameState.CropType.TOBACCO);
         updateMoney();
     }
     public void buyHemp() {
-        Inventory.buyImpl(Settings.CropType.HEMP);
+        Inventory.buyImpl(GameState.CropType.HEMP);
         updateMoney();
     }
     public void sellCorn() {
-        Inventory.sellImpl(Settings.CropType.CORN);
+        Inventory.sellImpl(GameState.CropType.CORN);
         updateMoney();
     }
     public void sellWheat() {
-        Inventory.sellImpl(Settings.CropType.WHEAT);
+        Inventory.sellImpl(GameState.CropType.WHEAT);
         updateMoney();
     }
     public void sellTobacco() {
-        Inventory.sellImpl(Settings.CropType.TOBACCO);
+        Inventory.sellImpl(GameState.CropType.TOBACCO);
         updateMoney();
     }
     public void sellHemp() {
-        Inventory.sellImpl(Settings.CropType.HEMP);
+        Inventory.sellImpl(GameState.CropType.HEMP);
         updateMoney();
     }
 
-    public void updateMoney() { moneyMarketDisplay.setText("Money: $" + Inventory.money); }
+    public void updateMoney() { moneyDisplay.setText("Money: $" + Inventory.money); }
 
 
     public void move_back(ActionEvent e) throws Exception {
         Inventory.day++;
-        /*
-        ScreenManager.setScreen(
+        GameState.screenManager.setScreen(
                 "FarmUI",
-                FXMLLoader.load(getClass().getResource("../FXML/FarmUI.fxml"))
+                "FXML/FarmUI.fxml"
         );
-        */
-        ScreenManager.setScreen("FarmUI");
+    }
+
+    public void updateUI() {
+        buyCornButton.setText("$" + Inventory.seedPrices[GameState.CropType.CORN.ordinal()]);
+        sellCornButton.setText("$" + Inventory.cropPrices[GameState.CropType.CORN.ordinal()]);
+        buyWheatButton.setText("$" + Inventory.seedPrices[GameState.CropType.WHEAT.ordinal()]);
+        sellWheatButton.setText("$" + Inventory.cropPrices[GameState.CropType.WHEAT.ordinal()]);
+        buyTobaccoButton.setText("$" + Inventory.seedPrices[GameState.CropType.TOBACCO.ordinal()]);
+        sellTobaccoButton.setText("$" + Inventory.cropPrices[GameState.CropType.TOBACCO.ordinal()]);
+        buyHempButton.setText("$" + Inventory.seedPrices[GameState.CropType.HEMP.ordinal()]);
+        sellHempButton.setText("$" + Inventory.cropPrices[GameState.CropType.HEMP.ordinal()]);
+        moneyDisplay.setText("Money: $" + Inventory.money);
+        dayMarketDisplay.setText("Day: 0");
+        seasonMarketDisplay.setText("Season: " + CustomizationPageController.season.toString());
     }
 }

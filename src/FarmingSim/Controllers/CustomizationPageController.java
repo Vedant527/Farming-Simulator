@@ -15,14 +15,14 @@ import javafx.scene.image.ImageView;
 
 import javax.swing.*;
 
-public class CustomizationPageController {
+public class CustomizationPageController extends UIUpdateable {
 
-    ObservableList<Settings.Difficulty> difficulties = FXCollections
-            .observableArrayList(Settings.Difficulty.values());
-    ObservableList<Settings.Season> seasons = FXCollections
-            .observableArrayList(Settings.Season.values());
-    ObservableList<Settings.CropType> cropTypes = FXCollections
-            .observableArrayList(Settings.CropType.values());
+    ObservableList<GameState.Difficulty> difficulties = FXCollections
+            .observableArrayList(GameState.Difficulty.values());
+    ObservableList<GameState.Season> seasons = FXCollections
+            .observableArrayList(GameState.Season.values());
+    ObservableList<GameState.CropType> cropTypes = FXCollections
+            .observableArrayList(GameState.CropType.values());
 
     @FXML
     private ChoiceBox DIF;
@@ -35,17 +35,20 @@ public class CustomizationPageController {
     @FXML
     private Button START;
 
+    public CustomizationPageController() {
+        super(1);
+    }
 
-    //i made these guys public so that inventory can see them, they are in a sub-package (?) so can't access thru default visibility
     public static String name;
-    public static Settings.Difficulty difficulty;
-    public static Settings.Season season;
-    public static Settings.CropType cropType;
+    public static GameState.Difficulty difficulty;
+    public static GameState.Season season;
+    public static GameState.CropType cropType;
 
     Alert a = new Alert(Alert.AlertType.NONE);
 
     @FXML
-    private void initialize() {
+    @Override
+    public void firstInit() {
         JButton start = new JButton();
         start.setIcon(new ImageIcon("FarmingSim/Resources/StartButton.png"));
         // Initializes dropdowns
@@ -53,7 +56,7 @@ public class CustomizationPageController {
         DIF.setItems(difficulties);
         SEEDTYPE.setItems(cropTypes);
         // Default values for dropdowns
-        SEASON.setValue(Settings.Season.values()[0]);
+        SEASON.setValue(GameState.Season.values()[0]);
         DIF.setValue(difficulty.values()[0]);
         SEEDTYPE.setValue(cropType.values()[0]);
 
@@ -69,9 +72,9 @@ public class CustomizationPageController {
 
     private void setFields() {
         name = NAME.getText();
-        season = (Settings.Season) SEASON.getValue();
-        difficulty = (Settings.Difficulty) DIF.getValue();
-        cropType = (Settings.CropType) SEEDTYPE.getValue();
+        season = (GameState.Season) SEASON.getValue();
+        difficulty = (GameState.Difficulty) DIF.getValue();
+        cropType = (GameState.CropType) SEEDTYPE.getValue();
 
     }
 
@@ -80,15 +83,15 @@ public class CustomizationPageController {
     }
 
     public void updatesDifficulty(ActionEvent e) {
-        difficulty = (Settings.Difficulty) DIF.getValue();
+        difficulty = (GameState.Difficulty) DIF.getValue();
     }
 
     public void updatesSeed(ActionEvent e) {
-        cropType = (Settings.CropType) SEEDTYPE.getValue();
+        cropType = (GameState.CropType) SEEDTYPE.getValue();
     }
 
     public void updatesSeason(ActionEvent e) {
-        season = (Settings.Season) SEASON.getValue();
+        season = (GameState.Season) SEASON.getValue();
     }
 
 
@@ -101,14 +104,18 @@ public class CustomizationPageController {
             a.show();
             return;
         }
-        Inventory.setDefault();
-        ScreenManager.setScreen(
+        Inventory.setDefault(CustomizationPageController.cropType);
+        GameState.screenManager.setScreen(
                 "FarmUI",
-                FXMLLoader.load(getClass().getResource("../FXML/FarmUI.fxml"))
+                "FXML/FarmUI.fxml"
         );
         //ScreenManager.getCurrentScene();
         //ScreenManager.setScreen("Player");
     }
 
+    @Override
+    public void updateUI(){
+        return;
+    }
 
 }

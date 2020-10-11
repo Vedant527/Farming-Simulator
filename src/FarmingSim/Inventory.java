@@ -11,8 +11,8 @@ public class Inventory {
     2 = Wheat
     3 = Tobacco
     */
-    public static int[] seedNum = new int[Settings.CropType.size()];
-    public static int[] cropNum = new int[Settings.CropType.size()];
+    public static int[] seedNum = new int[GameState.CropType.size()];
+    public static int[] cropNum = new int[GameState.CropType.size()];
     public static int[] seedPrices = new int[]{2,3,10,100}; // Base prices will be overwritten at init
     public static int[] cropPrices = new int[]{10,20,50,420};
 
@@ -26,18 +26,18 @@ public class Inventory {
     public static int MAX_SEED_INVENTORY = 100;
     public static int MAX_CROP_INVENTORY = 100;
 
-    public static void setDefault() {
-        for (int i = 0; i < Settings.CropType.size(); i++) {
+    public static void setDefault(GameState.CropType type) {
+        for (int i = 0; i < GameState.CropType.size(); i++) {
             seedNum[i] = 0;
             cropNum[i] = 0;
         }
-        seedNum[CustomizationPageController.cropType.ordinal()] = 10;
-        money = (new int[]{500, 300, 100})[CustomizationPageController.cropType.ordinal()];
+        seedNum[type.ordinal()] = 10;
+        money = (new int[]{500, 300, 100})[type.ordinal()];
     }
     public static boolean isFull() {
         int seed_sum = 0;
         int crop_sum = 0;
-        for (int i = 0; i < Settings.CropType.size(); i++) {
+        for (int i = 0; i < GameState.CropType.size(); i++) {
             seed_sum += Inventory.seedNum[i];
             crop_sum += Inventory.cropNum[i];
         }
@@ -56,7 +56,7 @@ public class Inventory {
         return false;
     }
 
-    public static boolean hasCrop(Settings.CropType cropType) {
+    public static boolean hasCrop(GameState.CropType cropType) {
         if (cropNum[cropType.ordinal()] == 0) {
             a.setAlertType(Alert.AlertType.WARNING);
             a.setContentText("You don't have any " + cropType.name().toLowerCase() + "left!");
@@ -66,7 +66,7 @@ public class Inventory {
         return true;
     }
 
-    public static boolean canBuy(Settings.CropType cropType) {
+    public static boolean canBuy(GameState.CropType cropType) {
         if (Inventory.money - Inventory.seedPrices[cropType.ordinal()] <= 0) {
             a.setAlertType(Alert.AlertType.WARNING);
             a.setContentText("You cannot afford this " + cropType.name().toLowerCase() + "!");
@@ -82,7 +82,7 @@ public class Inventory {
         return basePrice;
     }
 
-    public static void buyImpl(Settings.CropType cropType) {
+    public static void buyImpl(GameState.CropType cropType) {
         if (Inventory.isFull() || !Inventory.canBuy(cropType)) {
             return;
         }
@@ -90,7 +90,7 @@ public class Inventory {
         Inventory.money -= Inventory.seedPrices[cropType.ordinal()];
     }
 
-    public static void sellImpl(Settings.CropType cropType) {
+    public static void sellImpl(GameState.CropType cropType) {
         if (!hasCrop(cropType)) {
             return;
         }

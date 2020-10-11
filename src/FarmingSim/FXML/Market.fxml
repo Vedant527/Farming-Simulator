@@ -179,7 +179,7 @@
                      <Font name="Constantia" size="12.0" />
                   </font>
                </Text>
-                  <Text fx:id="moneyMarketDisplay" strokeType="OUTSIDE" strokeWidth="0.0" text="Money: 0" textAlignment="CENTER" wrappingWidth="200.0">
+                  <Text fx:id="moneyDisplay" strokeType="OUTSIDE" strokeWidth="0.0" text="Money: 0" textAlignment="CENTER" wrappingWidth="200.0">
                      <font>
                         <Font name="Constantia" size="36.0" />
                      </font>
