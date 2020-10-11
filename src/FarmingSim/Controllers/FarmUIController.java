@@ -1,5 +1,6 @@
 package FarmingSim.Controllers;
 
+import FarmingSim.Farm;
 import FarmingSim.Inventory;
 import FarmingSim.ScreenManager;
 import FarmingSim.Settings;
@@ -43,12 +44,21 @@ public class FarmUIController {
         tobaccoSeedText.setText("Tobacco: " + Inventory.seedNum[Settings.CropType.TOBACCO.ordinal()]);
         hempSeedText.setText("Hemp: " + Inventory.seedNum[Settings.CropType.HEMP.ordinal()]);
         farmName.setText(CustomizationPageController.name + "'s Farm");
+
         season.setText("Season: " + CustomizationPageController.season);
+
         Button[] gridChildren = farmGrid.getChildren().toArray(new Button[0]);
+        Farm farm = new Farm();
         for (int i = 0; i < gridChildren.length; i++) {
             Button n = gridChildren[i];
             n.setId("Button" + i / farmGrid.getColumnCount() + "_" + i % farmGrid.getColumnCount());
-            n.setText(Integer.toString(i));
+            n.setText(farm.plots[i].cropType.toString().toLowerCase() + "\n"
+                + farm.plots[i].state.toString().toLowerCase());
+            //this is unsafe we should make sure there is exactly as many plots as gridChildren
+            //the idea is we make one onAction that somehow knows the buttonID of hte button that called it
+            //then we use that index to get into farm and do stuff to the appropriate plot
+            //i think we can make the button useless unless state is mature and there's enough space in inventory
+            //at least that's how it works now
         }
 
     }
