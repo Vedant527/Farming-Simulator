@@ -91,11 +91,13 @@
                               <Font name="Constantia" size="30.0" />
                            </font>
                         </Text>
-                        <Text fx:id="cropInventoryText" strokeType="OUTSIDE" strokeWidth="0.0" text="Simon implement this when u set up the harvesting shit">
+                         <!--
+                        <Text fx:id="cropInventoryText" strokeType="OUTSIDE" strokeWidth="0.0">
                             <font>
                                <Font name="Constantia" size="20.0" />
                             </font>
                         </Text>
+                        -->
                          <Text fx:id="maxCropInventoryText" strokeType="OUTSIDE" strokeWidth="0.0" >
                              <font>
                                  <Font name="Constantia" size="12.0" />
@@ -119,11 +121,6 @@
                          <Text fx:id="hempCropText"  strokeType="OUTSIDE" strokeWidth="0.0" >
                              <font>
                                  <Font name="Constantia" size="20.0" />
-                             </font>
-                         </Text>
-                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Crop Inventory">
-                             <font>
-                                 <Font name="Constantia" size="30.0" />
                              </font>
                          </Text>
                      </children>
