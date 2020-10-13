@@ -40,9 +40,9 @@ public class CustomizationPageController extends UIUpdateable {
     }
 
     public static String name;
-    public static GameState.Difficulty difficulty;
-    public static GameState.Season season;
-    public static GameState.CropType cropType;
+    public static GameState.Difficulty difficulty = GameState.Difficulty.EASY;
+    public static GameState.Season season = GameState.Season.SPRING;
+    public static GameState.CropType cropType = GameState.CropType.CORN;
 
     Alert a = new Alert(Alert.AlertType.NONE);
 
@@ -106,7 +106,6 @@ public class CustomizationPageController extends UIUpdateable {
         }
         Inventory.setDefault(CustomizationPageController.cropType);
         GameState.screenManager.setScreen(
-                "FarmUI",
                 "FXML/FarmUI.fxml"
         );
         //ScreenManager.getCurrentScene();

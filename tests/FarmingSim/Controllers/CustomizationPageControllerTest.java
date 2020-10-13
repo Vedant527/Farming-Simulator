@@ -94,12 +94,8 @@ public class CustomizationPageControllerTest extends ApplicationTest{
     }
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("CustomizationPage.fxml"));
-        GameState.screenManager.stage = primaryStage;
         primaryStage.setTitle("FarmingSim");
-
-        primaryStage.setScene(new Scene(root, 1000, 600));
-        primaryStage.show();
-
+        GameState.screenManager.stage = primaryStage;
+        GameState.screenManager.setScreen("FXML/CustomizationPage.fxml");
     }
 }

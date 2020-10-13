@@ -129,7 +129,6 @@ public class FarmUIController extends UIUpdateable {
 
     public void move_on(ActionEvent e) throws Exception {
         GameState.screenManager.setScreen(
-                "Market",
                 "FXML/Market.fxml"
         );
     }

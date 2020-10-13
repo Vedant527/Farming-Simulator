@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 public class ScreenManager {
     public Stage stage;
 
-    public void setScreen(String screen, String pane) throws Exception {
+    public void setScreen(String pane) throws Exception {
         if (stage == null) {
             throw new IllegalStateException("No Stage Set");
         }

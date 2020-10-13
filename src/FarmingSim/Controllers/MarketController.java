@@ -87,7 +87,6 @@ public class MarketController extends UIUpdateable {
     public void move_back(ActionEvent e) throws Exception {
         Inventory.day++;
         GameState.screenManager.setScreen(
-                "FarmUI",
                 "FXML/FarmUI.fxml"
         );
     }

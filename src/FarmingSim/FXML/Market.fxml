@@ -25,7 +25,7 @@
             </HBox>
             <HBox alignment="CENTER_RIGHT" prefHeight="80.0" prefWidth="2000.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#move_back" text="Go Farm!">
+                  <Button fx:id="farmButton" mnemonicParsing="false" onAction="#move_back" text="Go Farm!">
                      <font>
                         <Font name="Constantia" size="30.0" />
                      </font>

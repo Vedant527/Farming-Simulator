@@ -30,7 +30,6 @@ public class StartController extends UIUpdateable {
 
     public void move_on(ActionEvent e) throws Exception {
         GameState.screenManager.setScreen(
-                "Customization",
                 "FXML/CustomizationPage.fxml"
         );
     }

@@ -30,7 +30,7 @@
             </HBox>
             <HBox alignment="CENTER_RIGHT" prefHeight="80.0" prefWidth="2000.0">
                <children>
-                  <Button mnemonicParsing="false" text="To Market!" onAction="#move_on">
+                  <Button fx:id="marketButton" mnemonicParsing="false" text="To Market!" onAction="#move_on">
                      <font>
                         <Font name="Constantia" size="30.0" />
                      </font>
