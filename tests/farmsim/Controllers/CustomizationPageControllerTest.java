@@ -1,10 +1,6 @@
-package FarmingSim.Controllers;
+package farmsim.Controllers;
 
-import FarmingSim.ScreenManager;
-import FarmingSim.GameState;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import farmsim.GameState;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
@@ -16,19 +12,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.testfx.api.FxAssert;
 import org.testfx.api.FxToolkit;
-
-import static FarmingSim.Controllers.CustomizationPageController.*;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
-import static org.testfx.matcher.control.TextMatchers.hasText;
-
 import org.testfx.framework.junit.ApplicationTest;
 
-public class CustomizationPageControllerTest extends ApplicationTest{
+import static farmsim.Controllers.CustomizationPageController.*;
+import static org.junit.Assert.assertEquals;
+
+public class CustomizationPageControllerTest extends ApplicationTest {
 
     @Before
     public void setUp() throws Exception {
-        GameState.hasInited = new boolean[]{false, false, false, false};
+        GameState.setHasInited(new boolean[]{false, false, false, false});
     }
 
     @After
@@ -53,30 +46,41 @@ public class CustomizationPageControllerTest extends ApplicationTest{
     @Test
     public void testSeedType() {
         clickOn("#SEEDTYPE");
-        FxAssert.verifyThat("#SEEDTYPE", (ChoiceBox l) -> l.getItems().size() == 4 && l.isVisible());
+        FxAssert.verifyThat("#SEEDTYPE", (ChoiceBox l) -> {
+            return l.getItems().size() == 4 && l.isVisible();
+        });
     }
 
     @Test
     public void testStoresCorrectDiff() {
         clickOn("#DIF");
         type(KeyCode.ENTER);
-        FxAssert.verifyThat("#DIF", node -> difficulty.equals(((ChoiceBox) node).getValue()));
-        assertEquals(GameState.Difficulty.EASY,difficulty);
+        FxAssert.verifyThat("#DIF", node -> {
+            return GameState.getDifficulty().equals(((ChoiceBox) node).getValue());
+        });
+        assertEquals(GameState.Difficulty.EASY, GameState.getDifficulty());
     }
+
     @Test
     public void testStoresCorrectSeed() {
         clickOn("#SEEDTYPE");
         type(KeyCode.ENTER);
-        FxAssert.verifyThat("#SEEDTYPE", node -> cropType.equals(((ChoiceBox) node).getValue()));
-        assertEquals(GameState.CropType.CORN, cropType);
+        FxAssert.verifyThat("#SEEDTYPE", node -> {
+            return GameState.getCropType().equals(((ChoiceBox) node).getValue());
+        });
+        assertEquals(GameState.CropType.CORN, GameState.getCropType());
     }
+
     @Test
     public void testStoresCorrectSeason() {
         clickOn("#SEASON");
         type(KeyCode.ENTER);
-        FxAssert.verifyThat("#SEASON", node -> season.equals(((ChoiceBox) node).getValue()));
-        assertEquals(GameState.Season.SPRING, season);
+        FxAssert.verifyThat("#SEASON", node -> {
+            return GameState.getSeason().equals(((ChoiceBox) node).getValue());
+        });
+        assertEquals(GameState.Season.SPRING, GameState.getSeason());
     }
+
     @Test
     public void testName() {
         clickOn("#NAME");
@@ -86,14 +90,16 @@ public class CustomizationPageControllerTest extends ApplicationTest{
         sleep(500);
         FxAssert.verifyThat("#NAME", (TextField node) -> node.getText().equals(tester));
     }
+
     @Test
     public void testStartButton() {
         FxAssert.verifyThat("#START", (Button b) -> b.isVisible());
     }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("FarmingSim");
-        GameState.screenManager.stage = primaryStage;
-        GameState.screenManager.setScreen("FXML/CustomizationPage.fxml");
+        GameState.getScreenManager().setStage(primaryStage);
+        GameState.getScreenManager().setScreen("FXML/CustomizationPage.fxml");
     }
 }

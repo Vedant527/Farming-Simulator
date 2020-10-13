@@ -1,4 +1,4 @@
-package FarmingSim;
+package farmsim;
 
 public abstract class UIUpdateable {
     private int index = 0;
@@ -8,15 +8,16 @@ public abstract class UIUpdateable {
     }
 
     public void initialize() {
-        boolean hasBeenInited = GameState.hasInited[this.index];
+        boolean hasBeenInited = GameState.getHasInited()[this.index];
         if (!hasBeenInited) {
             firstInit();
-            GameState.hasInited[this.index] = true;
+            GameState.setHasInited(this.index, true);
         } else {
             updateUI();
         }
     }
 
     public abstract void firstInit();
+
     public abstract void updateUI();
 }

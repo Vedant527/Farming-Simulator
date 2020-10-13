@@ -1,14 +1,9 @@
 
-package FarmingSim.Controllers;
-import FarmingSim.Plot;
-import FarmingSim.ScreenManager;
-import FarmingSim.GameState;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+package farmsim.Controllers;
+
+import farmsim.GameState;
+import farmsim.Plot;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
@@ -19,15 +14,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.testfx.api.FxAssert;
 import org.testfx.api.FxToolkit;
-
-import static FarmingSim.Controllers.FarmUIController.*;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
-import static org.testfx.matcher.control.TextMatchers.hasText;
-
 import org.testfx.framework.junit.ApplicationTest;
 
-public class FarmUIControllerTest extends ApplicationTest{
+public class FarmUIControllerTest extends ApplicationTest {
     @Before
     public void setUp() throws Exception {
     }
@@ -54,12 +43,12 @@ public class FarmUIControllerTest extends ApplicationTest{
     @Test
     public void testHarvest() {
         int i = 0;
-        for (; i < GameState.plots.length; i++){
-            if (GameState.plots[i].state == Plot.CropState.MATURE){
+        for (; i < GameState.getPlots().length; i++) {
+            if (GameState.getPlots(i).getState() == Plot.CropState.MATURE) {
                 break;
             }
         }
-        clickOn("#"+i);
+        clickOn("#" + i);
         FxAssert.verifyThat("#cornCropText", (Text t) -> {
             return (t.getText().equals("Corn: 1"));
         });
@@ -73,7 +62,7 @@ public class FarmUIControllerTest extends ApplicationTest{
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("FarmingSim");
-        GameState.screenManager.stage = primaryStage;
-        GameState.screenManager.setScreen("FXML/FarmUI.fxml");
+        GameState.getScreenManager().setStage(primaryStage);
+        GameState.getScreenManager().setScreen("FXML/FarmUI.fxml");
     }
 }

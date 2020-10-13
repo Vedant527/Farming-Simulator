@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="600.0" maxWidth="1000.0" minHeight="600.0" minWidth="1000.0" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FarmingSim.Controllers.MarketController">
+<VBox maxHeight="600.0" maxWidth="1000.0" minHeight="600.0" minWidth="1000.0" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="farmsim.Controllers.MarketController">
    <children>
       <HBox minHeight="80.0" minWidth="1000.0" prefHeight="80.0" prefWidth="1000.0">
          <children>
@@ -25,7 +25,7 @@
             </HBox>
             <HBox alignment="CENTER_RIGHT" prefHeight="80.0" prefWidth="2000.0">
                <children>
-                  <Button fx:id="farmButton" mnemonicParsing="false" onAction="#move_back" text="Go Farm!">
+                  <Button fx:id="farmButton" mnemonicParsing="false" onAction="#moveBack" text="Go Farm!">
                      <font>
                         <Font name="Constantia" size="30.0" />
                      </font>

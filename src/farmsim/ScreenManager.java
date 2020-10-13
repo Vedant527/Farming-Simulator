@@ -1,4 +1,4 @@
-package FarmingSim;
+package farmsim;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,19 +7,24 @@ import javafx.stage.Stage;
 
 
 public class ScreenManager {
-    public Stage stage;
+    private Stage stage;
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 
     public void setScreen(String pane) throws Exception {
         if (stage == null) {
             throw new IllegalStateException("No Stage Set");
         }
 
-        Parent next = null;
-
-
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource(pane));
-        next = loader.load();
+        Parent next = loader.load();
 
         Scene nextScene = new Scene(next);
 
