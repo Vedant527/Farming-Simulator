@@ -28,6 +28,7 @@ public class CustomizationPageControllerTest extends ApplicationTest{
 
     @Before
     public void setUp() throws Exception {
+        GameState.hasInited = new boolean[]{false, false, false, false};
     }
 
     @After
@@ -58,20 +59,16 @@ public class CustomizationPageControllerTest extends ApplicationTest{
     @Test
     public void testStoresCorrectDiff() {
         clickOn("#DIF");
-        type(KeyCode.DOWN);
         type(KeyCode.ENTER);
         FxAssert.verifyThat("#DIF", node -> difficulty.equals(((ChoiceBox) node).getValue()));
-        assertEquals(GameState.Difficulty.MEDIUM,difficulty);
+        assertEquals(GameState.Difficulty.EASY,difficulty);
     }
     @Test
     public void testStoresCorrectSeed() {
         clickOn("#SEEDTYPE");
-        type(KeyCode.DOWN);
-        type(KeyCode.DOWN);
-        type(KeyCode.DOWN);
         type(KeyCode.ENTER);
         FxAssert.verifyThat("#SEEDTYPE", node -> cropType.equals(((ChoiceBox) node).getValue()));
-        assertEquals(GameState.CropType.HEMP, cropType);
+        assertEquals(GameState.CropType.CORN, cropType);
     }
     @Test
     public void testStoresCorrectSeason() {
@@ -83,10 +80,11 @@ public class CustomizationPageControllerTest extends ApplicationTest{
     @Test
     public void testName() {
         clickOn("#NAME");
-        write("testname");
+        String tester = "testname";
+        write(tester);
         type(KeyCode.ENTER);
         sleep(500);
-        FxAssert.verifyThat("#NAME", node -> name.equals(((TextField) node).getText()));
+        FxAssert.verifyThat("#NAME", (TextField node) -> node.getText().equals(tester));
     }
     @Test
     public void testStartButton() {

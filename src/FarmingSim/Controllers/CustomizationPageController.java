@@ -87,7 +87,7 @@ public class CustomizationPageController extends UIUpdateable {
     }
 
     public void updatesSeed(ActionEvent e) {
-        cropType = (GameState.CropType) SEEDTYPE.getValue();
+        cropType = (GameState.CropType)L SEEDTYPE.getValue();
     }
 
     public void updatesSeason(ActionEvent e) {

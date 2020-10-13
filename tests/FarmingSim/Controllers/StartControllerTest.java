@@ -3,6 +3,7 @@ package FarmingSim.Controllers;
 import FarmingSim.GameState;
 import FarmingSim.ScreenManager;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -31,20 +32,18 @@ public class StartControllerTest extends ApplicationTest {
     }
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Start.fxml"));
-        GameState.screenManager.stage = primaryStage;
         primaryStage.setTitle("FarmingSim");
-        primaryStage.setScene(new Scene(root, 1000, 600));
-        primaryStage.show();
+        GameState.screenManager.stage = primaryStage;
+        GameState.screenManager.setScreen("FXML/Start.fxml");
         }
 
     @Test
     public void testWelcomeLabel(){
-        FxAssert.verifyThat("#startMessage", (Label l)-> l.getText().contains("This is the start") && l.isVisible());
+        FxAssert.verifyThat("#welcome", (Node l)-> l.isVisible());
     }
     @Test
     public void testSubmitButton() {
-        FxAssert.verifyThat("#move_on_button", (Button b) -> b.getText().contains("Submit") && b.isVisible());
+        FxAssert.verifyThat("#move_on_button", (Node l)-> l.isVisible());
     }
 
 }
