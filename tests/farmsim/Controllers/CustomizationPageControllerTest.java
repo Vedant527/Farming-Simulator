@@ -33,49 +33,53 @@ public class CustomizationPageControllerTest extends ApplicationTest {
 
     @Test
     public void testDiff() {
-        clickOn("#DIF");
-        FxAssert.verifyThat("#DIF", (ChoiceBox l) -> l.getItems().size() == 3 && l.isVisible());
+        clickOn("#diffBox");
+        FxAssert.verifyThat("#diffBox", (ChoiceBox l) -> {
+            return l.getItems().size() == 3 && l.isVisible();
+        });
     }
 
     @Test
     public void testSeason() {
-        clickOn("#SEASON");
-        FxAssert.verifyThat("#SEASON", (ChoiceBox l) -> l.getItems().size() == 4 && l.isVisible());
+        clickOn("#seasonBox");
+        FxAssert.verifyThat("#seasonBox", (ChoiceBox l) -> {
+            return l.getItems().size() == 4 && l.isVisible();
+        });
     }
 
     @Test
     public void testSeedType() {
-        clickOn("#SEEDTYPE");
-        FxAssert.verifyThat("#SEEDTYPE", (ChoiceBox l) -> {
+        clickOn("#seedBox");
+        FxAssert.verifyThat("#seedBox", (ChoiceBox l) -> {
             return l.getItems().size() == 4 && l.isVisible();
         });
     }
 
     @Test
     public void testStoresCorrectDiff() {
-        clickOn("#DIF");
+        clickOn("#diffBox");
         type(KeyCode.ENTER);
-        FxAssert.verifyThat("#DIF", node -> {
-            return GameState.getDifficulty().equals(((ChoiceBox) node).getValue());
+        FxAssert.verifyThat("#diffBox", (ChoiceBox node) -> {
+            return GameState.getDifficulty().equals(node.getValue());
         });
         assertEquals(GameState.Difficulty.EASY, GameState.getDifficulty());
     }
 
     @Test
     public void testStoresCorrectSeed() {
-        clickOn("#SEEDTYPE");
+        clickOn("#seedBox");
         type(KeyCode.ENTER);
-        FxAssert.verifyThat("#SEEDTYPE", node -> {
-            return GameState.getCropType().equals(((ChoiceBox) node).getValue());
+        FxAssert.verifyThat("#seedBox", (ChoiceBox node) -> {
+            return GameState.getCropType().equals(node.getValue());
         });
         assertEquals(GameState.CropType.CORN, GameState.getCropType());
     }
 
     @Test
     public void testStoresCorrectSeason() {
-        clickOn("#SEASON");
+        clickOn("#seasonBox");
         type(KeyCode.ENTER);
-        FxAssert.verifyThat("#SEASON", node -> {
+        FxAssert.verifyThat("#seasonBox", node -> {
             return GameState.getSeason().equals(((ChoiceBox) node).getValue());
         });
         assertEquals(GameState.Season.SPRING, GameState.getSeason());
@@ -83,17 +87,19 @@ public class CustomizationPageControllerTest extends ApplicationTest {
 
     @Test
     public void testName() {
-        clickOn("#NAME");
+        clickOn("#nameField");
         String tester = "testname";
         write(tester);
         type(KeyCode.ENTER);
         sleep(500);
-        FxAssert.verifyThat("#NAME", (TextField node) -> node.getText().equals(tester));
+        FxAssert.verifyThat("#nameField", (TextField node) -> {
+            return node.getText().equals(tester);
+        });
     }
 
     @Test
     public void testStartButton() {
-        FxAssert.verifyThat("#START", (Button b) -> b.isVisible());
+        FxAssert.verifyThat("#startButton", (Button b) -> b.isVisible());
     }
 
     @Override

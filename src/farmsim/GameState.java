@@ -16,9 +16,9 @@ public class GameState {
     private static Plot[] plots;
     private static int day;
     private static String name;
-    private static Difficulty difficulty;
-    private static Season season;
-    private static CropType cropType;
+    private static Difficulty difficulty = GameState.Difficulty.EASY;
+    private static Season season = GameState.Season.SPRING;
+    private static CropType cropType = GameState.CropType.CORN;
 
     public static UIUpdateable getStartController() {
         return startController;

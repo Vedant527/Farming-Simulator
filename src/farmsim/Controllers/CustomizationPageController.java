@@ -39,11 +39,6 @@ public class CustomizationPageController extends UIUpdateable {
         super(1);
     }
 
-    private static String name;
-    private static GameState.Difficulty difficulty = GameState.Difficulty.EASY;
-    private static GameState.Season season = GameState.Season.SPRING;
-    private static GameState.CropType cropType = GameState.CropType.CORN;
-
     private Alert a = new Alert(Alert.AlertType.NONE);
 
     @FXML
@@ -79,37 +74,33 @@ public class CustomizationPageController extends UIUpdateable {
     }
 
     public void updatesName(ActionEvent e) {
-        name = nameField.getText();
+        GameState.setName(nameField.getText());
     }
 
     public void updatesDifficulty(ActionEvent e) {
-        difficulty = (GameState.Difficulty) diffBox.getValue();
+        GameState.setDifficulty((GameState.Difficulty) diffBox.getValue());
     }
 
     public void updatesSeed(ActionEvent e) {
-        cropType = (GameState.CropType) seedBox.getValue();
+        GameState.setCropType((GameState.CropType) seedBox.getValue());
     }
 
     public void updatesSeason(ActionEvent e) {
-        season = (GameState.Season) seasonBox.getValue();
+        GameState.setSeason((GameState.Season) seasonBox.getValue());
     }
-
 
     public void moveOn(ActionEvent e) throws Exception {
         setFields();
-        //if name is bad don't let them pass
-        if (name.trim().equals("")) {
+        if (GameState.getName().trim().equals("")) {
             a.setAlertType(Alert.AlertType.WARNING);
             a.setContentText("No name has been entered");
             a.show();
             return;
         }
-        GameState.getInventory().setDefault(CustomizationPageController.cropType);
+        GameState.getInventory().setDefault(GameState.getCropType());
         GameState.getScreenManager().setScreen(
                 "FXML/FarmUI.fxml"
         );
-        //ScreenManager.getCurrentScene();
-        //ScreenManager.setScreen("Player");
     }
 
     @Override
