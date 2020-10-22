@@ -1,14 +1,33 @@
 package farmsim;
 
+//import com.sun.scenario.effect.Crop;
+
+//import java.util.Random;
+
+import com.sun.scenario.effect.Crop;
+
 import java.util.Random;
 
 public class Plot {
+    //current implementation: to clear a dead crop you must "harvest" it. it just wont increase
+    //your inventory
 
     private CropState state;
     private GameState.CropType cropType;
+    private int waterLevel;
+    private final int MAXWATER = 4;
+    private final int MINWATER = 1;
+
+    public int getWaterLevel() {
+        return this.waterLevel;
+    }
+
+    public void setWaterLevel(int waterLevel) {
+        this.waterLevel = waterLevel;
+    }
 
     public CropState getState() {
-        return state;
+        return this.state;
     }
 
     public void setState(CropState state) {
@@ -16,7 +35,7 @@ public class Plot {
     }
 
     public GameState.CropType getCropType() {
-        return cropType;
+        return this.cropType;
     }
 
     public void setCropType(GameState.CropType cropType) {
@@ -27,25 +46,73 @@ public class Plot {
         EMPTY, //no crop currently planted, this means available to plant
         SEED,
         IMMATURE,
-        MATURE;
+        MATURE,
+        DEAD;
     }
 
     public Plot() {
-        Random rand = new Random(); //instructions say have random maturity for this milestone
-        int var = rand.nextInt(4);
-        this.state = CropState.values()[var];
+        //Random rand = new Random(); //instructions say have random maturity for this milestone
+        //int var = rand.nextInt(4);
+        //this.state = CropState.values()[var];
+        this.state = CropState.EMPTY;
         this.cropType = GameState.getCropType();
+        this.waterLevel = 0;
     }
 
     public void plant(GameState.CropType cropType) {
-        state = CropState.SEED;
-        this.cropType = cropType;
+        if (this.state == CropState.EMPTY && GameState.getInventory().hasSeed(cropType)) {
+            this.state = CropState.SEED;
+            //we have to use gamestate's croptype so we can plant different types of plant
+            this.cropType = GameState.getCropType();
+            GameState.getInventory().decreaseSeedNum(cropType.ordinal());
+            this.waterLevel = 0;
+        }
+    }
+
+    public void grow() {
+        Random rand = new Random();
+        if (rand.nextFloat() < 0.8) {
+            return;
+        }
+        if (this.state != CropState.EMPTY && this.state != CropState.DEAD) {
+            //if bad water, kill it
+            if (!waterLevelSufficient()) {
+                state = CropState.DEAD;
+                return;
+            }
+            state = CropState.values()[(state.ordinal() + 1) % CropState.values().length];
+        }
+    }
+
+   public boolean waterLevelSufficient() {
+        return this.waterLevel <= MAXWATER && this.waterLevel >= MINWATER;
+    }
+
+    public void increaseWater() {
+        if (this.waterLevel + 1 > MAXWATER) {
+            this.state = CropState.DEAD;
+        }
+        this.waterLevel++;
+    }
+
+    public void decreaseWater() {
+        if (this.state != CropState.EMPTY) {
+            if (this.waterLevel - 1 < MINWATER) {
+                this.state = CropState.DEAD;
+            } else {
+                this.waterLevel--;
+            }
+        }
     }
 
     public void harvest() {
-        if (state == CropState.MATURE && !GameState.getInventory().isFull()) {
-            state = CropState.EMPTY;
+        if (this.state == CropState.MATURE && !GameState.getInventory().isFull()) {
+            this.state = CropState.EMPTY;
+            this.waterLevel = 0;
             GameState.getInventory().getCropNum()[cropType.ordinal()]++;
+        } else if (this.state == CropState.DEAD) {
+            this.state = CropState.EMPTY;
+            this.waterLevel = 0;
         }
     }
 

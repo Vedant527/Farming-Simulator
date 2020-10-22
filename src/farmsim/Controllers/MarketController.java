@@ -74,65 +74,7 @@ public class MarketController extends UIUpdateable {
                     i, GameState.getInventory().calculatePriceFromDifficulty(
                             GameState.getInventory().getCropPrices()[i]));
         }
-
-        buyCornButton.setText(
-                "$" + GameState.getInventory()
-                        .getSeedPrices()[GameState.CropType.CORN.ordinal()]);
-        sellCornButton.setText(
-                "$" + GameState.getInventory()
-                        .getCropPrices()[GameState.CropType.CORN.ordinal()]);
-        buyWheatButton.setText(
-                "$" + GameState.getInventory()
-                        .getSeedPrices()[GameState.CropType.WHEAT.ordinal()]);
-        sellWheatButton.setText(
-                "$" + GameState.getInventory()
-                        .getCropPrices()[GameState.CropType.WHEAT.ordinal()]);
-        buyTobaccoButton.setText(
-                "$" + GameState.getInventory()
-                        .getSeedPrices()[GameState.CropType.TOBACCO.ordinal()]);
-        sellTobaccoButton.setText(
-                "$" + GameState.getInventory()
-                        .getCropPrices()[GameState.CropType.TOBACCO.ordinal()]);
-        buyHempButton.setText(
-                "$" + GameState.getInventory()
-                        .getSeedPrices()[GameState.CropType.HEMP.ordinal()]);
-        sellHempButton.setText(
-                "$" + GameState.getInventory()
-                        .getCropPrices()[GameState.CropType.HEMP.ordinal()]);
-        moneyDisplay.setText(
-                "Money: $" + GameState.getInventory().getMoney());
-        dayMarketDisplay.setText("Day: 0");
-        seasonMarketDisplay.setText("Season: " + GameState.getSeason().toString());
-
-        maxSeedInventoryText.setText(
-                "Max GameState.getInventory(): " + GameState.getInventory().getMaxSeedInventory());
-        cornSeedText.setText(
-                "Corn: " + GameState.getInventory()
-                        .getSeedNum()[GameState.CropType.CORN.ordinal()]);
-        wheatSeedText.setText(
-                "Wheat: " + GameState.getInventory()
-                        .getSeedNum()[GameState.CropType.WHEAT.ordinal()]);
-        tobaccoSeedText.setText(
-                "Tobacco: " + GameState.getInventory()
-                        .getSeedNum()[GameState.CropType.TOBACCO.ordinal()]);
-        hempSeedText.setText(
-                "Hemp: " + GameState.getInventory()
-                        .getSeedNum()[GameState.CropType.HEMP.ordinal()]);
-
-        maxCropInventoryText.setText(
-                "Max GameState.getInventory(): " + GameState.getInventory().getMaxCropInventory());
-        cornCropText.setText(
-                "Corn: " + GameState.getInventory()
-                        .getCropNum()[GameState.CropType.CORN.ordinal()]);
-        wheatCropText.setText(
-                "Wheat: " + GameState.getInventory()
-                        .getCropNum()[GameState.CropType.WHEAT.ordinal()]);
-        tobaccoCropText.setText(
-                "Tobacco: " + GameState.getInventory()
-                        .getCropNum()[GameState.CropType.TOBACCO.ordinal()]);
-        hempCropText.setText(
-                "Hemp: " + GameState.getInventory()
-                        .getCropNum()[GameState.CropType.HEMP.ordinal()]);
+        setTexts();
     }
 
 
@@ -178,13 +120,18 @@ public class MarketController extends UIUpdateable {
 
 
     public void moveBack(ActionEvent e) throws Exception {
-        GameState.setDay(GameState.getDay() + 1);
+        GameState.incrementDay();
         GameState.getScreenManager().setScreen(
                 "FXML/FarmUI.fxml"
         );
     }
 
     public void updateUI() {
+        setTexts();
+    }
+
+    public void setTexts() {
+
         buyCornButton.setText(
                 "$" + GameState.getInventory().getSeedPrices()[GameState.CropType.CORN.ordinal()]
         );

@@ -121,6 +121,8 @@ public class GameState {
     }
 
 
+
+
     public enum Difficulty {
         EASY,
         MEDIUM,
@@ -143,5 +145,20 @@ public class GameState {
         public static int size() {
             return CropType.values().length;
         }
+    }
+
+    public static void incrementDay() {
+        day++;
+        if (day % 90 == 0) {
+            increaseSeason();
+        }
+        for (Plot plot : plots) {
+            plot.grow();
+            plot.decreaseWater();
+        }
+    }
+
+    public static void increaseSeason() {
+        season = Season.values()[(season.ordinal() + 1) % Season.values().length];
     }
 }

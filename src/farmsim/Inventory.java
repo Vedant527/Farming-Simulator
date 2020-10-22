@@ -29,6 +29,8 @@ public class Inventory {
         this.seedNum[indx] = seedNum;
     }
 
+    public void decreaseSeedNum(int idx) { this.seedNum[idx]--; }
+
     public int[] getSeedNum() {
         return seedNum;
     }
@@ -115,6 +117,16 @@ public class Inventory {
         if (cropNum[cropType.ordinal()] == 0) {
             a.setAlertType(Alert.AlertType.WARNING);
             a.setContentText("You don't have any " + cropType.name().toLowerCase() + "left!");
+            a.show();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean hasSeed(GameState.CropType cropType) {
+        if (seedNum[cropType.ordinal()] == 0) {
+            a.setAlertType(Alert.AlertType.WARNING);
+            a.setContentText("You don't have any " + cropType.name().toLowerCase() + "seeds left!");
             a.show();
             return false;
         }

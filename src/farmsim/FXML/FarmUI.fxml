@@ -114,6 +114,11 @@
                                 </Text>
                             </children>
                         </VBox>
+                        <Button onAction="#incrementDay" text="Done for the day!">
+                            <font>
+                                <Font name="Constantia" size="30.0"/>
+                            </font>
+                        </Button>
                     </children>
                     <HBox.margin>
                         <Insets left="10.0"/>
