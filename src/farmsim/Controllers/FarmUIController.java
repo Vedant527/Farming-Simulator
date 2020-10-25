@@ -3,10 +3,12 @@ package farmsim.Controllers;
 import farmsim.GameState;
 import farmsim.Plot;
 import farmsim.UIUpdateable;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -14,7 +16,7 @@ import javafx.scene.text.Text;
 public class FarmUIController extends UIUpdateable {
 
     private int clicks = 0;
-    private final int MAXCLICKS = 30;
+    private final int maxClicks = 30;
 
     @FXML
     private Text moneyDisplay;
@@ -37,6 +39,8 @@ public class FarmUIController extends UIUpdateable {
 
     @FXML
     private GridPane farmGrid;
+    @FXML
+    private ChoiceBox seedBox;
 
     @FXML
     private Text cornCropText;
@@ -56,7 +60,6 @@ public class FarmUIController extends UIUpdateable {
 
     @FXML
     public void firstInit() {
-        setTexts();
         Button[] gridChildren = farmGrid.getChildren().toArray(new Button[0]);
         GameState.setPlots(new Plot[gridChildren.length]);
         for (int i = 0; i < gridChildren.length; i++) {
@@ -68,18 +71,19 @@ public class FarmUIController extends UIUpdateable {
                     + GameState.getPlots(i).getWaterLevel());
             n.setOnMouseClicked((MouseEvent e) -> clickPlot(e));
         }
+        setTexts();
     }
 
     public void clickPlot(MouseEvent e) {
         //check if clicks big enough to increment day
         clicks++;
-        if (clicks % MAXCLICKS == 0) {
+        if (clicks % maxClicks == 0) {
             GameState.incrementDay();
         }
         Node ivm = (Node) e.getSource();
         int id = Integer.parseInt(ivm.getId());
-        if (GameState.getPlots(id).getState() == Plot.CropState.MATURE ||
-            GameState.getPlots(id).getState() == Plot.CropState.DEAD) {
+        if (GameState.getPlots(id).getState() == Plot.CropState.MATURE
+            || GameState.getPlots(id).getState() == Plot.CropState.DEAD) {
             harvest(e, id);
         } else if (GameState.getPlots(id).getState() == Plot.CropState.EMPTY) {
             plant(e, id);
@@ -101,6 +105,10 @@ public class FarmUIController extends UIUpdateable {
     public void harvest(MouseEvent e, int id) {
         GameState.getPlots(id).harvest();
         updateUI();
+    }
+
+    public void switchSeed(ActionEvent e) {
+        GameState.setCropType((GameState.CropType) seedBox.getValue());
     }
 
     @FXML
@@ -156,6 +164,9 @@ public class FarmUIController extends UIUpdateable {
 
         season.setText("Season: " + GameState.getSeason());
         dayDisplay.setText("Day: " + GameState.getDay());
+
+        seedBox.setItems(FXCollections.observableArrayList(GameState.CropType.values()));
+        seedBox.setValue(GameState.getCropType());
     }
 
     public void incrementDay(ActionEvent e) throws Exception {

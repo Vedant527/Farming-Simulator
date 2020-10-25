@@ -14,6 +14,7 @@ public class Inventory {
     private int[] cropNum = new int[GameState.CropType.size()];
     private int[] seedPrices = new int[]{2, 3, 10, 100}; // Base prices will be overwritten at init
     private int[] cropPrices = new int[]{10, 20, 50, 420};
+    private int[] startMoney = new int[]{500, 300, 100};
 
 
     private int money;
@@ -29,7 +30,9 @@ public class Inventory {
         this.seedNum[indx] = seedNum;
     }
 
-    public void decreaseSeedNum(int idx) { this.seedNum[idx]--; }
+    public void decreaseSeedNum(int idx) {
+        this.seedNum[idx]--;
+    }
 
     public int[] getSeedNum() {
         return seedNum;
@@ -89,8 +92,12 @@ public class Inventory {
             cropNum[i] = 0;
         }
         seedNum[type.ordinal()] = 10;
-        money = (new int[]{500, 300, 100})[type.ordinal()];
     }
+
+    public void setStartMoney(GameState.Difficulty diff) {
+        money = startMoney[diff.ordinal()];
+    }
+
     public boolean isFull() {
         int seedSum = 0;
         int cropSum = 0;
@@ -134,7 +141,7 @@ public class Inventory {
     }
 
     public boolean canBuy(GameState.CropType cropType) {
-        if (this.money - this.seedPrices[cropType.ordinal()] <= 0) {
+        if (this.money - this.seedPrices[cropType.ordinal()] < 0) {
             a.setAlertType(Alert.AlertType.WARNING);
             a.setContentText("You cannot afford this " + cropType.name().toLowerCase() + "!");
             a.show();
@@ -142,6 +149,7 @@ public class Inventory {
         }
         return true;
     }
+
     public int calculatePriceFromDifficulty(int basePrice) {
         //we get a difficulty multiplier and if it's spring, we add on an extra $5 bc high demand
         basePrice *= (new int[]{1, 2, 5})[GameState.getDifficulty().ordinal()];

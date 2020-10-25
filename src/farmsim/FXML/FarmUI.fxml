@@ -114,6 +114,12 @@
                                 </Text>
                             </children>
                         </VBox>
+                        <Text text="Selected Type:">
+                            <font>
+                                <Font name="Constantia" size="20.0"/>
+                            </font>
+                        </Text>
+                        <ChoiceBox fx:id="seedBox" prefWidth="150.0" onAction="#switchSeed"/>
                         <Button onAction="#incrementDay" text="Done for the day!">
                             <font>
                                 <Font name="Constantia" size="30.0"/>

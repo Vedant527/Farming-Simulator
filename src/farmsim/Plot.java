@@ -1,11 +1,5 @@
 package farmsim;
 
-//import com.sun.scenario.effect.Crop;
-
-//import java.util.Random;
-
-import com.sun.scenario.effect.Crop;
-
 import java.util.Random;
 
 public class Plot {
@@ -15,8 +9,9 @@ public class Plot {
     private CropState state;
     private GameState.CropType cropType;
     private int waterLevel;
-    private final int MAXWATER = 4;
-    private final int MINWATER = 1;
+    private final int maxWater = 4;
+    private final int minWater = 1;
+    private final double growChance = 0.5;
 
     public int getWaterLevel() {
         return this.waterLevel;
@@ -71,7 +66,7 @@ public class Plot {
 
     public void grow() {
         Random rand = new Random();
-        if (rand.nextFloat() < 0.8) {
+        if (rand.nextFloat() < (1 - growChance)) {
             return;
         }
         if (this.state != CropState.EMPTY && this.state != CropState.DEAD) {
@@ -84,12 +79,12 @@ public class Plot {
         }
     }
 
-   public boolean waterLevelSufficient() {
-        return this.waterLevel <= MAXWATER && this.waterLevel >= MINWATER;
+    public boolean waterLevelSufficient() {
+        return this.waterLevel <= maxWater && this.waterLevel >= minWater;
     }
 
     public void increaseWater() {
-        if (this.waterLevel + 1 > MAXWATER) {
+        if (this.waterLevel + 1 > maxWater) {
             this.state = CropState.DEAD;
         }
         this.waterLevel++;
@@ -97,7 +92,7 @@ public class Plot {
 
     public void decreaseWater() {
         if (this.state != CropState.EMPTY) {
-            if (this.waterLevel - 1 < MINWATER) {
+            if (this.waterLevel - 1 < minWater) {
                 this.state = CropState.DEAD;
             } else {
                 this.waterLevel--;

@@ -54,6 +54,7 @@ public class CustomizationPageController extends UIUpdateable {
         seasonBox.setValue(GameState.Season.values()[0]);
         diffBox.setValue(GameState.Difficulty.values()[0]);
         seedBox.setValue(GameState.CropType.values()[0]);
+        GameState.setCropType(GameState.CropType.values()[0]);
 
         Image img = new Image("farmsim/Resources/StartButton.png");
         ImageView startButton = new ImageView(img);
@@ -98,6 +99,7 @@ public class CustomizationPageController extends UIUpdateable {
             return;
         }
         GameState.getInventory().setDefault(GameState.getCropType());
+        GameState.getInventory().setStartMoney(GameState.getDifficulty());
         GameState.getScreenManager().setScreen(
                 "FXML/FarmUI.fxml"
         );

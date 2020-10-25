@@ -20,6 +20,8 @@ public class GameState {
     private static Season season = GameState.Season.SPRING;
     private static CropType cropType = GameState.CropType.CORN;
 
+    private static final int SEASON_CHANGE = 90;
+
     public static UIUpdateable getStartController() {
         return startController;
     }
@@ -149,7 +151,7 @@ public class GameState {
 
     public static void incrementDay() {
         day++;
-        if (day % 90 == 0) {
+        if (day % SEASON_CHANGE == 0) {
             increaseSeason();
         }
         for (Plot plot : plots) {

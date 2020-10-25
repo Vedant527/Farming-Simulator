@@ -131,7 +131,6 @@ public class MarketController extends UIUpdateable {
     }
 
     public void setTexts() {
-
         buyCornButton.setText(
                 "$" + GameState.getInventory().getSeedPrices()[GameState.CropType.CORN.ordinal()]
         );
@@ -154,11 +153,11 @@ public class MarketController extends UIUpdateable {
                 "$" + GameState.getInventory().getCropPrices()[GameState.CropType.HEMP.ordinal()]);
         moneyDisplay.setText(
                 "Money: $" + GameState.getInventory().getMoney());
-        dayMarketDisplay.setText("Day: 0");
+        dayMarketDisplay.setText("Day: " + GameState.getDay());
         seasonMarketDisplay.setText("Season: " + GameState.getSeason().toString());
 
         maxSeedInventoryText.setText(
-                "Max GameState.getInventory(): " + GameState.getInventory().getMaxSeedInventory());
+                "Max Inventory: " + GameState.getInventory().getMaxSeedInventory());
         cornSeedText.setText(
                 "Corn: " + GameState.getInventory()
                         .getSeedNum()[GameState.CropType.CORN.ordinal()]);
@@ -173,7 +172,7 @@ public class MarketController extends UIUpdateable {
                         .HEMP.ordinal()]);
 
         maxCropInventoryText.setText(
-                "Max GameState.getInventory(): " + GameState.getInventory().getMaxCropInventory());
+                "Max Inventory: " + GameState.getInventory().getMaxCropInventory());
         cornCropText.setText(
                 "Corn: " + GameState.getInventory()
                         .getCropNum()[GameState.CropType.CORN.ordinal()]);
