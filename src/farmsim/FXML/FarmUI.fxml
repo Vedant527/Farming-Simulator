@@ -120,7 +120,7 @@
                             </font>
                         </Text>
                         <ChoiceBox fx:id="seedBox" prefWidth="150.0" onAction="#switchSeed"/>
-                        <Button onAction="#incrementDay" text="Done for the day!">
+                        <Button fx:id="nextDayButton" onAction="#incrementDay" text="Done for the day!">
                             <font>
                                 <Font name="Constantia" size="30.0"/>
                             </font>

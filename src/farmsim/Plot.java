@@ -13,6 +13,15 @@ public class Plot {
     private final int minWater = 1;
     private final double growChance = 0.5;
 
+    public enum CropState {
+        EMPTY, //no crop currently planted, this means available to plant
+        SEED,
+        IMMATURE,
+        MATURE,
+        DEAD;
+    }
+
+
     public int getWaterLevel() {
         return this.waterLevel;
     }
@@ -37,12 +46,12 @@ public class Plot {
         this.cropType = cropType;
     }
 
-    public enum CropState {
-        EMPTY, //no crop currently planted, this means available to plant
-        SEED,
-        IMMATURE,
-        MATURE,
-        DEAD;
+    public CropState getCropState() {
+        return this.state;
+    }
+
+    public void setCropState(CropState s) {
+        this.state = s;
     }
 
     public Plot() {

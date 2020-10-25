@@ -4,6 +4,7 @@ package farmsim.Controllers;
 import farmsim.GameState;
 import farmsim.Plot;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
@@ -15,6 +16,8 @@ import org.junit.Test;
 import org.testfx.api.FxAssert;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
+
+import static org.junit.Assert.assertEquals;
 
 public class FarmUIControllerTest extends ApplicationTest {
     @Before
@@ -43,11 +46,7 @@ public class FarmUIControllerTest extends ApplicationTest {
     @Test
     public void testHarvest() {
         int i = 0;
-        for (; i < GameState.getPlots().length; i++) {
-            if (GameState.getPlots(i).getState() == Plot.CropState.MATURE) {
-                break;
-            }
-        }
+        GameState.getPlots(i).setCropState(Plot.CropState.MATURE);
         clickOn("#" + i);
         FxAssert.verifyThat("#cornCropText", (Text t) -> {
             return (t.getText().equals("Corn: 1"));
@@ -57,6 +56,54 @@ public class FarmUIControllerTest extends ApplicationTest {
     @Test
     public void testMarketButton() {
         FxAssert.verifyThat("#marketButton", (Button b) -> b.isVisible());
+    }
+
+    @Test
+    public void testSelectsType() {
+        clickOn("#seedBox");
+        FxAssert.verifyThat("#seedBox", (ChoiceBox l) -> {
+            return l.getItems().size() == 4 && l.isVisible();
+        });
+    }
+
+    @Test
+    public void testDay() {
+        clickOn("#nextDayButton");
+        type(KeyCode.ENTER);
+        assertEquals(1, GameState.getDay());
+    }
+
+    @Test
+    public void testChangeSeason() {
+        for (int i = 0; i < 100; i++) {
+            clickOn("#nextDayButton");
+            type(KeyCode.ENTER);
+        }
+        assertEquals(GameState.Season.SUMMER, GameState.getSeason());
+    }
+
+    @Test
+    public void testIncWater() {
+        int plot = 0;
+        GameState.setCropType(GameState.CropType.CORN);
+        GameState.getInventory().setSeedNum(0, 10);
+        for (int i = 0; i < 3; i++) {
+            clickOn("#" + plot);
+            type(KeyCode.ENTER);
+        }
+        assertEquals(2, GameState.getPlots(0).getWaterLevel());
+    }
+
+    @Test
+    public void testDead() {
+        int plot = 0;
+        GameState.setCropType(GameState.CropType.CORN);
+        GameState.getInventory().setSeedNum(0, 10);
+        for (int i = 0; i < 6; i++) {
+            clickOn("#" + plot);
+            type(KeyCode.ENTER);
+        }
+        assertEquals(Plot.CropState.DEAD, GameState.getPlots(plot).getCropState());
     }
 
     @Override
