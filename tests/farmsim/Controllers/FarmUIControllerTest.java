@@ -87,6 +87,7 @@ public class FarmUIControllerTest extends ApplicationTest {
         int plot = 0;
         GameState.setCropType(GameState.CropType.CORN);
         GameState.getInventory().setSeedNum(0, 10);
+        GameState.getPlots(plot).setCropState(Plot.CropState.EMPTY);
         for (int i = 0; i < 3; i++) {
             clickOn("#" + plot);
             type(KeyCode.ENTER);
@@ -99,6 +100,7 @@ public class FarmUIControllerTest extends ApplicationTest {
         int plot = 0;
         GameState.setCropType(GameState.CropType.CORN);
         GameState.getInventory().setSeedNum(0, 10);
+        GameState.getPlots(plot).setCropState(Plot.CropState.EMPTY);
         for (int i = 0; i < 6; i++) {
             clickOn("#" + plot);
             type(KeyCode.ENTER);

@@ -13,6 +13,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
+import java.util.Random;
+
 public class FarmUIController extends UIUpdateable {
 
     private int clicks = 0;
@@ -62,10 +64,14 @@ public class FarmUIController extends UIUpdateable {
     public void firstInit() {
         Button[] gridChildren = farmGrid.getChildren().toArray(new Button[0]);
         GameState.setPlots(new Plot[gridChildren.length]);
+        Random random = new Random();
         for (int i = 0; i < gridChildren.length; i++) {
             Button n = gridChildren[i];
             n.setId(Integer.toString(i));
             GameState.setPlots(i, new Plot());
+            Plot.CropState[] tmp = Plot.CropState.values();
+            Plot.CropState rand = tmp[random.nextInt(tmp.length)];
+            GameState.getPlots(i).setCropState(rand);
             n.setText(GameState.getPlots(i).getCropType().name().toLowerCase() + "\n"
                     + GameState.getPlots(i).getState().name().toLowerCase() + "\nWater:"
                     + GameState.getPlots(i).getWaterLevel());
