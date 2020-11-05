@@ -21,13 +21,25 @@ public class MarketController extends UIUpdateable {
     @FXML
     private Button buyHempButton;
     @FXML
-    private Button sellCornButton;
+    private Button buyPesticidesButton;
     @FXML
-    private Button sellWheatButton;
+    private Button buyFertilizerButton;
     @FXML
-    private Button sellTobaccoButton;
+    private Button sellOrganicCornButton;
     @FXML
-    private Button sellHempButton;
+    private Button sellOrganicWheatButton;
+    @FXML
+    private Button sellOrganicTobaccoButton;
+    @FXML
+    private Button sellOrganicHempButton;
+    @FXML
+    private Button sellPesticideCornButton;
+    @FXML
+    private Button sellPesticideWheatButton;
+    @FXML
+    private Button sellPesticideTobaccoButton;
+    @FXML
+    private Button sellPesticideHempButton;
 
     @FXML
     private Text dayMarketDisplay;
@@ -51,6 +63,11 @@ public class MarketController extends UIUpdateable {
     private GridPane farmGrid;
 
     @FXML
+    private Text pesticideText;
+    @FXML
+    private Text fertilizerText;
+
+    @FXML
     private Text cornCropText;
     @FXML
     private Text wheatCropText;
@@ -60,6 +77,23 @@ public class MarketController extends UIUpdateable {
     private Text hempCropText;
     @FXML
     private Text maxCropInventoryText;
+
+    @FXML
+    private Text organicCornText;
+    @FXML
+    private Text pesticideCornText;
+    @FXML
+    private Text organicWheatText;
+    @FXML
+    private Text pesticideWheatText;
+    @FXML
+    private Text organicTobaccoText;
+    @FXML
+    private Text pesticideTobaccoText;
+    @FXML
+    private Text organicHempText;
+    @FXML
+    private Text pesticideHempText;
 
     public MarketController() {
         super(3);
@@ -74,6 +108,12 @@ public class MarketController extends UIUpdateable {
                     i, GameState.getInventory().calculatePriceFromDifficulty(
                             GameState.getInventory().getCropPrices()[i]));
         }
+        GameState.getInventory().setFertilizerPrice(
+                GameState.getInventory().calculatePriceFromDifficulty(
+                        GameState.getInventory().getFertilizerPrice()));
+        GameState.getInventory().setPesticidePrice(
+                GameState.getInventory().calculatePriceFromDifficulty(
+                        GameState.getInventory().getPesticidePrice()));
         setTexts();
     }
 
@@ -98,23 +138,53 @@ public class MarketController extends UIUpdateable {
         updateUI();
     }
 
-    public void sellCorn() {
-        GameState.getInventory().sellImpl(GameState.CropType.CORN);
+    public void buyFertilizer() {
+        GameState.getInventory().buyFert();
         updateUI();
     }
 
-    public void sellWheat() {
-        GameState.getInventory().sellImpl(GameState.CropType.WHEAT);
+    public void buyPesticides() {
+        GameState.getInventory().buyPest();
         updateUI();
     }
 
-    public void sellTobacco() {
-        GameState.getInventory().sellImpl(GameState.CropType.TOBACCO);
+    public void sellOrganicCorn() {
+        GameState.getInventory().sellImpl(GameState.CropType.CORN, true);
         updateUI();
     }
 
-    public void sellHemp() {
-        GameState.getInventory().sellImpl(GameState.CropType.HEMP);
+    public void sellOrganicWheat() {
+        GameState.getInventory().sellImpl(GameState.CropType.WHEAT, true);
+        updateUI();
+    }
+
+    public void sellOrganicTobacco() {
+        GameState.getInventory().sellImpl(GameState.CropType.TOBACCO, true);
+        updateUI();
+    }
+
+    public void sellOrganicHemp() {
+        GameState.getInventory().sellImpl(GameState.CropType.HEMP, true);
+        updateUI();
+    }
+
+    public void sellPesticideCorn() {
+        GameState.getInventory().sellImpl(GameState.CropType.CORN, false);
+        updateUI();
+    }
+
+    public void sellPesticideWheat() {
+        GameState.getInventory().sellImpl(GameState.CropType.WHEAT, false);
+        updateUI();
+    }
+
+    public void sellPesticideTobacco() {
+        GameState.getInventory().sellImpl(GameState.CropType.TOBACCO, false);
+        updateUI();
+    }
+
+    public void sellPesticideHemp() {
+        GameState.getInventory().sellImpl(GameState.CropType.HEMP, false);
         updateUI();
     }
 
@@ -132,30 +202,45 @@ public class MarketController extends UIUpdateable {
 
     public void setTexts() {
         buyCornButton.setText(
-                "$" + GameState.getInventory().getSeedPrices()[GameState.CropType.CORN.ordinal()]
-        );
-        sellCornButton.setText(
-                "$" + GameState.getInventory().getCropPrices()[GameState.CropType.CORN.ordinal()]
-        );
+                "$" + GameState.getInventory().getSeedPrices()[GameState.CropType.CORN.ordinal()]);
         buyWheatButton.setText(
                 "$" + GameState.getInventory().getSeedPrices()[GameState.CropType.WHEAT.ordinal()]);
-        sellWheatButton.setText(
-                "$" + GameState.getInventory().getCropPrices()[GameState.CropType.WHEAT.ordinal()]);
         buyTobaccoButton.setText(
                 "$" + GameState.getInventory()
                         .getSeedPrices()[GameState.CropType.TOBACCO.ordinal()]);
-        sellTobaccoButton.setText(
-                "$" + GameState.getInventory()
-                        .getCropPrices()[GameState.CropType.TOBACCO.ordinal()]);
         buyHempButton.setText(
                 "$" + GameState.getInventory().getSeedPrices()[GameState.CropType.HEMP.ordinal()]);
-        sellHempButton.setText(
-                "$" + GameState.getInventory().getCropPrices()[GameState.CropType.HEMP.ordinal()]);
+        buyPesticidesButton.setText("$" + GameState.getInventory().getPesticidePrice());
+        buyFertilizerButton.setText("$" + GameState.getInventory().getFertilizerPrice());
         moneyDisplay.setText(
                 "Money: $" + GameState.getInventory().getMoney());
         dayMarketDisplay.setText("Day: " + GameState.getDay());
         seasonMarketDisplay.setText("Season: " + GameState.getSeason().toString());
 
+
+        sellOrganicCornButton.setText(
+                "$" + GameState.getInventory().getCropPrices()[GameState.CropType.CORN.ordinal()]);
+        sellPesticideCornButton.setText(
+                "$" + String.valueOf(GameState.getInventory().getCropPrices()
+                        [GameState.CropType.CORN.ordinal()] - 5));
+        sellOrganicWheatButton.setText(
+                "$" + GameState.getInventory().getCropPrices()[GameState.CropType.WHEAT.ordinal()]);
+        sellPesticideWheatButton.setText(
+                "$" + String.valueOf(GameState.getInventory().getCropPrices()
+                        [GameState.CropType.WHEAT.ordinal()] - 5));
+        sellOrganicTobaccoButton.setText(
+                "$" + GameState.getInventory()
+                        .getCropPrices()[GameState.CropType.TOBACCO.ordinal()]);
+        sellPesticideTobaccoButton.setText(
+                "$" + String.valueOf(GameState.getInventory().getCropPrices()
+                        [GameState.CropType.TOBACCO.ordinal()] - 5));
+        sellOrganicHempButton.setText(
+                "$" + GameState.getInventory().getCropPrices()[GameState.CropType.HEMP.ordinal()]);
+        sellPesticideHempButton.setText(
+                "$" + String.valueOf(GameState.getInventory().getCropPrices()
+                        [GameState.CropType.HEMP.ordinal()] - 5));
+
+        //inventory texts
         maxSeedInventoryText.setText(
                 "Max Inventory: " + GameState.getInventory().getMaxSeedInventory());
         cornSeedText.setText(
@@ -168,22 +253,33 @@ public class MarketController extends UIUpdateable {
                 "Tobacco: " + GameState.getInventory()
                         .getSeedNum()[GameState.CropType.TOBACCO.ordinal()]);
         hempSeedText.setText(
-                "Hemp: " + GameState.getInventory().getSeedNum()[GameState.CropType
-                        .HEMP.ordinal()]);
+                "Hemp: " + GameState.getInventory()
+                        .getSeedNum()[GameState.CropType.HEMP.ordinal()]);
 
         maxCropInventoryText.setText(
                 "Max Inventory: " + GameState.getInventory().getMaxCropInventory());
-        cornCropText.setText(
-                "Corn: " + GameState.getInventory()
-                        .getCropNum()[GameState.CropType.CORN.ordinal()]);
-        wheatCropText.setText(
-                "Wheat: " + GameState.getInventory()
-                        .getCropNum()[GameState.CropType.WHEAT.ordinal()]);
-        tobaccoCropText.setText(
-                "Tobacco: " + GameState.getInventory()
-                        .getCropNum()[GameState.CropType.TOBACCO.ordinal()]);
-        hempCropText.setText(
-                "Hemp: " + GameState.getInventory()
-                        .getCropNum()[GameState.CropType.HEMP.ordinal()]);
+        cornCropText.setText("Corn: ");
+        wheatCropText.setText("Wheat: ");
+        tobaccoCropText.setText("Tobacco: ");
+        hempCropText.setText("Hemp: ");
+        organicCornText.setText(String.valueOf(GameState.getInventory().
+                getOrganicCropNum()[GameState.CropType.CORN.ordinal()]));
+        organicWheatText.setText(String.valueOf(GameState.getInventory()
+                .getOrganicCropNum()[GameState.CropType.WHEAT.ordinal()]));
+        organicTobaccoText.setText(String.valueOf(GameState.getInventory()
+                .getOrganicCropNum()[GameState.CropType.TOBACCO.ordinal()]));
+        organicHempText.setText(String.valueOf(GameState.getInventory()
+                .getOrganicCropNum()[GameState.CropType.HEMP.ordinal()]));
+        pesticideCornText.setText(String.valueOf(GameState.getInventory().
+                getPesticideCropNum()[GameState.CropType.CORN.ordinal()]));
+        pesticideWheatText.setText(String.valueOf(GameState.getInventory().
+                getPesticideCropNum()[GameState.CropType.WHEAT.ordinal()]));
+        pesticideTobaccoText.setText(String.valueOf(GameState.getInventory().
+                getPesticideCropNum()[GameState.CropType.TOBACCO.ordinal()]));
+        pesticideHempText.setText(String.valueOf(GameState.getInventory().
+                getPesticideCropNum()[GameState.CropType.HEMP.ordinal()]));
+
+        pesticideText.setText("Pesticides: " + GameState.getInventory().getPesticideNum());
+        fertilizerText.setText("Fertilizer: " + GameState.getInventory().getFertilizerNum());
     }
 }

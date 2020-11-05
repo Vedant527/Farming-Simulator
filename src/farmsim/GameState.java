@@ -19,6 +19,7 @@ public class GameState {
     private static Difficulty difficulty = GameState.Difficulty.EASY;
     private static Season season = GameState.Season.SPRING;
     private static CropType cropType = GameState.CropType.CORN;
+    private static Plot currPlot;
 
     private static final int SEASON_CHANGE = 90;
 
@@ -30,6 +31,13 @@ public class GameState {
         return customizationPageController;
     }
 
+    public static Plot getCurrPlot() {
+        return currPlot;
+    }
+
+    public static void setCurrPlot(Plot currPlot) {
+        GameState.currPlot = currPlot;
+    }
     public static UIUpdateable getFarmUIController() {
         return farmUIController;
     }
@@ -157,6 +165,7 @@ public class GameState {
         for (Plot plot : plots) {
             plot.grow();
             plot.decreaseWater();
+            plot.decreaseFertilizerLevel();
         }
     }
 

@@ -40,7 +40,7 @@
                               <Insets top="10.0" />
                            </VBox.margin>
                         </Text>
-                        <ChoiceBox prefWidth="150.0" />
+                        <ChoiceBox fx:id="seedBox" prefWidth="150.0" onAction="#switchSeed"/>
                      </children>
                      <HBox.margin>
                         <Insets right="10.0" />
@@ -121,12 +121,12 @@
                                               <Font name="Constantia" size="16.0" />
                                           </font>
                                       </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pesticide:" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <Text fx:id="pesticideText" strokeType="OUTSIDE" strokeWidth="0.0" text="Pesticide:" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <font>
                                     <Font name="Constantia" size="16.0" />
                                  </font>
                               </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Fertilizer: " GridPane.columnIndex="1" GridPane.rowIndex="2">
+                              <Text fx:id="fertilizerText" strokeType="OUTSIDE" strokeWidth="0.0" text="Fertilizer: " GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <font>
                                     <Font name="Constantia" size="16.0" />
                                  </font>
@@ -204,14 +204,14 @@
                               <Insets top="2.0" />
                            </GridPane.margin>
                         </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        <Text fx:id="organicCornText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Text fx:id="pesticideCornText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <Text fx:id="organicWheatText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Text fx:id="pesticideWheatText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <Text fx:id="organicTobaccoText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Text fx:id="pesticideTobaccoText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <Text fx:id="organicHempText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Text fx:id="pesticideHempText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                      </children>
                   </GridPane>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Current Plot">
@@ -231,7 +231,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="200.0" text="Water!" GridPane.rowIndex="2">
+                        <Button fx:id="waterButton" mnemonicParsing="false" prefHeight="100.0" prefWidth="200.0" text="Water!" onAction="#water" GridPane.rowIndex="2">
                            <padding>
                               <Insets right="10.0" />
                            </padding>
@@ -242,7 +242,7 @@
                               <Font name="Constantia" size="12.0" />
                            </font>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="200.0" text="Fertilize!" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <Button fx:id="fertilizeButton" mnemonicParsing="false" prefHeight="100.0" prefWidth="200.0" text="Fertilize!" onAction="#fertilize" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <GridPane.margin>
                               <Insets left="5.0" right="5.0" />
                            </GridPane.margin>
@@ -250,7 +250,7 @@
                               <Font name="Constantia" size="12.0" />
                            </font>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="200.0" text="Pesticide!" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                        <Button fx:id="pesticideButton" mnemonicParsing="false" prefHeight="100.0" prefWidth="200.0" text="Pesticide!" onAction="#pesticide" GridPane.columnIndex="2" GridPane.rowIndex="2">
                            <GridPane.margin>
                               <Insets left="5.0" />
                            </GridPane.margin>
@@ -258,36 +258,45 @@
                               <Font name="Constantia" size="12.0" />
                            </font>
                         </Button>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Water: " GridPane.rowIndex="1">
+                        <Text fx:id="waterText" strokeType="OUTSIDE" strokeWidth="0.0" text="Water: " GridPane.rowIndex="1">
                            <font>
                               <Font name="Constantia" size="16.0" />
                            </font>
                         </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Fertilizer:" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Text fx:id="fertilizerLevelText" strokeType="OUTSIDE" strokeWidth="0.0" text="Fertilizer: " GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <font>
                               <Font name="Constantia" size="16.0" />
                            </font>
                         </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pesticide: None" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                        <Text fx:id="pesticideLevelText" strokeType="OUTSIDE" strokeWidth="0.0" text="Pesticide: " GridPane.columnIndex="2" GridPane.rowIndex="1">
                            <font>
                               <Font name="Constantia" size="16.0" />
                            </font>
                         </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Crop: Tobacco ">
+                        <Text fx:id="cropTypeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Crop:  ">
                            <font>
                               <Font name="Constantia" size="16.0" />
                            </font>
                         </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Age: Immature " GridPane.columnIndex="1">
+                        <Text fx:id="cropStateText" strokeType="OUTSIDE" strokeWidth="0.0" text="Age: " GridPane.columnIndex="1">
                            <font>
                               <Font name="Constantia" size="16.0" />
                            </font>
                         </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Status: " GridPane.columnIndex="2">
+                         <!--
+                        <Button fx:id="harvestButton" mnemonicParsing="false" prefHeight="100.0" prefWidth="200.0" text="Harvest!" GridPane.columnIndex="2">
                            <font>
                               <Font name="Constantia" size="16.0" />
                            </font>
-                        </Text>
+                        </Button>
+                        -->
+                         <!--
+                         <Text fx:id="cropIndexText" strokeType="OUTSIDE" strokeWidth="0.0" text="Index: " GridPane.columnIndex="2">
+                             <font>
+                                 <Font name="Constantia" size="16.0" />
+                             </font>
+                         </Text>
+                         -->
                      </children>
                   </GridPane>
                     </children>

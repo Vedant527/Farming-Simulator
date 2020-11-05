@@ -30,10 +30,10 @@ public class MarketControllerTest extends ApplicationTest {
     @Test
     public void testSellNoCrops() {
         GameState.getInventory().setMoney(0);
-        GameState.getInventory().setCropNum(0, 0);
+        GameState.getInventory().setOrganicCropNum(0, 0);
         clickOn("#sellCornButton");
         FxAssert.verifyThat("#moneyDisplay", (Text t) -> {
-            return t.getText().equals("Money: $0") && GameState.getInventory().getCropNum()[0] == 0
+            return t.getText().equals("Money: $0") && GameState.getInventory().getOrganicCropNum()[0] == 0
                     && GameState.getInventory().getMoney() == 0;
         });
     }
