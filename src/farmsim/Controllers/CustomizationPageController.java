@@ -100,6 +100,7 @@ public class CustomizationPageController extends UIUpdateable {
         }
         GameState.getInventory().setDefault(GameState.getCropType());
         GameState.getInventory().setStartMoney(GameState.getDifficulty());
+        GameState.getInventory().calcPrices();
         GameState.getScreenManager().setScreen(
                 "FXML/FarmUI.fxml"
         );

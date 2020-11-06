@@ -6,12 +6,6 @@ import farmsim.Controllers.MarketController;
 import farmsim.Controllers.StartController;
 
 public class GameState {
-    private static UIUpdateable startController = new StartController();
-    private static UIUpdateable customizationPageController = new CustomizationPageController();
-    private static UIUpdateable farmUIController = new FarmUIController();
-    private static UIUpdateable marketController = new MarketController();
-    private static ScreenManager screenManager = new ScreenManager();
-    private static Inventory inventory = new Inventory();
     private static boolean[] hasInited = {false, false, false, false};
     private static Plot[] plots;
     private static int day;
@@ -21,7 +15,54 @@ public class GameState {
     private static CropType cropType = GameState.CropType.CORN;
     private static Plot currPlot;
 
+    private static UIUpdateable startController = new StartController();
+    private static UIUpdateable customizationPageController = new CustomizationPageController();
+    private static UIUpdateable farmUIController = new FarmUIController();
+    private static UIUpdateable marketController = new MarketController();
+    private static ScreenManager screenManager = new ScreenManager();
+    private static Inventory inventory = new Inventory();
+
     private static final int SEASON_CHANGE = 90;
+
+    public enum Difficulty {
+        EASY,
+        MEDIUM,
+        HARD;
+    }
+
+    public enum Season {
+        SPRING,
+        SUMMER,
+        FALL,
+        WINTER;
+    }
+
+    public enum CropType {
+        CORN,
+        WHEAT,
+        TOBACCO,
+        HEMP;
+
+        public static int size() {
+            return CropType.values().length;
+        }
+    }
+
+    public static void incrementDay() {
+        day++;
+        if (day % SEASON_CHANGE == 0) {
+            increaseSeason();
+        }
+        for (Plot plot : plots) {
+            plot.grow();
+            plot.decreaseWater();
+            plot.decreaseFertilizerLevel();
+        }
+    }
+
+    public static void increaseSeason() {
+        season = Season.values()[(season.ordinal() + 1) % Season.values().length];
+    }
 
     public static UIUpdateable getStartController() {
         return startController;
@@ -30,6 +71,12 @@ public class GameState {
     public static UIUpdateable getCustomizationPageController() {
         return customizationPageController;
     }
+
+/*
+----------------------------------------------------------------------------------------------------
+VARIABLE GETTERS AND SETTERS
+----------------------------------------------------------------------------------------------------
+*/
 
     public static Plot getCurrPlot() {
         return currPlot;
@@ -130,46 +177,4 @@ public class GameState {
         GameState.cropType = cropType;
     }
 
-
-
-
-    public enum Difficulty {
-        EASY,
-        MEDIUM,
-        HARD;
-    }
-
-    public enum Season {
-        SPRING,
-        SUMMER,
-        FALL,
-        WINTER;
-    }
-
-    public enum CropType {
-        CORN,
-        WHEAT,
-        TOBACCO,
-        HEMP;
-
-        public static int size() {
-            return CropType.values().length;
-        }
-    }
-
-    public static void incrementDay() {
-        day++;
-        if (day % SEASON_CHANGE == 0) {
-            increaseSeason();
-        }
-        for (Plot plot : plots) {
-            plot.grow();
-            plot.decreaseWater();
-            plot.decreaseFertilizerLevel();
-        }
-    }
-
-    public static void increaseSeason() {
-        season = Season.values()[(season.ordinal() + 1) % Season.values().length];
-    }
 }

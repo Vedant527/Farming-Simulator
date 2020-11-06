@@ -362,7 +362,7 @@
             <children>
                 <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="2000.0">
                     <children>
-                  <Button minWidth="300.0" onAction="#incrementDay" prefWidth="1000.0" text="Done for the day!">
+                  <Button fx:id="nextDayButton" minWidth="300.0" onAction="#incrementDay" prefWidth="1000.0" text="Done for the day!">
                      <font>
                         <Font name="Constantia" size="30.0" />
                      </font>

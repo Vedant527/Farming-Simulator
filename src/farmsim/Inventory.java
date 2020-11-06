@@ -2,6 +2,8 @@ package farmsim;
 
 import javafx.scene.control.Alert;
 
+import java.util.HashMap;
+
 
 public class Inventory {
     /* ORDER of indices
@@ -11,26 +13,185 @@ public class Inventory {
     3 = Tobacco
     */
     private int[] seedNum = new int[GameState.CropType.size()];
-    private int[] organicCropNum = new int[GameState.CropType.size()];
-    private int[] pesticideCropNum = new int[GameState.CropType.size()];
+    //private int[] organicCropNum = new int[GameState.CropType.size()];
+    //private int[] pesticideCropNum = new int[GameState.CropType.size()];
     private int pesticideNum = 0;
     private int pesticidePrice = 1;
     private int fertilizerNum = 0;
     private int fertilizerPrice = 1;
     private int[] seedPrices = new int[]{2, 3, 10, 100}; // Base prices will be overwritten at init
     private int[] cropPrices = new int[]{10, 20, 50, 420};
-    private int[] startMoney = new int[]{500, 300, 100};
+    private final int[] startMoney = new int[]{500, 300, 100};
 
-
+    private HashMap<Crop, Integer> crops = new HashMap<Crop, Integer>();
     private int money;
-
 
     private Alert a = new Alert(Alert.AlertType.NONE);
 
     //at a later date we can make these changeable with adding inventory space or something
     private int maxSeedInventory = 100;
     private int maxCropInventory = 100;
+    private int pestReduction = 5;
 
+    public Inventory() {
+        for (int i = 0; i < (Crop.State.values().length - 1); i++) {
+            GameState.CropType typ = GameState.CropType.values()[i];
+            this.crops.put(new Crop(typ, Crop.State.EMPTY, true), 0);
+            this.crops.put(new Crop(typ, Crop.State.EMPTY, false), 0);
+        }
+    }
+
+    public void calcPrices() {
+        for (int i = 0; i < (this.seedPrices.length - 1); i++) {
+            this.seedPrices[i] = calculatePriceFromDifficulty(this.seedPrices[i]);
+            this.cropPrices[i] = calculatePriceFromDifficulty(this.cropPrices[i]);
+        }
+        this.fertilizerPrice = calculatePriceFromDifficulty(this.fertilizerPrice);
+        this.pesticideNum = calculatePriceFromDifficulty(this.pesticidePrice);
+    }
+
+    public void setDefault(GameState.CropType type) {
+        for (int i = 0; i < GameState.CropType.size(); i++) {
+            seedNum[i] = 0;
+        }
+        seedNum[type.ordinal()] = 10;
+    }
+
+    public void setStartMoney(GameState.Difficulty diff) {
+        money = startMoney[diff.ordinal()];
+    }
+
+    public boolean isFull() {
+        int seedSum = 0;
+        for (int i = 0; i < GameState.CropType.size(); i++) {
+            seedSum += this.seedNum[i];
+        }
+        if (seedSum >= this.maxSeedInventory) {
+            a.setAlertType(Alert.AlertType.WARNING);
+            a.setContentText("Max Seed GameState.getInventory() Reached!");
+            a.show();
+            return true;
+        }
+        if (this.size() >= this.maxCropInventory) {
+            a.setAlertType(Alert.AlertType.WARNING);
+            a.setContentText("Max Crop GameState.getInventory() Reached!");
+            a.show();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean hasCrop(GameState.CropType cropType, boolean isOrganic) {
+        Crop tmp = new Crop(cropType, isOrganic);
+        return this.hasCrop(tmp);
+    }
+
+    public boolean hasCrop(Crop c) {
+        if (this.crops.get(c) == 0) {
+            a.setAlertType(Alert.AlertType.WARNING);
+            a.setContentText("You don't have any " + c + " left!");
+            a.show();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean hasSeed(GameState.CropType cropType) {
+        if (seedNum[cropType.ordinal()] == 0) {
+            a.setAlertType(Alert.AlertType.WARNING);
+            a.setContentText("You don't have any " + cropType.name().toLowerCase() + "seeds left!");
+            a.show();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean canBuy(GameState.CropType cropType) {
+        if (this.money - this.seedPrices[cropType.ordinal()] < 0) {
+            a.setAlertType(Alert.AlertType.WARNING);
+            a.setContentText("You cannot afford this " + cropType.name().toLowerCase() + "!");
+            a.show();
+            return false;
+        }
+        return true;
+    }
+
+    public int calculatePriceFromDifficulty(int basePrice) {
+        //we get a difficulty multiplier and if it's spring, we add on an extra $5 bc high demand
+        basePrice *= (new int[]{1, 2, 5})[GameState.getDifficulty().ordinal()];
+        basePrice += (GameState.getSeason().ordinal() == 0) ? 5 : 0;
+        return basePrice;
+    }
+
+    public void buyImpl(GameState.CropType cropType) {
+        if (this.isFull() || !this.canBuy(cropType)) {
+            return;
+        }
+        this.seedNum[cropType.ordinal()]++;
+        this.money -= this.seedPrices[cropType.ordinal()];
+    }
+
+    public void sellImpl(GameState.CropType t, boolean org) {
+        Crop tmp = new Crop(t, org);
+        this.sellImpl(tmp);
+    }
+
+    public void sellImpl(Crop c) {
+        if (getCropNum(c) != 0) {
+            return;
+        }
+
+        this.add(c, -1);
+        this.money += c.price(this.cropPrices);
+    }
+
+    public void buyPest() {
+        if (this.money >= pesticidePrice) {
+            this.money -= pesticidePrice;
+            pesticideNum++;
+        }
+    }
+    public void buyFert() {
+        if (this.money >= fertilizerPrice) {
+            this.money -= fertilizerPrice;
+            fertilizerNum++;
+        }
+    }
+
+    public void move(Crop c) {
+        this.add(c, -1);
+        c.setOrganic(false);
+        this.add(c, 1);
+    }
+
+    public void add(Crop c, int val) {
+        this.crops.replace(c, this.crops.get(c) + val);
+    }
+
+    public int size() {
+        return this.crops.values().stream().reduce(0, (Integer x, Integer y) -> {
+            return y + x;
+        });
+    }
+
+    public int get(GameState.CropType t, boolean o) {
+        Crop tmp = new Crop(t, o);
+        return this.get(tmp);
+    }
+
+    public int get(Crop c) {
+        return this.crops.get(c);
+    }
+
+/*
+----------------------------------------------------------------------------------------------------
+VARIABLE GETTERS AND SETTERS
+----------------------------------------------------------------------------------------------------
+*/
+
+    public int getCropNum(Crop c) {
+        return this.crops.get(c);
+    }
 
     public int getPesticideNum() {
         return pesticideNum;
@@ -74,6 +235,7 @@ public class Inventory {
     public void setFertilizerPrice(int fertilizerPrice) {
         this.fertilizerPrice = fertilizerPrice;
     }
+
     public void setSeedNum(int indx, int seedNum) {
         this.seedNum[indx] = seedNum;
     }
@@ -86,32 +248,16 @@ public class Inventory {
         return seedNum;
     }
 
-    public void setOrganicCropNum(int indx, int cropNum) {
-        this.organicCropNum[indx] = cropNum;
-    }
-
-    public int[] getOrganicCropNum() {
-        return organicCropNum;
-    }
-
-    public void setPesticideCropNum(int idx, int cropNum) { this.pesticideCropNum[idx] = cropNum; }
-
-    public int[] getPesticideCropNum() { return pesticideCropNum; }
-
-    public void setCropPrices(int indx, int cropPrices) {
-        this.cropPrices[indx] = cropPrices;
-    }
-
-    public int[] getCropPrices() {
-        return cropPrices;
-    }
-
     public void setSeedPrices(int indx, int seedPrices) {
         this.seedPrices[indx] = seedPrices;
     }
 
     public int[] getSeedPrices() {
         return seedPrices;
+    }
+
+    public int[] getCropPrices() {
+        return cropPrices;
     }
 
     public int getMaxCropInventory() {
@@ -136,121 +282,5 @@ public class Inventory {
 
     public void setMoney(int money) {
         this.money = money;
-    }
-
-    public void setDefault(GameState.CropType type) {
-        for (int i = 0; i < GameState.CropType.size(); i++) {
-            seedNum[i] = 0;
-            organicCropNum[i] = 0;
-        }
-        seedNum[type.ordinal()] = 10;
-    }
-
-    public void setStartMoney(GameState.Difficulty diff) {
-        money = startMoney[diff.ordinal()];
-    }
-
-    public boolean isFull() {
-        int seedSum = 0;
-        int cropSum = 0;
-        for (int i = 0; i < GameState.CropType.size(); i++) {
-            seedSum += this.seedNum[i];
-            cropSum += this.organicCropNum[i];
-        }
-        if (seedSum >= this.maxSeedInventory) {
-            a.setAlertType(Alert.AlertType.WARNING);
-            a.setContentText("Max Seed GameState.getInventory() Reached!");
-            a.show();
-            return true;
-        }
-        if (cropSum >= this.maxCropInventory) {
-            a.setAlertType(Alert.AlertType.WARNING);
-            a.setContentText("Max Crop GameState.getInventory() Reached!");
-            a.show();
-            return true;
-        }
-        return false;
-    }
-
-    public boolean hasCrop(GameState.CropType cropType, boolean isOrganic) {
-        if (isOrganic) {
-            if (organicCropNum[cropType.ordinal()] == 0) {
-                a.setAlertType(Alert.AlertType.WARNING);
-                a.setContentText("You don't have any organic " + cropType.name().toLowerCase()
-                        + " left!");
-                a.show();
-                return false;
-            }
-        } else {
-            if (pesticideCropNum[cropType.ordinal()] == 0) {
-                a.setAlertType(Alert.AlertType.WARNING);
-                a.setContentText("You don't have any pesticide " + cropType.name().toLowerCase()
-                        + " left!");
-                a.show();
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean hasSeed(GameState.CropType cropType) {
-        if (seedNum[cropType.ordinal()] == 0) {
-            a.setAlertType(Alert.AlertType.WARNING);
-            a.setContentText("You don't have any " + cropType.name().toLowerCase() + "seeds left!");
-            a.show();
-            return false;
-        }
-        return true;
-    }
-
-    public boolean canBuy(GameState.CropType cropType) {
-        if (this.money - this.seedPrices[cropType.ordinal()] < 0) {
-            a.setAlertType(Alert.AlertType.WARNING);
-            a.setContentText("You cannot afford this " + cropType.name().toLowerCase() + "!");
-            a.show();
-            return false;
-        }
-        return true;
-    }
-
-    public int calculatePriceFromDifficulty(int basePrice) {
-        //we get a difficulty multiplier and if it's spring, we add on an extra $5 bc high demand
-        basePrice *= (new int[]{1, 2, 5})[GameState.getDifficulty().ordinal()];
-        basePrice += (GameState.getSeason().ordinal() == 0) ? 5 : 0;
-        return basePrice;
-    }
-
-    public void buyImpl(GameState.CropType cropType) {
-        if (this.isFull() || !this.canBuy(cropType)) {
-            return;
-        }
-        this.seedNum[cropType.ordinal()]++;
-        this.money -= this.seedPrices[cropType.ordinal()];
-    }
-
-    public void sellImpl(GameState.CropType cropType, boolean isOrganic) {
-        if (!hasCrop(cropType, isOrganic)) {
-            return;
-        }
-        if (isOrganic) {
-            this.organicCropNum[cropType.ordinal()]--;
-            this.money += this.cropPrices[cropType.ordinal()];
-        } else {
-            this.pesticideCropNum[cropType.ordinal()]--;
-            this.money += this.cropPrices[cropType.ordinal()] - 5; //$5 is the pesticide penalty
-        }
-    }
-
-    public void buyPest() {
-        if (this.money >= pesticidePrice) {
-            this.money -= pesticidePrice;
-            pesticideNum++;
-        }
-    }
-    public void buyFert() {
-        if (this.money >= fertilizerPrice) {
-            this.money -= fertilizerPrice;
-            fertilizerNum++;
-        }
     }
 }
