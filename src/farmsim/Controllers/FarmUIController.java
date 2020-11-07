@@ -251,7 +251,8 @@ public class FarmUIController extends UIUpdateable {
         for (int plot = 0; plot < GameState.getPlots().length; plot++) {
             int chanceOfDeath = ((int) (Math.random() * 3) + plot);
 
-            if (plot == chanceOfDeath && !(GameState.getPlots(plot).getFertilizerLevel() > 0)) {
+            if (GameState.getPlots(plot).getState() != Plot.CropState.DEAD &&
+                    plot == chanceOfDeath && !(GameState.getPlots(plot).getFertilizerLevel() > 0)) {
                 GameState.getPlots(plot).setState(Plot.CropState.DEAD);
                 deathtoll++;
                 affectedPlants.add(plot + 1);
