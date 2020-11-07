@@ -7,12 +7,14 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class FarmUIController extends UIUpdateable {
@@ -183,6 +185,86 @@ public class FarmUIController extends UIUpdateable {
         seedBox.setValue(GameState.getCropType());
     }
 
+    public void disaster() {
+        int causeRain = 1; // if random == causeX, X event will occur
+        int causeDrought = 2;
+        int causeLocusts = 3;
+
+        int random = 0;
+
+        if (GameState.getDifficulty() == GameState.Difficulty.EASY) {
+            random = ((int) (Math.random() * 50) + 1);
+        } else if (GameState.getDifficulty() == GameState.Difficulty.MEDIUM) {
+            random = ((int) (Math.random() * 35) + 1);
+        } else if (GameState.getDifficulty() == GameState.Difficulty.HARD) {
+            random = ((int) (Math.random() * 4) + 1);
+        }
+
+        if (random == causeRain) {
+            rain();
+        }
+
+        if (random == causeDrought) {
+            drought();
+        }
+
+        if (random == causeLocusts) {
+            unleashLocusts();
+        }
+    }
+
+    public void rain() {
+        int increment = ((int) (Math.random() * 2) + 1);
+        for (int plot = 0; plot < GameState.getPlots().length; plot++) {
+            if (GameState.getPlots(plot).getState() != Plot.CropState.DEAD) {
+                for (int i = 0; i < increment; i++) {
+                    GameState.getPlots(plot).increaseWater();
+                }
+            }
+        }
+
+        Alert a = new Alert(Alert.AlertType.NONE);
+        a.setAlertType(Alert.AlertType.WARNING);
+        a.setContentText("It stormed like a *****! Your plants' water levels increase by " + increment);
+        a.show();
+    }
+
+    public void drought() {
+        int decrement = ((int) (Math.random() * 2) + 1);
+        for (int plot = 0; plot < GameState.getPlots().length; plot++) {
+            if (GameState.getPlots(plot).getState() != Plot.CropState.DEAD) {
+                for (int i = 0; i < decrement; i++) {
+                    GameState.getPlots(plot).decreaseWater();
+                }
+            }
+        }
+
+        Alert a = new Alert(Alert.AlertType.NONE);
+        a.setAlertType(Alert.AlertType.WARNING);
+        a.setContentText("Uh oh, a drought has occurred! Your plants' water levels decreased by " + decrement);
+        a.show();
+    }
+
+    public void unleashLocusts() {
+        ArrayList<Integer>  affectedPlants = new ArrayList<>();
+        int deathtoll = 0;
+        for (int plot = 0; plot < GameState.getPlots().length; plot++) {
+            int chanceOfDeath = ((int) (Math.random() * 3) + plot);
+
+            if (plot == chanceOfDeath) {
+                GameState.getPlots(plot).setState(Plot.CropState.DEAD);
+                deathtoll++;
+                affectedPlants.add(plot + 1);
+            }
+        }
+
+        Alert a = new Alert(Alert.AlertType.NONE);
+        a.setAlertType(Alert.AlertType.WARNING);
+        a.setContentText("The enemy locusts have attacked ヽ(ಠ_ಠ)ノ, we lost " + deathtoll + " plants, soldier! " +
+                        "Crops affected: " + affectedPlants);
+        a.show();
+    }
+
     @FXML
     public void updateUI() {
         if (moneyDisplay == null) {
@@ -260,12 +342,14 @@ public class FarmUIController extends UIUpdateable {
     }
 
     public void incrementDay(ActionEvent e) throws Exception {
+        disaster();
         GameState.incrementDay();
         clicks = 0;
         updateUI();
     }
 
     public void moveOn(ActionEvent e) throws Exception {
+        disaster();
         GameState.getScreenManager().setScreen(
                 "FXML/Market.fxml"
         );
