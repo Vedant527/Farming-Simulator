@@ -231,16 +231,16 @@ public class MarketController extends UIUpdateable {
                 "Max Inventory: " + GameState.getInventory().getMaxSeedInventory());
         cornSeedText.setText(
                 "Corn: " + GameState.getInventory()
-                        .getSeedNum()[GameState.CropType.CORN.ordinal()]);
+                        .getSeedNum(GameState.CropType.CORN));
         wheatSeedText.setText(
                 "Wheat: " + GameState.getInventory()
-                        .getSeedNum()[GameState.CropType.WHEAT.ordinal()]);
+                        .getSeedNum(GameState.CropType.WHEAT));
         tobaccoSeedText.setText(
                 "Tobacco: " + GameState.getInventory()
-                        .getSeedNum()[GameState.CropType.TOBACCO.ordinal()]);
+                        .getSeedNum(GameState.CropType.TOBACCO));
         hempSeedText.setText(
                 "Hemp: " + GameState.getInventory()
-                        .getSeedNum()[GameState.CropType.HEMP.ordinal()]);
+                        .getSeedNum(GameState.CropType.HEMP));
 
         maxCropInventoryText.setText(
                 "Max Inventory: " + GameState.getInventory().getMaxCropInventory());

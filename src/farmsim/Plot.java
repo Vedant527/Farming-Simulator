@@ -16,7 +16,7 @@ public class Plot {
     private double fertGrowChance = 0.15;
 
     private final int maxWater = 4;
-    private final int minWater = 1;
+    private final int minWater = 0;
     private final int maxPesticide = 4;
     private final int maxFertilizer = 4;
 
@@ -24,7 +24,7 @@ public class Plot {
         //Random rand = new Random(); //instructions say have random maturity for this milestone
         //int var = rand.nextInt(4);
         //this.state = CropState.values()[var];
-        this.crop = new Crop(GameState.getCropType());
+        this.crop = new Crop(GameState.getCropType(), Crop.State.EMPTY, true);
         this.waterLevel = 0;
         this.pesticideLevel = 0;
         this.fertilizerLevel = 0;
@@ -34,9 +34,9 @@ public class Plot {
     public void plant(GameState.CropType cropType) {
         if (this.crop.getState() == Crop.State.EMPTY
                 && GameState.getInventory().hasSeed(cropType)) {
-            this.crop = new Crop(cropType, Crop.State.SEED, false);
+            this.crop = new Crop(cropType, Crop.State.SEED, true);
             //we have to use gamestate's croptype so we can plant different types of plant
-            GameState.getInventory().decreaseSeedNum(cropType.ordinal());
+            GameState.getInventory().decreaseSeedNum(cropType);
             this.waterLevel = 0;
         }
     }
@@ -73,14 +73,14 @@ public class Plot {
 
     public void decreaseWater() {
         // not important if no crop
-        if (this.crop.getState() != Crop.State.EMPTY) {
+        if (this.crop.getState() == Crop.State.EMPTY) {
             return;
         }
         if (this.waterLevel <= minWater) {
             this.crop.kill();
-        } else {
-            this.waterLevel--;
+            return;
         }
+        this.waterLevel--;
     }
 
     //for now you can pesticide and fertilize plots at any stage, but overdoing it kills
@@ -92,8 +92,8 @@ public class Plot {
             this.crop.kill();
         } else {
             this.pesticideLevel++;
+            this.crop.setOrganic(false);
         }
-        GameState.getInventory().move(this.crop);
     }
 
     public void decreasePesticideLevel() {
@@ -104,7 +104,10 @@ public class Plot {
 
     //each fertilizer up to death increases grow chance by 15%
     public void increaseFertilizerLevel() {
-        if (this.fertilizerLevel < maxFertilizer && GameState.getInventory().getFertilizerNum() > 0) {
+        if (GameState.getInventory().getFertilizerNum() <= 0) {
+            return;
+        }
+        if (this.fertilizerLevel < maxFertilizer) {
             this.fertilizerLevel++;
             GameState.getInventory().decreaseFertilizerNum();
         } //else do nothing

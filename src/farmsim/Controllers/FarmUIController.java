@@ -109,7 +109,7 @@ public class FarmUIController extends UIUpdateable {
             Crop.State[] tmp = Crop.State.values();
             Crop.State rand = tmp[random.nextInt(tmp.length)];
             GameState.getPlots(i).setCropState(rand);
-            n.setText(GameState.getPlots(i).getCrop().getType().name().toLowerCase() + "\n"
+            n.setText(GameState.getPlots(i).getCrop().toString() +"\n"
                     + GameState.getPlots(i).getCrop().getState().name().toLowerCase() + "\nWater:"
                     + GameState.getPlots(i).getWaterLevel());
             n.setOnMouseClicked((MouseEvent e) -> clickPlot(e));
@@ -122,10 +122,10 @@ public class FarmUIController extends UIUpdateable {
     public void clickPlot(MouseEvent e) {
         //either refreshes the display to the left or harvests
         //check if clicks big enough to increment day
-        //clicks++;
-        //if (clicks % maxClicks == 0) {
-        //    GameState.incrementDay();
-        //}
+        clicks++;
+        if (clicks % maxClicks == 0) {
+            GameState.incrementDay();
+        }
         Node ivm = (Node) e.getSource();
         int id = Integer.parseInt(ivm.getId());
         Plot curr = GameState.getPlots(id);
@@ -195,7 +195,7 @@ public class FarmUIController extends UIUpdateable {
         for (int i = 0; i < gridChildren.length; i++) {
             Button n = gridChildren[i];
             n.setId(Integer.toString(i));
-            n.setText(GameState.getPlots(i).getCrop().getType().name().toLowerCase() + "\n"
+            n.setText(GameState.getPlots(i).getCrop().toString() +"\n"
                     + GameState.getPlots(i).getCrop().getState().name().toLowerCase() + "\nWater:"
                     + GameState.getPlots(i).getWaterLevel());
             n.setOnMouseClicked((MouseEvent e) -> clickPlot(e));
@@ -207,17 +207,13 @@ public class FarmUIController extends UIUpdateable {
         maxSeedInventoryText.setText(
                 "Max Inventory: " + GameState.getInventory().getMaxSeedInventory());
         cornSeedText.setText(
-                "Corn: " + GameState.getInventory()
-                        .getSeedNum()[GameState.CropType.CORN.ordinal()]);
+                "Corn: " + GameState.getInventory().getSeedNum(GameState.CropType.CORN));
         wheatSeedText.setText(
-                "Wheat: " + GameState.getInventory()
-                        .getSeedNum()[GameState.CropType.WHEAT.ordinal()]);
+                "Wheat: " + GameState.getInventory().getSeedNum(GameState.CropType.WHEAT));
         tobaccoSeedText.setText(
-                "Tobacco: " + GameState.getInventory()
-                        .getSeedNum()[GameState.CropType.TOBACCO.ordinal()]);
+                "Tobacco: " + GameState.getInventory().getSeedNum(GameState.CropType.TOBACCO));
         hempSeedText.setText(
-                "Hemp: " + GameState.getInventory()
-                        .getSeedNum()[GameState.CropType.HEMP.ordinal()]);
+                "Hemp: " + GameState.getInventory().getSeedNum(GameState.CropType.HEMP));
         farmName.setText(GameState.getName() + "'s Farm");
 
         maxCropInventoryText.setText(
@@ -227,21 +223,21 @@ public class FarmUIController extends UIUpdateable {
         tobaccoCropText.setText("Tobacco: ");
         hempCropText.setText("Hemp: ");
         organicCornText.setText(String.valueOf(GameState.getInventory()
-                .get(GameState.CropType.CORN, true)));
+                .getCropNum(GameState.CropType.CORN, true)));
         organicWheatText.setText(String.valueOf(GameState.getInventory()
-                .get(GameState.CropType.WHEAT, true)));
+                .getCropNum(GameState.CropType.WHEAT, true)));
         organicTobaccoText.setText(String.valueOf(GameState.getInventory()
-                .get(GameState.CropType.TOBACCO, true)));
+                .getCropNum(GameState.CropType.TOBACCO, true)));
         organicHempText.setText(String.valueOf(GameState.getInventory()
-                .get(GameState.CropType.HEMP, true)));
+                .getCropNum(GameState.CropType.HEMP, true)));
         pesticideCornText.setText(String.valueOf(GameState.getInventory()
-                .get(GameState.CropType.CORN, false)));
+                .getCropNum(GameState.CropType.CORN, false)));
         pesticideWheatText.setText(String.valueOf(GameState.getInventory()
-                .get(GameState.CropType.WHEAT, false)));
+                .getCropNum(GameState.CropType.WHEAT, false)));
         pesticideTobaccoText.setText(String.valueOf(GameState.getInventory()
-                .get(GameState.CropType.TOBACCO, false)));
+                .getCropNum(GameState.CropType.TOBACCO, false)));
         pesticideHempText.setText(String.valueOf(GameState.getInventory()
-                .get(GameState.CropType.HEMP, false)));
+                .getCropNum(GameState.CropType.HEMP, false)));
 
         pesticideText.setText("Pesticides: " + GameState.getInventory().getPesticideNum());
         fertilizerText.setText("Fertilizer: " + GameState.getInventory().getFertilizerNum());

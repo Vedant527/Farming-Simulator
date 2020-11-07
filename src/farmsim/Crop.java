@@ -22,8 +22,20 @@ public class Crop {
         this.organic = org;
     }
 
+    public Crop(GameState.CropType type, State state) {
+        this (type, state, false);
+    }
+
+    public Crop(GameState.CropType type, boolean org) {
+        this(type, State.MATURE, org);
+    }
+
+    public Crop(GameState.CropType type) {
+        this(type, State.SEED, false);
+    }
+
     public int price(int[] prices) {
-        return prices[this.state.ordinal()] + ((organic) ? pestReduction : 0);
+        return prices[type.ordinal()] + ((!organic) ? pestReduction : 0);
     }
 
     public void grow() {
@@ -39,7 +51,9 @@ public class Crop {
 
     @Override
     public String toString() {
-        return ((this.organic) ? "Organic " : "") + type;
+        return (this.organic ? "O. " : "")
+             + type
+             + (this.state == State.SEED ? " Seed" : "");
     }
 
     @Override
@@ -48,28 +62,20 @@ public class Crop {
         if (o == null || getClass() != o.getClass()) return false;
         Crop crop = (Crop) o;
         return organic == crop.organic &&
-                type == crop.type;
+                type == crop.type &&
+                state == crop.state;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(organic, type);
+        return Objects.hash(organic, type) + (state == State.SEED ? 7 : 0);
     }
 
-/*
-----------------------------------------------------------------------------------------------------
-VARIABLE GETTERS AND SETTERS
-----------------------------------------------------------------------------------------------------
-*/
-
-    public Crop(GameState.CropType type, boolean org) {
-        this(type, State.EMPTY, org);
-    }
-
-    public Crop(GameState.CropType type) {
-        this(type, State.EMPTY, false);
-    }
-
+    /*
+    ----------------------------------------------------------------------------------------------------
+    VARIABLE GETTERS AND SETTERS
+    ----------------------------------------------------------------------------------------------------
+    */
     public State getState() {
         return state;
     }
