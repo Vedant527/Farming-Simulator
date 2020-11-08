@@ -1,5 +1,6 @@
 package farmsim.Controllers;
 
+import farmsim.Crop;
 import farmsim.GameState;
 import farmsim.Plot;
 import farmsim.UIUpdateable;
@@ -101,16 +102,17 @@ public class FarmUIController extends UIUpdateable {
         GameState.setPlots(new Plot[gridChildren.length]);
         Random random = new Random();
         seedBox.setItems(FXCollections
-                .observableArrayList(GameState.CropType.values()));
+                .observableArrayList(Crop.Type.values()));
         for (int i = 0; i < gridChildren.length; i++) {
             Button n = gridChildren[i];
             n.setId(Integer.toString(i));
             GameState.setPlots(i, new Plot());
-            Plot.CropState[] tmp = Plot.CropState.values();
-            Plot.CropState rand = tmp[random.nextInt(tmp.length)];
+
+            Crop.State[] tmp = Crop.State.values();
+            Crop.State rand = tmp[random.nextInt(tmp.length)];
             GameState.getPlots(i).setCropState(rand);
-            n.setText(GameState.getPlots(i).getCropType().name().toLowerCase() + "\n"
-                    + GameState.getPlots(i).getState().name().toLowerCase() + "\nWater:"
+            n.setText(GameState.getPlots(i).getCrop().toString() +"\n"
+                    + GameState.getPlots(i).getCrop().getState().name().toLowerCase() + "\nWater:"
                     + GameState.getPlots(i).getWaterLevel());
             n.setOnMouseClicked((MouseEvent e) -> clickPlot(e));
             n.setStyle("-fx-background-color: #d0c3a2");
@@ -122,10 +124,10 @@ public class FarmUIController extends UIUpdateable {
     public void clickPlot(MouseEvent e) {
         //either refreshes the display to the left or harvests
         //check if clicks big enough to increment day
-        //clicks++;
-        //if (clicks % maxClicks == 0) {
-        //    GameState.incrementDay();
-        //}
+        clicks++;
+        if (clicks % maxClicks == 0) {
+            GameState.incrementDay();
+        }
         Node ivm = (Node) e.getSource();
         int id = Integer.parseInt(ivm.getId());
         Plot curr = GameState.getPlots(id);
@@ -141,10 +143,10 @@ public class FarmUIController extends UIUpdateable {
             }
         }
 
-        if (curr.getState() == Plot.CropState.MATURE
-            || curr.getState() == Plot.CropState.DEAD) {
+        if (curr.getCrop().getState() == Crop.State.MATURE
+            || curr.getCrop().getState() == Crop.State.DEAD) {
             harvest(curr);
-        } else if (curr.getState() == Plot.CropState.EMPTY) {
+        } else if (curr.getCrop().getState() == Crop.State.EMPTY) {
             plant(curr);
         } else {
             updateUI();
@@ -180,7 +182,7 @@ public class FarmUIController extends UIUpdateable {
 
     public void switchSeed(ActionEvent e) {
         if (seedBox.getValue() != null) {
-            GameState.setCropType((GameState.CropType) seedBox.getValue());
+            GameState.setCropType((Crop.Type) seedBox.getValue());
         }
         seedBox.setValue(GameState.getCropType());
     }
@@ -276,8 +278,8 @@ public class FarmUIController extends UIUpdateable {
         for (int i = 0; i < gridChildren.length; i++) {
             Button n = gridChildren[i];
             n.setId(Integer.toString(i));
-            n.setText(GameState.getPlots(i).getCropType().name().toLowerCase() + "\n"
-                    + GameState.getPlots(i).getState().name().toLowerCase() + "\nWater:"
+            n.setText(GameState.getPlots(i).getCrop().toString() +"\n"
+                    + GameState.getPlots(i).getCrop().getState().name().toLowerCase() + "\nWater:"
                     + GameState.getPlots(i).getWaterLevel());
             n.setOnMouseClicked((MouseEvent e) -> clickPlot(e));
         }
@@ -288,17 +290,13 @@ public class FarmUIController extends UIUpdateable {
         maxSeedInventoryText.setText(
                 "Max Inventory: " + GameState.getInventory().getMaxSeedInventory());
         cornSeedText.setText(
-                "Corn: " + GameState.getInventory()
-                        .getSeedNum()[GameState.CropType.CORN.ordinal()]);
+                "Corn: " + GameState.getInventory().getSeedNum(Crop.Type.CORN));
         wheatSeedText.setText(
-                "Wheat: " + GameState.getInventory()
-                        .getSeedNum()[GameState.CropType.WHEAT.ordinal()]);
+                "Wheat: " + GameState.getInventory().getSeedNum(Crop.Type.WHEAT));
         tobaccoSeedText.setText(
-                "Tobacco: " + GameState.getInventory()
-                        .getSeedNum()[GameState.CropType.TOBACCO.ordinal()]);
+                "Tobacco: " + GameState.getInventory().getSeedNum(Crop.Type.TOBACCO));
         hempSeedText.setText(
-                "Hemp: " + GameState.getInventory()
-                        .getSeedNum()[GameState.CropType.HEMP.ordinal()]);
+                "Hemp: " + GameState.getInventory().getSeedNum(Crop.Type.HEMP));
         farmName.setText(GameState.getName() + "'s Farm");
 
         maxCropInventoryText.setText(
@@ -307,22 +305,22 @@ public class FarmUIController extends UIUpdateable {
         wheatCropText.setText("Wheat: ");
         tobaccoCropText.setText("Tobacco: ");
         hempCropText.setText("Hemp: ");
-        organicCornText.setText(String.valueOf(GameState.getInventory().
-                getOrganicCropNum()[GameState.CropType.CORN.ordinal()]));
+        organicCornText.setText(String.valueOf(GameState.getInventory()
+                .getCropNum(Crop.Type.CORN, true)));
         organicWheatText.setText(String.valueOf(GameState.getInventory()
-                .getOrganicCropNum()[GameState.CropType.WHEAT.ordinal()]));
+                .getCropNum(Crop.Type.WHEAT, true)));
         organicTobaccoText.setText(String.valueOf(GameState.getInventory()
-                .getOrganicCropNum()[GameState.CropType.TOBACCO.ordinal()]));
+                .getCropNum(Crop.Type.TOBACCO, true)));
         organicHempText.setText(String.valueOf(GameState.getInventory()
-                .getOrganicCropNum()[GameState.CropType.HEMP.ordinal()]));
-        pesticideCornText.setText(String.valueOf(GameState.getInventory().
-                getPesticideCropNum()[GameState.CropType.CORN.ordinal()]));
-        pesticideWheatText.setText(String.valueOf(GameState.getInventory().
-                getPesticideCropNum()[GameState.CropType.WHEAT.ordinal()]));
-        pesticideTobaccoText.setText(String.valueOf(GameState.getInventory().
-                getPesticideCropNum()[GameState.CropType.TOBACCO.ordinal()]));
-        pesticideHempText.setText(String.valueOf(GameState.getInventory().
-                getPesticideCropNum()[GameState.CropType.HEMP.ordinal()]));
+                .getCropNum(Crop.Type.HEMP, true)));
+        pesticideCornText.setText(String.valueOf(GameState.getInventory()
+                .getCropNum(Crop.Type.CORN, false)));
+        pesticideWheatText.setText(String.valueOf(GameState.getInventory()
+                .getCropNum(Crop.Type.WHEAT, false)));
+        pesticideTobaccoText.setText(String.valueOf(GameState.getInventory()
+                .getCropNum(Crop.Type.TOBACCO, false)));
+        pesticideHempText.setText(String.valueOf(GameState.getInventory()
+                .getCropNum(Crop.Type.HEMP, false)));
 
         pesticideText.setText("Pesticides: " + GameState.getInventory().getPesticideNum());
         fertilizerText.setText("Fertilizer: " + GameState.getInventory().getFertilizerNum());
@@ -331,15 +329,15 @@ public class FarmUIController extends UIUpdateable {
         season.setText("Season: " + GameState.getSeason());
         dayDisplay.setText("Day: " + GameState.getDay());
 
-        seedBox.setItems(FXCollections.observableArrayList(GameState.CropType.values()));
+        seedBox.setItems(FXCollections.observableArrayList(Crop.Type.values()));
         seedBox.setValue(GameState.getCropType());
 
         //all the curr plot texts
         waterText.setText("Water: " + GameState.getCurrPlot().getWaterLevel());
         fertilizerLevelText.setText("Fertilizer: " + GameState.getCurrPlot().getFertilizerLevel());
         pesticideLevelText.setText("Pesticide: " + GameState.getCurrPlot().getPesticideLevel());
-        cropTypeText.setText("Crop: " + GameState.getCurrPlot().getCropType());
-        cropStateText.setText("Age: " + GameState.getCurrPlot().getCropState());
+        cropTypeText.setText("Crop: " + GameState.getCurrPlot().getCrop().getType());
+        cropStateText.setText("Age: " + GameState.getCurrPlot().getCrop().getState());
     }
 
     public void incrementDay(ActionEvent e) throws Exception {
@@ -353,6 +351,12 @@ public class FarmUIController extends UIUpdateable {
         disaster();
         GameState.getScreenManager().setScreen(
                 "FXML/Market.fxml"
+        );
+    }
+
+    public void moveHands(ActionEvent e) throws Exception {
+        GameState.getScreenManager().setScreen(
+                "FXML/Hands.fxml"
         );
     }
 }

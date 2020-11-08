@@ -1,8 +1,8 @@
 
 package farmsim.Controllers;
 
+import farmsim.Crop;
 import farmsim.GameState;
-import farmsim.Plot;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.input.KeyCode;
@@ -46,7 +46,7 @@ public class FarmUIControllerTest extends ApplicationTest {
     @Test
     public void testHarvest() {
         int i = 0;
-        GameState.getPlots(i).setCropState(Plot.CropState.MATURE);
+        GameState.getPlots(i).setCropState(Crop.State.MATURE);
         clickOn("#" + i);
         FxAssert.verifyThat("#cornCropText", (Text t) -> {
             return (t.getText().equals("Corn: 1"));
@@ -85,9 +85,9 @@ public class FarmUIControllerTest extends ApplicationTest {
     @Test
     public void testIncWater() {
         int plot = 0;
-        GameState.setCropType(GameState.CropType.CORN);
-        GameState.getInventory().setSeedNum(0, 10);
-        GameState.getPlots(plot).setCropState(Plot.CropState.EMPTY);
+        GameState.setCropType(Crop.Type.CORN);
+        GameState.getInventory().setSeedNum(Crop.Type.CORN, 10);
+        GameState.getPlots(plot).setCropState(Crop.State.EMPTY);
         for (int i = 0; i < 3; i++) {
             clickOn("#" + plot);
             type(KeyCode.ENTER);
@@ -98,14 +98,14 @@ public class FarmUIControllerTest extends ApplicationTest {
     @Test
     public void testDead() {
         int plot = 0;
-        GameState.setCropType(GameState.CropType.CORN);
-        GameState.getInventory().setSeedNum(0, 10);
-        GameState.getPlots(plot).setCropState(Plot.CropState.EMPTY);
+        GameState.setCropType(Crop.Type.CORN);
+        GameState.getInventory().setSeedNum(Crop.Type.CORN, 10);
+        GameState.getPlots(plot).setCropState(Crop.State.EMPTY);
         for (int i = 0; i < 6; i++) {
             clickOn("#" + plot);
             type(KeyCode.ENTER);
         }
-        assertEquals(Plot.CropState.DEAD, GameState.getPlots(plot).getCropState());
+        assertEquals(Crop.State.DEAD, GameState.getPlots(plot).getCrop().getState());
     }
 
     @Override

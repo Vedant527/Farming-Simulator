@@ -1,5 +1,6 @@
 package farmsim.Controllers;
 
+import farmsim.Crop;
 import farmsim.GameState;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
@@ -30,10 +31,11 @@ public class MarketControllerTest extends ApplicationTest {
     @Test
     public void testSellNoCrops() {
         GameState.getInventory().setMoney(0);
-        GameState.getInventory().setOrganicCropNum(0, 0);
+        GameState.getInventory().set(Crop.Type.CORN, true, 0);
         clickOn("#sellCornButton");
         FxAssert.verifyThat("#moneyDisplay", (Text t) -> {
-            return t.getText().equals("Money: $0") && GameState.getInventory().getOrganicCropNum()[0] == 0
+            return t.getText().equals("Money: $0")
+                    && GameState.getInventory().get(Crop.Type.CORN, true) == 0
                     && GameState.getInventory().getMoney() == 0;
         });
     }
@@ -42,9 +44,9 @@ public class MarketControllerTest extends ApplicationTest {
     @Test
     public void testBuyNoMoney() {
         GameState.getInventory().setMoney(0);
-        GameState.getInventory().setSeedNum(0, 0);
+        GameState.getInventory().setSeedNum(Crop.Type.CORN, 0);
         clickOn("#sellCornButton");
-        assertEquals(0, GameState.getInventory().getSeedNum()[0]);
+        assertEquals(0, GameState.getInventory().getSeedNum(Crop.Type.CORN));
     }
 
     @Test
