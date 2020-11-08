@@ -1,5 +1,6 @@
 package farmsim.Controllers;
 
+import farmsim.Crop;
 import farmsim.GameState;
 import farmsim.UIUpdateable;
 import javafx.collections.FXCollections;
@@ -21,8 +22,8 @@ public class CustomizationPageController extends UIUpdateable {
             .observableArrayList(GameState.Difficulty.values());
     private ObservableList<GameState.Season> seasons = FXCollections
             .observableArrayList(GameState.Season.values());
-    private ObservableList<GameState.CropType> cropTypes = FXCollections
-            .observableArrayList(GameState.CropType.values());
+    private ObservableList<Crop.Type> cropTypes = FXCollections
+            .observableArrayList(Crop.Type.values());
 
     @FXML
     private ChoiceBox diffBox;
@@ -53,8 +54,8 @@ public class CustomizationPageController extends UIUpdateable {
         // Default values for dropdowns
         seasonBox.setValue(GameState.Season.values()[0]);
         diffBox.setValue(GameState.Difficulty.values()[0]);
-        seedBox.setValue(GameState.CropType.values()[0]);
-        GameState.setCropType(GameState.CropType.values()[0]);
+        seedBox.setValue(Crop.Type.values()[0]);
+        GameState.setCropType(Crop.Type.values()[0]);
 
         Image img = new Image("farmsim/Resources/StartButton.png");
         ImageView startButton = new ImageView(img);
@@ -70,7 +71,7 @@ public class CustomizationPageController extends UIUpdateable {
         GameState.setName(nameField.getText());
         GameState.setSeason((GameState.Season) seasonBox.getValue());
         GameState.setDifficulty((GameState.Difficulty) diffBox.getValue());
-        GameState.setCropType((GameState.CropType) seedBox.getValue());
+        GameState.setCropType((Crop.Type) seedBox.getValue());
 
     }
 
@@ -83,7 +84,7 @@ public class CustomizationPageController extends UIUpdateable {
     }
 
     public void updatesSeed(ActionEvent e) {
-        GameState.setCropType((GameState.CropType) seedBox.getValue());
+        GameState.setCropType((Crop.Type) seedBox.getValue());
     }
 
     public void updatesSeason(ActionEvent e) {

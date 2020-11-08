@@ -31,7 +31,7 @@ public class Plot {
     }
 
 
-    public void plant(GameState.CropType cropType) {
+    public void plant(Crop.Type cropType) {
         if (this.crop.getState() == Crop.State.EMPTY
                 && GameState.getInventory().hasSeed(cropType)) {
             this.crop = new Crop(cropType, Crop.State.SEED, true);

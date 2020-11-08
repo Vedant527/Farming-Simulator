@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Crop {
     private boolean organic;
-    private GameState.CropType type;
+    private Type type;
     private State state;
     private final int pestReduction = -5;
 
@@ -16,21 +16,32 @@ public class Crop {
         DEAD;
     }
 
-    public Crop(GameState.CropType type, State state, boolean org) {
+    public enum Type {
+        CORN,
+        WHEAT,
+        TOBACCO,
+        HEMP;
+
+        public static int size() {
+            return Type.values().length;
+        }
+    }
+
+    public Crop(Type type, State state, boolean org) {
         this.type = type;
         this.state = state;
         this.organic = org;
     }
 
-    public Crop(GameState.CropType type, State state) {
+    public Crop(Type type, State state) {
         this (type, state, false);
     }
 
-    public Crop(GameState.CropType type, boolean org) {
+    public Crop(Type type, boolean org) {
         this(type, State.MATURE, org);
     }
 
-    public Crop(GameState.CropType type) {
+    public Crop(Type type) {
         this(type, State.SEED, false);
     }
 
@@ -84,11 +95,11 @@ public class Crop {
         this.state = s;
     }
 
-    public GameState.CropType getType() {
+    public Type getType() {
         return this.type;
     }
 
-    public void setType(GameState.CropType t) {
+    public void setType(Type t) {
         this.type = t;
     }
 

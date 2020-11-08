@@ -6,13 +6,13 @@ import farmsim.Controllers.MarketController;
 import farmsim.Controllers.StartController;
 
 public class GameState {
-    private static boolean[] hasInited = {false, false, false, false};
+    private static boolean[] hasInited = {false, false, false, false, false};
     private static Plot[] plots;
     private static int day;
     private static String name;
     private static Difficulty difficulty = GameState.Difficulty.EASY;
     private static Season season = GameState.Season.SPRING;
-    private static CropType cropType = GameState.CropType.CORN;
+    private static Crop.Type cropType = Crop.Type.CORN;
     private static Plot currPlot;
 
     private static UIUpdateable startController = new StartController();
@@ -37,17 +37,6 @@ public class GameState {
         WINTER;
     }
 
-    public enum CropType {
-        CORN,
-        WHEAT,
-        TOBACCO,
-        HEMP;
-
-        public static int size() {
-            return CropType.values().length;
-        }
-    }
-
     public static void incrementDay() {
         day++;
         if (day % SEASON_CHANGE == 0) {
@@ -57,6 +46,15 @@ public class GameState {
             plot.grow();
             plot.decreaseWater();
             plot.decreaseFertilizerLevel();
+        }
+        for (FarmHand hand : inventory.getFarmHands()) {
+            int money = inventory.getMoney() - hand.getPay();
+            if (money < 0) {
+                inventory.removeHand(hand);
+                continue;
+            }
+            inventory.setMoney(money);
+            hand.work();
         }
     }
 
@@ -169,11 +167,11 @@ VARIABLE GETTERS AND SETTERS
     }
 
 
-    public static CropType getCropType() {
+    public static Crop.Type getCropType() {
         return cropType;
     }
 
-    public static void setCropType(CropType cropType) {
+    public static void setCropType(Crop.Type cropType) {
         GameState.cropType = cropType;
     }
 

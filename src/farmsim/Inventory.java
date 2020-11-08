@@ -3,6 +3,7 @@ package farmsim;
 import javafx.scene.control.Alert;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 
 
 public class Inventory {
@@ -12,9 +13,6 @@ public class Inventory {
     2 = Wheat
     3 = Tobacco
     */
-    //private int[] seedNum = new int[GameState.CropType.size()];
-    //private int[] organicCropNum = new int[GameState.CropType.size()];
-    //private int[] pesticideCropNum = new int[GameState.CropType.size()];
     private int pesticideNum = 0;
     private int pesticidePrice = 1;
     private int fertilizerNum = 0;
@@ -24,6 +22,7 @@ public class Inventory {
     private final int[] startMoney = new int[]{500, 300, 100};
 
     private HashMap<Crop, Integer> crops = new HashMap<Crop, Integer>();
+    private LinkedList<FarmHand> hands = new LinkedList<>();
     private int money;
 
     private Alert a = new Alert(Alert.AlertType.NONE);
@@ -35,7 +34,7 @@ public class Inventory {
 
     public Inventory() {
         for (int i = 0; i < (Crop.State.values().length - 1); i++) {
-            GameState.CropType typ = GameState.CropType.values()[i];
+            Crop.Type typ = Crop.Type.values()[i];
             this.crops.put(new Crop(typ, Crop.State.MATURE, true), 0);
             this.crops.put(new Crop(typ, Crop.State.MATURE, false), 0);
             this.crops.put(new Crop(typ, Crop.State.SEED, false), 0);
@@ -51,7 +50,7 @@ public class Inventory {
         this.pesticideNum = calculatePriceFromDifficulty(this.pesticidePrice);
     }
 
-    public void setDefault(GameState.CropType type) {
+    public void setDefault(Crop.Type type) {
         this.setSeedNum(type, 10);
     }
 
@@ -62,20 +61,20 @@ public class Inventory {
     public boolean isFull() {
         if (this.seedNum() >= this.maxSeedInventory) {
             a.setAlertType(Alert.AlertType.WARNING);
-            a.setContentText("Max Seed GameState.getInventory() Reached!");
+            a.setContentText("Max Seed Inventory Reached!");
             a.show();
             return true;
         }
         if (this.cropNum() >= this.maxCropInventory) {
             a.setAlertType(Alert.AlertType.WARNING);
-            a.setContentText("Max Crop GameState.getInventory() Reached!");
+            a.setContentText("Max Crop Inventory Reached!");
             a.show();
             return true;
         }
         return false;
     }
 
-    public boolean hasCrop(GameState.CropType cropType, boolean isOrganic) {
+    public boolean hasCrop(Crop.Type cropType, boolean isOrganic) {
         Crop tmp = new Crop(cropType, isOrganic);
         return this.hasCrop(tmp);
     }
@@ -90,7 +89,16 @@ public class Inventory {
         return true;
     }
 
-    public boolean hasSeed(GameState.CropType cropType) {
+    public boolean isEmpty(Crop.Type t, boolean isOrg) {
+        Crop tmp = new Crop(t, isOrg);
+        return this.isEmpty(tmp);
+    }
+
+    public boolean isEmpty(Crop c) {
+        return this.crops.get(c) == 0;
+    }
+
+    public boolean hasSeed(Crop.Type cropType) {
         Crop tmp = new Crop(cropType, Crop.State.SEED);
         if (get(tmp) == 0) {
             a.setAlertType(Alert.AlertType.WARNING);
@@ -118,7 +126,7 @@ public class Inventory {
         return basePrice;
     }
 
-    public void buyImpl(GameState.CropType cropType) {
+    public void buyImpl(Crop.Type cropType) {
         Crop tmp = new Crop(cropType);
         if (this.isFull() || !this.canBuy(tmp)) {
             return;
@@ -127,7 +135,7 @@ public class Inventory {
         this.money -= tmp.price(this.seedPrices);
     }
 
-    public void sellImpl(GameState.CropType t, boolean org) {
+    public void sellImpl(Crop.Type t, boolean org) {
         Crop tmp = new Crop(t, org);
         this.sellImpl(tmp);
     }
@@ -154,7 +162,7 @@ public class Inventory {
         }
     }
 
-    public void add(GameState.CropType type, Crop.State state, boolean org, int val) {
+    public void add(Crop.Type type, Crop.State state, boolean org, int val) {
         Crop tmp = new Crop(type, state, org);
         this.add(tmp, val);
     }
@@ -165,7 +173,7 @@ public class Inventory {
 
     public int seedNum() {
         int sum = 0;
-        for (GameState.CropType t : GameState.CropType.values()) {
+        for (Crop.Type t : Crop.Type.values()) {
             Crop tmp = new Crop(t);
             sum += this.get(tmp);
         }
@@ -174,7 +182,7 @@ public class Inventory {
 
     public int cropNum() {
         int sum = 0;
-        for (GameState.CropType t : GameState.CropType.values()) {
+        for (Crop.Type t : Crop.Type.values()) {
             Crop tmp = new Crop(t, true);
             sum += this.get(tmp); // Adds organic
             tmp.setOrganic(false);
@@ -183,7 +191,34 @@ public class Inventory {
         return sum;
     }
 
-    public int get(GameState.CropType t, boolean o) {
+/*
+----------------------------------------------------------------------------------------------------
+VARIABLE GETTERS AND SETTERS
+----------------------------------------------------------------------------------------------------
+*/
+    public void removeHand(int level) {
+        FarmHand tmp = new FarmHand(level);
+        this.removeHand(tmp);
+    }
+
+    public void removeHand(FarmHand f) {
+        this.hands.remove(f);
+    }
+
+    public void addHand(int level) {
+        FarmHand tmp = new FarmHand(level);
+        this.addHand(tmp);
+    }
+
+    public void addHand(FarmHand f) {
+        this.hands.add(f);
+    }
+
+    public LinkedList<FarmHand> getFarmHands() {
+        return this.hands;
+    }
+
+    public int get(Crop.Type t, boolean o) {
         Crop tmp = new Crop(t, o);
         return this.get(tmp);
     }
@@ -192,7 +227,7 @@ public class Inventory {
         return this.crops.get(c);
     }
 
-    public void set(GameState.CropType t, boolean o, int num) {
+    public void set(Crop.Type t, boolean o, int num) {
         Crop tmp = new Crop(t, o);
         this.set(tmp, num);
     }
@@ -201,12 +236,7 @@ public class Inventory {
         this.crops.replace(c, num);
     }
 
-/*
-----------------------------------------------------------------------------------------------------
-VARIABLE GETTERS AND SETTERS
-----------------------------------------------------------------------------------------------------
-*/
-    public int getCropNum(GameState.CropType t, boolean org) {
+    public int getCropNum(Crop.Type t, boolean org) {
         Crop tmp = new Crop(t, org);
         return this.getCropNum(tmp);
     }
@@ -215,15 +245,15 @@ VARIABLE GETTERS AND SETTERS
         return this.crops.get(c);
     }
 
-    public void setSeedNum(GameState.CropType type, int val) {
+    public void setSeedNum(Crop.Type type, int val) {
         this.set(new Crop(type), val);
     }
 
-    public void decreaseSeedNum(GameState.CropType type) {
+    public void decreaseSeedNum(Crop.Type type) {
         this.add(new Crop(type), -1);
     }
 
-    public int getSeedNum(GameState.CropType type) {
+    public int getSeedNum(Crop.Type type) {
         return this.get(new Crop(type));
     }
 

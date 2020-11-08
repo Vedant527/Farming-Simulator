@@ -1,5 +1,6 @@
 package farmsim.Controllers;
 
+import farmsim.Crop;
 import farmsim.GameState;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -72,7 +73,7 @@ public class CustomizationPageControllerTest extends ApplicationTest {
         FxAssert.verifyThat("#seedBox", (ChoiceBox node) -> {
             return GameState.getCropType().equals(node.getValue());
         });
-        assertEquals(GameState.CropType.CORN, GameState.getCropType());
+        assertEquals(Crop.Type.CORN, GameState.getCropType());
     }
 
     @Test

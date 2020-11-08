@@ -26,16 +26,19 @@ public class FarmHand {
             curr.harvest();
             moves--;
         }
-        for (int i = 0; i < GameState.CropType.size(); i++) {
-            GameState.CropType type = GameState.CropType.values()[i];
-            while (GameState.getInventory().hasCrop(type, true)) {
+        for (int i = 0; i < Crop.Type.size(); i++) {
+            Crop.Type type = Crop.Type.values()[i];
+            System.out.println(type);
+            while (!GameState.getInventory().isEmpty(type, true)) {
+                System.out.println("Org");
                 if (moves <= 0) {
                     return;
                 }
                 GameState.getInventory().sellImpl(type, true);
                 moves--;
             }
-            while (GameState.getInventory().hasCrop(type, false)) {
+            while (!GameState.getInventory().isEmpty(type, false)) {
+                System.out.println("Pest");
                 if (moves <= 0) {
                     return;
                 }
@@ -43,5 +46,9 @@ public class FarmHand {
                 moves--;
             }
         }
+    }
+
+    public int getLevel() {
+        return this.level;
     }
 }

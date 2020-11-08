@@ -85,8 +85,8 @@ public class FarmUIControllerTest extends ApplicationTest {
     @Test
     public void testIncWater() {
         int plot = 0;
-        GameState.setCropType(GameState.CropType.CORN);
-        GameState.getInventory().setSeedNum(GameState.CropType.CORN, 10);
+        GameState.setCropType(Crop.Type.CORN);
+        GameState.getInventory().setSeedNum(Crop.Type.CORN, 10);
         GameState.getPlots(plot).setCropState(Crop.State.EMPTY);
         for (int i = 0; i < 3; i++) {
             clickOn("#" + plot);
@@ -98,8 +98,8 @@ public class FarmUIControllerTest extends ApplicationTest {
     @Test
     public void testDead() {
         int plot = 0;
-        GameState.setCropType(GameState.CropType.CORN);
-        GameState.getInventory().setSeedNum(GameState.CropType.CORN, 10);
+        GameState.setCropType(Crop.Type.CORN);
+        GameState.getInventory().setSeedNum(Crop.Type.CORN, 10);
         GameState.getPlots(plot).setCropState(Crop.State.EMPTY);
         for (int i = 0; i < 6; i++) {
             clickOn("#" + plot);
