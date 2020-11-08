@@ -15,7 +15,7 @@ public class Plot {
     private double fertYieldChance = 0.2;
     private double fertGrowChance = 0.15;
 
-    private final int maxWater = 4;
+    private final int maxWater = 6;
     private final int minWater = 0;
     private final int maxPesticide = 4;
     private final int maxFertilizer = 4;
@@ -65,22 +65,31 @@ public class Plot {
     }
 
     public void increaseWater() {
-        if (this.waterLevel >= maxWater) {
-            this.crop.kill();
+        if (this.crop.getState() == Crop.State.EMPTY || this.crop.getState() == Crop.State.DEAD) {
+            return;
         }
         this.waterLevel++;
+
+        if (this.waterLevel >= maxWater) {
+            this.crop.kill();
+            waterLevel = 0;
+        }
+
     }
 
     public void decreaseWater() {
         // not important if no crop
-        if (this.crop.getState() == Crop.State.EMPTY) {
+        if (this.crop.getState() == Crop.State.EMPTY || this.crop.getState() == Crop.State.DEAD) {
             return;
         }
+
+        this.waterLevel--;
         if (this.waterLevel <= minWater) {
             this.crop.kill();
+            waterLevel = 0;
             return;
         }
-        this.waterLevel--;
+
     }
 
     //for now you can pesticide and fertilize plots at any stage, but overdoing it kills

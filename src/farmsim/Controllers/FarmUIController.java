@@ -218,10 +218,12 @@ public class FarmUIController extends UIUpdateable {
     public void rain() {
         int increment = ((int) (Math.random() * 2) + 1);
         for (int plot = 0; plot < GameState.getPlots().length; plot++) {
-            if (GameState.getPlots(plot).getState() != Plot.CropState.DEAD) {
-                for (int i = 0; i < increment; i++) {
-                    GameState.getPlots(plot).increaseWater();
-                }
+
+            if (increment + GameState.getPlots(plot).getWaterLevel() - 1 >= 6) {
+                GameState.getPlots(plot).getCrop().kill();
+                GameState.getPlots(plot).setWaterLevel(0);
+            } else {
+                GameState.getPlots(plot).setWaterLevel(GameState.getPlots(plot).getWaterLevel() + increment);
             }
         }
 
@@ -234,16 +236,16 @@ public class FarmUIController extends UIUpdateable {
     public void drought() {
         int decrement = ((int) (Math.random() * 2) + 1);
         for (int plot = 0; plot < GameState.getPlots().length; plot++) {
-            if (GameState.getPlots(plot).getState() != Plot.CropState.DEAD) {
-                for (int i = 0; i < decrement; i++) {
-                    GameState.getPlots(plot).decreaseWater();
-                }
+
+            for (int i = 0; i < decrement; i++) {
+                GameState.getPlots(plot).decreaseWater();
             }
+
         }
 
         Alert a = new Alert(Alert.AlertType.NONE);
         a.setAlertType(Alert.AlertType.WARNING);
-        a.setContentText("Uh oh, a drought has occurred! Your plants' water levels decreased by " + decrement);
+        a.setContentText("Uh oh, a drought has occurred! Your plants' water levels decreased by " + (decrement - 1));
         a.show();
     }
 
@@ -253,9 +255,9 @@ public class FarmUIController extends UIUpdateable {
         for (int plot = 0; plot < GameState.getPlots().length; plot++) {
             int chanceOfDeath = ((int) (Math.random() * 3) + plot);
 
-            if (GameState.getPlots(plot).getState() != Plot.CropState.DEAD &&
+            if (GameState.getPlots(plot).getCrop().getState() != Crop.State.DEAD &&
                     plot == chanceOfDeath && !(GameState.getPlots(plot).getFertilizerLevel() > 0)) {
-                GameState.getPlots(plot).setState(Plot.CropState.DEAD);
+                GameState.getPlots(plot).getCrop().setState(Crop.State.DEAD);
                 deathtoll++;
                 affectedPlants.add(plot + 1);
             }
